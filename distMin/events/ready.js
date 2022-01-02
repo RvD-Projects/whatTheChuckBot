@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const Event_1=require("../structures/Event");exports.default=new Event_1.Event("ready",()=>{});

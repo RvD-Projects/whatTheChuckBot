@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.Command=void 0;class Command{constructor(e){Object.assign(this,e)}}exports.Command=Command;
