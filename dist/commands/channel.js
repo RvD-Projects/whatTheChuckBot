@@ -95,11 +95,10 @@ exports.default = new Command_1.Command({
     run: async ({ interaction, args, client }) => {
         const ephemerality = await __1.commandHelper.resolveEphemerality(interaction, 'private');
         await interaction.deferReply({ ephemeral: ephemerality });
-        const commandContext = new CommandContext_1.CommandContext(interaction, args, client);
+        const commandContext = new CommandContext_1.CommandContext(interaction, args, client, ephemerality);
         const subCommand = await __1.commandHelper.importSubCommandFile(interaction);
         await subCommand.setCommandContext(commandContext);
         let followUpObj = await subCommand.run();
-        await interaction.followUp(followUpObj.reply);
         return;
     }
 });

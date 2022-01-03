@@ -7,10 +7,14 @@ export class CommandContext {
     public interaction:ExtendedInteraction;
     public args:CommandInteractionOptionResolver;
     public client:ExtendedClient;
+    public ephemerality:boolean;
 
-    constructor(interaction, args, client) {
+    constructor(interaction:ExtendedInteraction,args:CommandInteractionOptionResolver,
+            client:ExtendedClient, ephemerality:boolean) 
+    {
         this.interaction = interaction;
         this.args = args;
         this.client = client;
+        this.ephemerality = ephemerality;
     }
 }

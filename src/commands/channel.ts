@@ -98,12 +98,10 @@ export default new Command({
         const ephemerality = await commandHelper.resolveEphemerality(interaction, 'private');
         await interaction.deferReply( {ephemeral: ephemerality } );
         
-        const commandContext = new CommandContext(interaction, args, client);
+        const commandContext = new CommandContext(interaction, args, client, ephemerality);
         const subCommand:SubCommand = await commandHelper.importSubCommandFile(interaction);
         await subCommand.setCommandContext(commandContext);
-
         let followUpObj:FollowUpObj = await subCommand.run();
-        await interaction.followUp( followUpObj.reply );
         return;
     }
 });
