@@ -3,19 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FollowUpResponse = exports.FollowUpObj = exports.SubCommand = void 0;
 const __1 = require("..");
 class SubCommand {
-    commandContext;
     commandRunFunction;
-    async setCommandContext(commandContext) {
-        this.commandContext = commandContext;
+    constructor(runFunction, commandContext) {
+        this.setRunFunction(runFunction);
     }
-    async setRunFunction(runFunction) {
+    setRunFunction(runFunction) {
         this.commandRunFunction = runFunction;
     }
-    async run() {
+    async run(commandContext) {
         try {
-            if (!this.commandContext) {
-                throw Error("1-Object Command context's not implemented use => this.setCommandContext(commandContext: CommandContext)");
-            }
             if (!this.commandRunFunction) {
                 throw Error("2-Object commandRunFunction's not implemented use => this.setRunFunction(runFunction: CallableFunction)");
             }
@@ -23,7 +19,7 @@ class SubCommand {
         catch (error) {
             return await new FollowUpObj().fromatOnError(error);
         }
-        return this.commandRunFunction(this.commandContext);
+        return this.commandRunFunction(commandContext);
     }
 }
 exports.SubCommand = SubCommand;

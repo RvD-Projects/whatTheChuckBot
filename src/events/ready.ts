@@ -1,4 +1,4 @@
-import { Event } from "../structures/Event";
+import { Event } from "../class/Event";
 
 export default new Event("ready", () => {
     

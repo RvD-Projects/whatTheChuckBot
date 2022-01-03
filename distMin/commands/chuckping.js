@@ -1,1 +1,1 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const Command_1=require("../structures/Command");exports.default=new Command_1.Command({name:"chuckping",description:"Will reply with pong.",run:async({interaction:e})=>{e.followUp("Pong")}});
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const Command_1=require("../class/Command");exports.default=new Command_1.Command({name:"chuckping",description:"Will reply with pong.",run:async({interaction:e})=>{e.followUp("Pong")}});

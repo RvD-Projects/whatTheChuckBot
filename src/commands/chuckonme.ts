@@ -1,5 +1,5 @@
-import { Command } from "../structures/Command";
-import { HttpFetcher } from "../tools/class/Fetcher";
+import { Command } from "../class/Command";
+import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { unescapeEntities } from "../tools/myFunctions";
 
 export default new Command({

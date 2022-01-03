@@ -1,6 +1,6 @@
 import { TextBasedChannel } from "discord.js";
 import { client, newCard } from "..";
-import { Event } from "../structures/Event";
+import { Event } from "../class/Event";
 
 export default new Event("guildMemberAdd", async (member, interaction?) => {
     if (member.user.bot) return;

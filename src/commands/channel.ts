@@ -1,8 +1,8 @@
 import { ChannelTypes } from "discord.js/typings/enums";
 import { commandHelper } from "..";
-import { Command } from "../structures/Command";
-import { CommandContext } from "../structures/CommandContext";
-import { FollowUpObj, SubCommand } from "../structures/Subcommand";
+import { Command } from "../class/Command";
+import { CommandContext } from "../class/CommandContext";
+import { FollowUpObj, SubCommand } from "../class/Subcommand";
 
 export default new Command({
     name: "channel",
@@ -96,12 +96,10 @@ export default new Command({
     run: async ({ interaction, args, client }) =>  {
 
         const ephemerality = await commandHelper.resolveEphemerality(interaction, 'private');
-        await interaction.deferReply( {ephemeral: ephemerality } );
         
+        await interaction.deferReply( {ephemeral: ephemerality } );
         const commandContext = new CommandContext(interaction, args, client, ephemerality);
-        const subCommand:SubCommand = await commandHelper.importSubCommandFile(interaction);
-        await subCommand.setCommandContext(commandContext);
-        let followUpObj:FollowUpObj = await subCommand.run();
+        (await commandHelper.importSubCommandFile(interaction)).run(commandContext);
         return;
     }
 });

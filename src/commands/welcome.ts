@@ -1,6 +1,6 @@
 import { TextBasedChannel } from "discord.js";
 import { client, newCard } from "..";
-import { Command } from "../structures/Command";
+import { Command } from "../class/Command";
 
 
 export default new Command({

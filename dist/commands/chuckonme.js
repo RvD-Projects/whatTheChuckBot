@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Command_1 = require("../structures/Command");
-const Fetcher_1 = require("../tools/class/Fetcher");
+const Command_1 = require("../class/Command");
+const HttpFetcher_1 = require("../tools/class/HttpFetcher");
 const myFunctions_1 = require("../tools/myFunctions");
 exports.default = new Command_1.Command({
     name: "chuckonme",
@@ -18,7 +18,7 @@ exports.default = new Command_1.Command({
 async function fetchTheChuck() {
     let result = {};
     const fetch_url = 'https://api.icndb.com/jokes/random/';
-    let fetcher = new Fetcher_1.HttpFetcher('Post', fetch_url);
+    let fetcher = new HttpFetcher_1.HttpFetcher('Post', fetch_url);
     let responseObj = await fetcher.execute();
     result.valid = false;
     if (responseObj?.value?.joke && responseObj?.value?.id) {

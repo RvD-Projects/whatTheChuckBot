@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const __1 = require("..");
-const Event_1 = require("../structures/Event");
+const Event_1 = require("../class/Event");
 const Levels_1 = require("../tools/class/Levels");
 exports.default = new Event_1.Event("messageCreate", async (message) => {
     // Chat Inputs

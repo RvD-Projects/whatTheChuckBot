@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.commandHelper = exports.newCard = exports.theme = exports.client = void 0;
 const tslib_1 = require("tslib");
 require('dotenv').config();
-const Client_1 = require("./structures/Client");
+const Client_1 = require("./class/Client");
 const CardHelper_1 = require("./tools/class/CardHelper");
 const CommandHelper_1 = (0, tslib_1.__importDefault)(require("./tools/class/CommandHelper"));
 const Levels_1 = require("./tools/class/Levels");

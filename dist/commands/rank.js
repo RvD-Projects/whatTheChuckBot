@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const __1 = require("..");
-const Command_1 = require("../structures/Command");
+const Command_1 = require("../class/Command");
 const Levels_1 = require("../tools/class/Levels");
 exports.default = new Command_1.Command({
     name: "rank",

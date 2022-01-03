@@ -1,5 +1,6 @@
 import glob from "glob";
 import { promisify } from "util";
+import { SubCommand } from "../../class/Subcommand";
 import { ExtendedInteraction } from "../../typings/Command";
 const globPromise = promisify(glob);
 
@@ -23,7 +24,7 @@ export default class CommandHelper {
         return await false;
     }
 
-    public async importSubCommandFile(interaction:ExtendedInteraction) {
+    public async importSubCommandFile(interaction:ExtendedInteraction):Promise<SubCommand> {
         
         let commandName = interaction.commandName;
         let subCommandName = interaction.options.getSubcommand(); 

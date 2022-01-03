@@ -1,5 +1,5 @@
 import { client, newCard } from "..";
-import { Event } from "../structures/Event";
+import { Event } from "../class/Event";
 import { Options } from "discord.js";
 import { Levels } from "../tools/class/Levels";
 

@@ -1,5 +1,5 @@
 import { newCard } from "..";
-import { Command } from "../structures/Command";
+import { Command } from "../class/Command";
 import { Levels } from "../tools/class/Levels";
 
 export default new Command({

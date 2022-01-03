@@ -1,28 +1,22 @@
 import { MessagePayload, InteractionReplyOptions } from "discord.js";
-import { SubCommandInterface } from "../Intefaces/Subcommand";
 import { CommandContext } from "./CommandContext";
 import { client } from "..";
 
-export class SubCommand implements SubCommandInterface {
+export class SubCommand {
 
-    public commandContext:CommandContext
     private commandRunFunction:CallableFunction
 
-    
-
-    public async setCommandContext(commandContext: CommandContext) {
-        this.commandContext = commandContext
+    constructor(runFunction:CallableFunction, commandContext?:CommandContext){
+        this.setRunFunction(runFunction)
     }
-    async setRunFunction(runFunction: CallableFunction) {
+
+    private setRunFunction(runFunction: CallableFunction) {
         this.commandRunFunction = runFunction;
     }
 
-    public async run(): Promise<FollowUpObj> {
+    public async run(commandContext:CommandContext): Promise<FollowUpObj> {
 
         try{
-            if (!this.commandContext){
-                throw Error("1-Object Command context's not implemented use => this.setCommandContext(commandContext: CommandContext)");
-            }
             if (!this.commandRunFunction){
                 throw Error("2-Object commandRunFunction's not implemented use => this.setRunFunction(runFunction: CallableFunction)");
             }
@@ -30,7 +24,7 @@ export class SubCommand implements SubCommandInterface {
         catch (error) {
             return await new FollowUpObj().fromatOnError(error);
         }
-        return this.commandRunFunction(this.commandContext) as FollowUpObj
+        return this.commandRunFunction(commandContext) as FollowUpObj
     }
 }
 

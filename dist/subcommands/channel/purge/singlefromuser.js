@@ -1,10 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Subcommand_1 = require("../../../structures/Subcommand");
-const self = new Subcommand_1.SubCommand();
-self.setRunFunction(runFunction);
-exports.default = self;
-async function runFunction(commandContext) {
+const Subcommand_1 = require("../../../class/Subcommand");
+exports.default = new Subcommand_1.SubCommand(async (commandContext) => {
     const args = commandContext.args;
     const interaction = commandContext.interaction;
     const interactionClient = commandContext.client;
@@ -71,7 +68,7 @@ async function runFunction(commandContext) {
         return;
     }
     return;
-}
+});
 async function interactionPostUpdate(commandContext, deletionArray) {
     const args = commandContext.args;
     const interaction = commandContext.interaction;
@@ -83,15 +80,17 @@ async function interactionPostUpdate(commandContext, deletionArray) {
         content: baseContent,
         ephemeral: ephemerality
     });
-    const cacheReplyTo = await (await interaction.channel.messages.fetch(uncachedReplyTo.id, { cache: true }));
-    const replyTo = await interaction.channel.messages.fetch(cacheReplyTo.id);
+    const cacheReplyTo = await interaction.channel.messages.fetch(uncachedReplyTo.id);
+    const lastIdTest = 
+    //const replyTo = await interaction.channel.messages.fetch(cacheReplyTo.id);
+    interaction.fetchReply();
     for (const mess of deletionArray) {
-        let deleted = await mesgDeleterInterval(mess, 1010);
-        numdeleted += deleted.id ? 1 : 0;
-        let payload = {
-            content: baseContent + `Deleted: ${numdeleted}/${numInDeletion} delay = 1x/sec. 😉✔️`
-        };
-        replyTo.edit(payload);
+        //let deleted = await mesgDeleterInterval(mess, 1010);
+        //numdeleted += deleted.id ? 1 : 0
+        // let payload = {
+        //     content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = 1x/sec. 😉✔️`
+        // };
+        // replyTo.edit(payload);
     }
     interaction.followUp({
         content: "Post is finnished !!!!!!!!",

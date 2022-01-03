@@ -1,12 +1,9 @@
 import { MessagePayload, InteractionReplyOptions } from "discord.js";
-import { CommandContext } from "../../../structures/CommandContext";
-import { SubCommand } from "../../../structures/Subcommand";
+import { CommandContext } from "../../../class/CommandContext";
+import { SubCommand } from "../../../class/Subcommand";
 
-let self  = new SubCommand();
-self.setRunFunction( runFunction )
-export default self;
+export default new SubCommand( async (commandContext:CommandContext) => {
 
-async function  runFunction(commandContext:CommandContext): Promise< string | MessagePayload | InteractionReplyOptions> {
     const args = commandContext.args;
     const client = commandContext.client;
     const interaction = commandContext.interaction;
@@ -26,5 +23,6 @@ async function  runFunction(commandContext:CommandContext): Promise< string | Me
         content:"I'm done! 😉"
     };
     return await followUpObjOpt;
-}
+
+});
 

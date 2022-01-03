@@ -1,10 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Subcommand_1 = require("../../../structures/Subcommand");
-let self = new Subcommand_1.SubCommand();
-self.setRunFunction(runFunction);
-exports.default = self;
-async function runFunction(commandContext) {
+const Subcommand_1 = require("../../../class/Subcommand");
+exports.default = new Subcommand_1.SubCommand(async (commandContext) => {
     const args = commandContext.args;
     const client = commandContext.client;
     const interaction = commandContext.interaction;
@@ -19,4 +16,4 @@ async function runFunction(commandContext) {
         content: "I'm done! 😉"
     };
     return await followUpObjOpt;
-}
+});

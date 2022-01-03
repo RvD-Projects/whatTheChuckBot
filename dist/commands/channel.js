@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const __1 = require("..");
-const Command_1 = require("../structures/Command");
-const CommandContext_1 = require("../structures/CommandContext");
+const Command_1 = require("../class/Command");
+const CommandContext_1 = require("../class/CommandContext");
 exports.default = new Command_1.Command({
     name: "channel",
     description: "Manage channels from here.",
@@ -96,9 +96,7 @@ exports.default = new Command_1.Command({
         const ephemerality = await __1.commandHelper.resolveEphemerality(interaction, 'private');
         await interaction.deferReply({ ephemeral: ephemerality });
         const commandContext = new CommandContext_1.CommandContext(interaction, args, client, ephemerality);
-        const subCommand = await __1.commandHelper.importSubCommandFile(interaction);
-        await subCommand.setCommandContext(commandContext);
-        let followUpObj = await subCommand.run();
+        (await __1.commandHelper.importSubCommandFile(interaction)).run(commandContext);
         return;
     }
 });

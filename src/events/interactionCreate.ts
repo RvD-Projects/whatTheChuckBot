@@ -1,5 +1,5 @@
 import { client } from "..";
-import { Event } from "../structures/Event";
+import { Event } from "../class/Event";
 import { ExtendedInteraction } from "../typings/Command";
 import { CommandInteractionOptionResolver } from "discord.js";
 

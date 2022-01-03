@@ -1,5 +1,5 @@
 require('dotenv').config();
-import { ExtendedClient } from "./structures/Client";
+import { ExtendedClient } from "./class/Client";
 import { CardHelper } from "./tools/class/CardHelper";
 import CommandHelper from "./tools/class/CommandHelper";
 import { Levels } from "./tools/class/Levels";

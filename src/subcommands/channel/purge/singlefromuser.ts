@@ -1,15 +1,11 @@
 import { GuildTextBasedChannel, Message } from "discord.js";
-import { CommandContext } from "../../../structures/CommandContext";
-import { FollowUpObj, SubCommand } from "../../../structures/Subcommand";
+import { CommandContext } from "../../../class/CommandContext";
+import { FollowUpObj, SubCommand } from "../../../class/Subcommand";
 import { deferedMsgDeletion } from "../../../tools/myFunctions";
 
-const self = new SubCommand();
-self.setRunFunction( runFunction )
-export default self;
+export default new SubCommand( async (commandContext:CommandContext) => {
 
-async function runFunction(commandContext:CommandContext): Promise<FollowUpObj> {
-
-    
+     
     const args = commandContext.args;
     const interaction = commandContext.interaction;
     const interactionClient = commandContext.client;
@@ -90,7 +86,8 @@ async function runFunction(commandContext:CommandContext): Promise<FollowUpObj> 
     }
 
     return;
-}
+});
+
 
 
 async function interactionPostUpdate(commandContext:CommandContext, deletionArray:Array<Message>){
@@ -117,13 +114,13 @@ async function interactionPostUpdate(commandContext:CommandContext, deletionArra
 
 
     for(const mess of deletionArray){
-        let deleted = await mesgDeleterInterval(mess, 1010);
-        numdeleted += deleted.id ? 1 : 0
+        //let deleted = await mesgDeleterInterval(mess, 1010);
+        //numdeleted += deleted.id ? 1 : 0
 
-        let payload = {
-            content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = 1x/sec. 😉✔️`
-        };
-        replyTo.edit(payload);
+        // let payload = {
+        //     content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = 1x/sec. 😉✔️`
+        // };
+        // replyTo.edit(payload);
     }
 
 
@@ -134,7 +131,6 @@ async function interactionPostUpdate(commandContext:CommandContext, deletionArra
     });
 
 }
-
 
 async function mesgDeleterInterval(msg:Message, msInterval:number) {
     if(msInterval <= 0 || msInterval >= Number.MAX_SAFE_INTEGER){

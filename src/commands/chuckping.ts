@@ -1,4 +1,4 @@
-import { Command } from "../structures/Command";
+import { Command } from "../class/Command";
 
 
 export default new Command({
