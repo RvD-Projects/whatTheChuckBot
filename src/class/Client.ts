@@ -43,9 +43,9 @@ export class ExtendedClient extends Client {
     
     async start() {
         await this.registerModules();
-        await this.registerBaseListener()
-
-        await  this.login(process.env.botToken);
+        await this.registerBaseListener();
+        
+        await this.login(process.env.botToken);
         this.emit("warn", "\n\n|--------Bot is online!--------|\n\n");
     }
 
@@ -202,6 +202,14 @@ export class ExtendedClient extends Client {
             str += "Command: /" + element.name  + "\n";
             str += "Description: " + element.description  + "\n\n";
         });
+
+    str += `Certaines commandes ne sont pas terminées [N.A.] ou sont en version [BETA]. Regardez les decriptions.
+[N.A.] => Commande qui n'est simplement pas encore devloppée.
+[BETA] => Commande qui peut travailler, mais n'est pas complétement terminée ou elle pourrrait échouée.\n\n`;
+
+    str += `Some command are not yet finnished [BETA] or implemented [N.A.]
+[N.A.] => Command that is not yet implemented.
+[BETA] => Command that can be run but could encounter some errors.\n\n`;
         return str;
     }
 
