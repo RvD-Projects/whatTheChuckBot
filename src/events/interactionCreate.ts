@@ -11,11 +11,13 @@ export default new Event("interactionCreate", async (interaction) => {
         const command = client.commands.get(interaction.commandName);
         
         if (!command) {
-            return interaction.followUp({
+            await interaction.deferReply({ephemeral: true});
+            interaction.followUp({
                 ephemeral: true,
-                content: "I dont know what to do with that!"
+                content: "I dont know what to do with that!\nThis command may be not implemented yet!"
             });
         }
+        
 
         return command.run({
             args: interaction.options as CommandInteractionOptionResolver,

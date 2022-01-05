@@ -3,7 +3,7 @@ import { Command } from "../class/Command";
 
 
 export default new Command({
-    name: "chuckhelp",
+    name: "help",
     description: "Will print this help menu.",
     run: async ({ interaction }) => {
         await interaction.deferReply( {ephemeral: false} );

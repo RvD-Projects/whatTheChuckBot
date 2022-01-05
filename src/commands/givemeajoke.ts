@@ -1,12 +1,15 @@
+import { commandHelper } from "..";
 import { Command } from "../class/Command";
 import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { unescapeEntities } from "../tools/myFunctions";
 
 export default new Command({
-    name: "chuckonme",
+    name: "givemeajoke",
     description: "Will fetch and post a Chuk Norris joke.",
     run: async ({ interaction }) => {
 
+        const ephemerality = await commandHelper.resolveEphemerality(interaction, 'public');
+        interaction.deferReply({ephemeral: ephemerality})
         const responseObj = await fetchTheChuck();
 
         if (responseObj?.valid) {

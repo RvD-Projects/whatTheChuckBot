@@ -1,14 +1,18 @@
 import { GuildTextBasedChannel, Message } from "discord.js";
+import { commandHelper } from "../../..";
 import { CommandContext } from "../../../class/CommandContext";
 import { FollowUpObj, SubCommand } from "../../../class/Subcommand";
-import { deferedMsgDeletion } from "../../../tools/myFunctions";
 
 export default new SubCommand( async (commandContext:CommandContext) => {
 
      
-    const args = commandContext.args;
     const interaction = commandContext.interaction;
-    const interactionClient = commandContext.client;
+    const ephemerality = await commandHelper.resolveEphemerality(interaction, 'private');
+    await interaction.deferReply( {ephemeral: ephemerality } );
+    
+    const args = commandContext.args;
+    const client = commandContext.client;
+    
     const followUpObj = new FollowUpObj();
     
     try {
@@ -84,7 +88,6 @@ export default new SubCommand( async (commandContext:CommandContext) => {
         await interaction.followUp(followUpObj.reply);
         return;
     }
-
     return;
 });
 
@@ -107,26 +110,24 @@ async function interactionPostUpdate(commandContext:CommandContext, deletionArra
         ephemeral: ephemerality
     });
     const cacheReplyTo = await interaction.channel.messages.fetch(uncachedReplyTo.id);
-    const lastIdTest = 
-    //const replyTo = await interaction.channel.messages.fetch(cacheReplyTo.id);
+    const replyTo = await interaction.channel.messages.fetch(cacheReplyTo.id);
 
     interaction.fetchReply()
 
 
     for(const mess of deletionArray){
-        //let deleted = await mesgDeleterInterval(mess, 1010);
-        //numdeleted += deleted.id ? 1 : 0
+        let deleted = await mesgDeleterInterval(mess, 2000);
+        numdeleted += deleted.id ? 1 : 0
 
-        // let payload = {
-        //     content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = 1x/sec. 😉✔️`
-        // };
-        // replyTo.edit(payload);
+        let payload = {
+            content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = 0.5msg/sec. 😉✔️`
+        };
+        replyTo.edit(payload);
     }
 
 
-
     interaction.followUp({
-        content:"Post is finnished !!!!!!!!",
+        content:"Deletion is finnished !!!!!!!!",
         ephemeral: ephemerality
     });
 

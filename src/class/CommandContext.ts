@@ -10,11 +10,10 @@ export class CommandContext {
     public ephemerality:boolean;
 
     constructor(interaction:ExtendedInteraction,args:CommandInteractionOptionResolver,
-            client:ExtendedClient, ephemerality:boolean) 
+            client:ExtendedClient) 
     {
         this.interaction = interaction;
         this.args = args;
         this.client = client;
-        this.ephemerality = ephemerality;
     }
 }

@@ -2,7 +2,6 @@ import { ChannelTypes } from "discord.js/typings/enums";
 import { commandHelper } from "..";
 import { Command } from "../class/Command";
 import { CommandContext } from "../class/CommandContext";
-import { FollowUpObj, SubCommand } from "../class/Subcommand";
 
 export default new Command({
     name: "channel",
@@ -32,7 +31,7 @@ export default new Command({
                 {   //TODO:
                     type:"SUB_COMMAND",
                     name:"many",
-                    description:"Will create a certain type of channel in your serveur.",
+                    description:"[N.A.]Will create a certain type of channel in your serveur.",
                     options: [
                         { name: 'channelsnames', type: 'STRING', description: 'The names of the channels comma separated (chan1,chan2...)', required: true },
                         { name: 'channelstypes', type: 'INTEGER', description: 'The type of the channel', required: true,
@@ -55,7 +54,7 @@ export default new Command({
                 {
                     type:"SUB_COMMAND",
                     name:"single",
-                    description:"Can delete a certain amount or all messages in a channel.",
+                    description:"[N.A.]Can delete a certain amount or all messages in a channel.",
                     options: [
                         { name: 'channel', type: 'CHANNEL', description: 'The channel to purge', required: true },
                         { name: 'amount', type: 'INTEGER', description: 'The number of messages to purge. (Enter a negative value to delete all.)', required: true },
@@ -71,7 +70,7 @@ export default new Command({
                 {
                     type:"SUB_COMMAND",
                     name:"singlefromdate",
-                    description:"Can delete a certain amount of messages in the channel according to the given date.",
+                    description:"[N.A.]Can delete a certain amount of messages in the channel according to the given date.",
                     options: [
                         { name: 'channel', type: 'CHANNEL', description: 'The channel to purge', required: true },
                         { name: 'date', type: 'STRING', description: 'Date to be used ? (YYYY-MM-DD)?', required: true},
@@ -83,7 +82,7 @@ export default new Command({
                 {
                     type:"SUB_COMMAND",
                     name:"singlefromuser",
-                    description:"Can delete all message create by a user in a channel.",
+                    description:"[BETA]Can delete all message create by a user in a channel.",
                     options: [
                         { name: 'channel', type: 'CHANNEL', description: 'The channel to purge', required: true },
                         { name: 'author', type: 'USER', description: 'Delete all message from this author.', required: true},
@@ -95,11 +94,17 @@ export default new Command({
     ],
     run: async ({ interaction, args, client }) =>  {
 
-        const ephemerality = await commandHelper.resolveEphemerality(interaction, 'private');
-        
-        await interaction.deferReply( {ephemeral: ephemerality } );
-        const commandContext = new CommandContext(interaction, args, client, ephemerality);
-        (await commandHelper.importSubCommandFile(interaction)).run(commandContext);
+        const commandContext = new CommandContext(interaction, args, client);
+        const subcommand = await commandHelper.importSubCommandFile(interaction);
+        if (!subcommand) {
+            await interaction.deferReply({ephemeral: true});
+            interaction.followUp({
+                ephemeral: true,
+                content: "I dont know what to do with that!\nThis command may be not implemented yet!"
+            });
+            return;
+        }
+        subcommand.run(commandContext);
         return;
     }
 });

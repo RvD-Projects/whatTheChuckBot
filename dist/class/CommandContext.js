@@ -6,11 +6,10 @@ class CommandContext {
     args;
     client;
     ephemerality;
-    constructor(interaction, args, client, ephemerality) {
+    constructor(interaction, args, client) {
         this.interaction = interaction;
         this.args = args;
         this.client = client;
-        this.ephemerality = ephemerality;
     }
 }
 exports.CommandContext = CommandContext;

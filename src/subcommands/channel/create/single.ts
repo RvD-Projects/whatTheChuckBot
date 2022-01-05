@@ -1,15 +1,21 @@
 import { MessagePayload, InteractionReplyOptions } from "discord.js";
+import { commandHelper } from "../../..";
 import { CommandContext } from "../../../class/CommandContext";
 import { SubCommand } from "../../../class/Subcommand";
 
 export default new SubCommand( async (commandContext:CommandContext) => {
 
+
+    const interaction = commandContext.interaction;
+    const ephemerality = await commandHelper.resolveEphemerality(interaction, 'private');
+    await interaction.deferReply( {ephemeral: ephemerality } );
+
     const args = commandContext.args;
     const client = commandContext.client;
-    const interaction = commandContext.interaction;
+
     
-    let name = args.getString('channelName');
-    let type = args.getInteger('channelType');
+    let name = args.getString('channelname', true);
+    let type = args.getInteger('channeltype', true);
 
     await interaction.guild.channels.create(name, {
         reason:"Slash command interaction",
@@ -18,11 +24,11 @@ export default new SubCommand( async (commandContext:CommandContext) => {
     interaction.client.emit('warn', `NEW CHANNEL CREATED BY ${interaction.member.user.username} => channelName: ${name} | askedType: ${type}`);
     
 
-
     const followUpObjOpt = {
-        content:"I'm done! 😉"
+        reply:"I'm done! 😉"
     };
-    return await followUpObjOpt;
 
+    await interaction.followUp(followUpObjOpt.reply)
+    return;
 });
 

@@ -1,10 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const __1 = require("../../..");
 const Subcommand_1 = require("../../../class/Subcommand");
 exports.default = new Subcommand_1.SubCommand(async (commandContext) => {
-    const args = commandContext.args;
     const interaction = commandContext.interaction;
-    const interactionClient = commandContext.client;
+    const ephemerality = await __1.commandHelper.resolveEphemerality(interaction, 'private');
+    await interaction.deferReply({ ephemeral: ephemerality });
+    const args = commandContext.args;
+    const client = commandContext.client;
     const followUpObj = new Subcommand_1.FollowUpObj();
     try {
         let messageAuthor = "";
@@ -81,19 +84,18 @@ async function interactionPostUpdate(commandContext, deletionArray) {
         ephemeral: ephemerality
     });
     const cacheReplyTo = await interaction.channel.messages.fetch(uncachedReplyTo.id);
-    const lastIdTest = 
-    //const replyTo = await interaction.channel.messages.fetch(cacheReplyTo.id);
+    const replyTo = await interaction.channel.messages.fetch(cacheReplyTo.id);
     interaction.fetchReply();
     for (const mess of deletionArray) {
-        //let deleted = await mesgDeleterInterval(mess, 1010);
-        //numdeleted += deleted.id ? 1 : 0
-        // let payload = {
-        //     content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = 1x/sec. 😉✔️`
-        // };
-        // replyTo.edit(payload);
+        let deleted = await mesgDeleterInterval(mess, 2000);
+        numdeleted += deleted.id ? 1 : 0;
+        let payload = {
+            content: baseContent + `Deleted: ${numdeleted}/${numInDeletion} delay = 0.5msg/sec. 😉✔️`
+        };
+        replyTo.edit(payload);
     }
     interaction.followUp({
-        content: "Post is finnished !!!!!!!!",
+        content: "Deletion is finnished !!!!!!!!",
         ephemeral: ephemerality
     });
 }

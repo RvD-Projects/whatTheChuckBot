@@ -1,12 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const __1 = require("..");
 const Command_1 = require("../class/Command");
 const HttpFetcher_1 = require("../tools/class/HttpFetcher");
 const myFunctions_1 = require("../tools/myFunctions");
 exports.default = new Command_1.Command({
-    name: "chuckonme",
+    name: "givemeajoke",
     description: "Will fetch and post a Chuk Norris joke.",
     run: async ({ interaction }) => {
+        const ephemerality = await __1.commandHelper.resolveEphemerality(interaction, 'public');
+        interaction.deferReply({ ephemeral: ephemerality });
         const responseObj = await fetchTheChuck();
         if (responseObj?.valid) {
             responseObj.value = (0, myFunctions_1.unescapeEntities)(responseObj.value);

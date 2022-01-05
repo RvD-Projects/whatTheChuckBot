@@ -1,19 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const __1 = require("../../..");
 const Subcommand_1 = require("../../../class/Subcommand");
 exports.default = new Subcommand_1.SubCommand(async (commandContext) => {
+    const interaction = commandContext.interaction;
+    const ephemerality = await __1.commandHelper.resolveEphemerality(interaction, 'private');
+    await interaction.deferReply({ ephemeral: ephemerality });
     const args = commandContext.args;
     const client = commandContext.client;
-    const interaction = commandContext.interaction;
-    let name = args.getString('channelName');
-    let type = args.getInteger('channelType');
+    let name = args.getString('channelname', true);
+    let type = args.getInteger('channeltype', true);
     await interaction.guild.channels.create(name, {
         reason: "Slash command interaction",
         type: type
     });
     interaction.client.emit('warn', `NEW CHANNEL CREATED BY ${interaction.member.user.username} => channelName: ${name} | askedType: ${type}`);
     const followUpObjOpt = {
-        content: "I'm done! 😉"
+        reply: "I'm done! 😉"
     };
-    return await followUpObjOpt;
+    await interaction.followUp(followUpObjOpt.reply);
+    return;
 });

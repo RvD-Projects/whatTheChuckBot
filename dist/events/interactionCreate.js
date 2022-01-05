@@ -9,9 +9,10 @@ exports.default = new Event_1.Event("interactionCreate", async (interaction) => 
             return;
         const command = __1.client.commands.get(interaction.commandName);
         if (!command) {
-            return interaction.followUp({
+            await interaction.deferReply({ ephemeral: true });
+            interaction.followUp({
                 ephemeral: true,
-                content: "I dont know what to do with that!"
+                content: "I dont know what to do with that!\nThis command may be not implemented yet!"
             });
         }
         return command.run({
