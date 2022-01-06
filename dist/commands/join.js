@@ -10,9 +10,9 @@ exports.default = new Command_1.Command({
         const cmdChannel = await interaction.channel;
         const voiceChannel = await interaction.member.voice.channel;
         if (!voiceChannel)
-            return interaction.followUp("You have to join a voice channell first! 🤔❌");
+            return interaction.followUp("You have to join a voice channell first! 🤔:x:");
         await __1.voiceConnectionsHelper.joinVoiceChannel(voiceChannel);
-        //connection.destroy();
-        return interaction.followUp("Alright joining your channel, don't mind me! 😉✔️");
+        //connection.destroy();  aftr 120sec
+        return interaction.followUp("Alright joining your channel, don't mind me! 😉:white_check_mark: ");
     }
 });

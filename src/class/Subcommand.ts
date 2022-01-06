@@ -38,7 +38,7 @@ export class FollowUpObj {
         this.reponse.error = e;
         this.reponse.ok = false;
         this.reply = {
-            content:"This command is not yet fully implemented or an error as occured read the logs! 🤔❌"
+            content:"This command is not yet fully implemented or an error as occured read the logs! 🤔:x:"
         };
         client.emit('warn', e.message);
         return this;
