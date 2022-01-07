@@ -28,7 +28,7 @@
 ### Import
 - mongoimport --db=levels_prod --collection=levels --file=test-levels.json mongodb://root:@localhost:27018/?authSource=admin
 
-### Update mode: --drop### Update mode:[merge|upsert]
+### Update mode: --drop###
 mongoimport --db=levels_dev --collection=levels --file=dev-levels.json --drop
 mongoimport --db=levels_prod --collection=levels --file=prod-levels.json --drop
 

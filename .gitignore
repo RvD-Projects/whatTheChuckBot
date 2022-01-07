@@ -2,3 +2,6 @@
 /logs
 /node_modules
 /dev
+/.vscode
+/dist
+/distMin
