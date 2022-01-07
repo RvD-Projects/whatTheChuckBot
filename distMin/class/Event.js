@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.Event=void 0;class Event{event;run;constructor(e,t){this.event=e,this.run=t}}exports.Event=Event;
