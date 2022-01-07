@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.VoiceConnectionsHelper=void 0;const voice_1=require("@discordjs/voice");class VoiceConnectionsHelper{async joinVoiceChannel(e){return(0,voice_1.joinVoiceChannel)({channelId:e.id,guildId:e.guild.id,adapterCreator:e.guild.voiceAdapterCreator})}}exports.VoiceConnectionsHelper=VoiceConnectionsHelper;

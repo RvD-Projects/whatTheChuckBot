@@ -8,11 +8,11 @@
   "license": "ISC",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/index.ts",
-    "start:dev": "ts-node-dev src/index.ts",
-    "start:prod": "node dist/index.js",
-    "start:min": "node distMin/index.js",
-    "uglify": "node gulp/main.js",
+    "start": "ts-node ./src/index.ts",
+    "start:dev": "ts-node-dev ./src/index.ts",
+    "start:prod": "node ./dist/index.js",
+    "start:min": "node ./distMin/index.js",
+    "uglify": "node ./gulp/main.js",
     "watch": "tsc -w"
   },
   "dependencies": {

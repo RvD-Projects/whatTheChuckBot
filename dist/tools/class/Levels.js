@@ -28,10 +28,14 @@ class Levels extends discord_xp_1.default {
     // }
     constructor() {
         super();
-        this.connect() ? console.warn("Levels DB is connected !") : null;
+        let url = process.env.mongoUrl;
+        if (process.env.enviroment === "docker")
+            url = process.env.mongoDockerUrl;
+        console.warn("Mongoose: Trying to connect to " + url);
+        this.connect(url) ? console.warn("Levels DB is connected !") : null;
     }
-    async connect() {
-        await Levels.setURL(process.env.mongoUrl);
+    async connect(url) {
+        await Levels.setURL(url);
         return 1;
     }
     static async fetchLeaderboard(guildId, limit) {

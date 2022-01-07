@@ -6,8 +6,9 @@ declare global {
             guildIds: string;
             inviteUrl: string;
             mongoUrl: string;
+            mongoDockerUrl: string;
             welcomeChannel:string;
-            enviroment: "dev" | "prod" | "debug";
+            enviroment: "dev" | "prod" | "docker";
         }
     }
 }
