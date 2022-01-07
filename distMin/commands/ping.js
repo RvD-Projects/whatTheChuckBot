@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const Command_1=require("../class/Command");exports.default=new Command_1.Command({name:"ping",description:"Will reply with pong. Good to know if bot is up and running.",run:async({interaction:e})=>{await e.deferReply({ephemeral:!0}),e.followUp("Pong")}});
