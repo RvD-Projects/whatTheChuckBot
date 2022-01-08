@@ -33,9 +33,8 @@ export class Levels extends DiscordXp {
 
     constructor() {
         super()
-        let url:string = process.env.mongoUrl
-        if(process.env.enviroment ==="docker") url = process.env.mongoDockerUrl
-        console.warn("Mongoose: Trying to connect to " + url);
+        let url:string = process.env.mongoDevUrl
+        if(process.env.enviroment === "prod") url = process.env.mongoUrl
         this.connect(url) ? console.warn("Levels DB is connected !") : null;
     }
 
