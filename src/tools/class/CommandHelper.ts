@@ -25,12 +25,14 @@ export default class CommandHelper {
     }
 
     public async importSubCommandFile(interaction:ExtendedInteraction):Promise<SubCommand> {
+
+        console.warn("In command helper");
         
         let commandName = interaction.commandName;
         let subCommandName = interaction.options.getSubcommand(); 
         let groudName = interaction.options.getSubcommandGroup(false); //[optional]
 
-        let filePath:string = `${__dirname}/../../subCommands/${commandName}`;
+        let filePath:string = `${__dirname}/../../subcommands/${commandName}`;
 
         if(groudName) { filePath += `/${groudName}`;}
         filePath += `/${subCommandName}`;
@@ -38,9 +40,17 @@ export default class CommandHelper {
         const subCommandFile = await globPromise(
             `${filePath}{.ts,.js}`
         );
+
+        console.warn("Trying to import: " + filePath);
         
-        if(subCommandFile.length === 1)
-            return this.importFile(filePath)
+        subCommandFile.forEach( el => {
+            console.warn("Files: " + el);
+        });
+        
+        if(subCommandFile.length === 1) {
+            console.warn("Found a subCommand");
+            return await this.importFile(filePath)
+        }   
         return;
     }
 }

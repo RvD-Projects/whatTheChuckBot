@@ -9,14 +9,16 @@ export default new Command({
     run: async ({ interaction }) => {
 
         const ephemerality = await commandHelper.resolveEphemerality(interaction, 'public');
-        interaction.deferReply({ephemeral: ephemerality})
+        await interaction.deferReply({ephemeral: ephemerality})
         const responseObj = await fetchTheChuck();
 
         if (responseObj?.valid) {
             responseObj.value = unescapeEntities(responseObj.value)
             return interaction.followUp(responseObj.value);
         }
-        return interaction.followUp(`No results found...`);
+        else {
+            return interaction.followUp(`No results found...`);
+        }
     }
 });
 

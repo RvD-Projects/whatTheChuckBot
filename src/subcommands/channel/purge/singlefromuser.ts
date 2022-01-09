@@ -2,6 +2,7 @@ import { GuildTextBasedChannel, Message } from "discord.js";
 import { commandHelper } from "../../..";
 import { CommandContext } from "../../../class/CommandContext";
 import { FollowUpObj, SubCommand } from "../../../class/Subcommand";
+import { isBulkable, cacheAndGetFollowUpMsg, bulkMesgDeleterInterval, mesgDeleterInterval } from "../../../tools/myFunctions";
 
 export default new SubCommand( async (commandContext:CommandContext) => {
 
@@ -25,7 +26,7 @@ export default new SubCommand( async (commandContext:CommandContext) => {
         let msgCollection = await channel.messages.fetch(); /// Default to 50 messages fetched listed as date Desc.
         let collectionLastMsgID = msgCollection.lastKey(); /// Equivalent to the upmost posted msg. in the collection
 
-        let bulkDeletionArray:Array<Message[]> = [];
+        let bulkDeletionArray:Array<Message>[] = [[]];
         let deletionArray:Message[] = [];
         let iBulk = 0;
 
@@ -44,20 +45,25 @@ export default new SubCommand( async (commandContext:CommandContext) => {
                 
                 numTriedInLoop += messageAuthor === askUsername ? 1 : 0
                 if(mess.deletable && messageAuthor === askUsername){
-
-                    mess.createdTimestamp
-                    deletionArray.push(mess)
+                    numInDeletion++;
+                    if( isBulkable(mess.createdTimestamp, 13) ) {
+                        if(bulkDeletionArray[iBulk].length === 100){
+                            bulkDeletionArray.push([]);
+                            iBulk++;
+                        } 
+                        bulkDeletionArray[iBulk].push(mess);
+                    }
+                    else {
+                        deletionArray.push(mess)
+                    }
                 }
             });
         }
 
-        channel.bulkDelete(deletionArray);
-
-
-        numInDeletion = deletionArray.length;     
+   
         if(numTriedInLoop > 0 && numInDeletion > 0){
             followUpObj.reply = {
-                content:`I'm done! I'll be deleting: ${numInDeletion}/${numTotal}. 😉:white_check_mark: `
+                content:`Understood! I'll be deleting: ${numInDeletion}/${numTotal}. 😉:white_check_mark: `
             };
             interaction.client.emit('debug', `CHANNEL ${channel.name} IS BEING PURGED BY ${interaction.member.user.username} => channelID: ${channel.id} numDelted: ${numInDeletion}`) ;
         }
@@ -85,7 +91,7 @@ export default new SubCommand( async (commandContext:CommandContext) => {
 
 
         await interaction.editReply( followUpObj.reply );
-        await interactionPostUpdate(commandContext, deletionArray);
+        await interactionPostUpdate(commandContext, deletionArray, bulkDeletionArray);
     }
     catch (e) {
         followUpObj.fromatOnError(e)
@@ -97,48 +103,78 @@ export default new SubCommand( async (commandContext:CommandContext) => {
 
 
 
-async function interactionPostUpdate(commandContext:CommandContext, deletionArray:Array<Message>){
+async function interactionPostUpdate(commandContext:CommandContext,
+        deletionArray:Array<Message>,
+        bulkDeletionArr:Array<Message>[]){
 
     const args = commandContext.args;
     const interaction = commandContext.interaction;
     const interactionClient = commandContext.client;
     const ephemerality = commandContext.ephemerality;
-
+    
+    let payload;
+    let gotErrors = false;
     let numdeleted = 0, numInDeletion = deletionArray.length;
+    let baseContent = "Deletion in progress !!!!!!!!\n Doin grouped deletion for recent messages.";
 
-    let baseContent = "Post IS UPDATED HERES THE RESULTS !!!!!!!!\n";
-
-    const uncachedReplyTo = await interaction.followUp({
+    let replyTo = await interaction.followUp({
         content:baseContent,
         ephemeral: ephemerality
     });
-    const cacheReplyTo = await interaction.channel.messages.fetch(uncachedReplyTo.id);
-    const replyTo = await interaction.channel.messages.fetch(cacheReplyTo.id);
+    replyTo = await cacheAndGetFollowUpMsg(replyTo, interaction);
 
-    let payload;
-    let gotErrors = false;
-    for(const mess of deletionArray){
 
-        try {
-            // let deleted = await mesgDeleterInterval(mess, 10000);
-            // numdeleted += deleted.id ? 1 : 0
+    // TODO: fetch the API for dynamique usage and inject into client message about delay
+    const msInterval = 3000;
     
-            payload = {
-                content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = 2sec/msg. 😉:white_check_mark: `
-            };
-            
-        } catch (error) {
-            payload = {
-                content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = 2sec/msg. 🤔:x:`
-            };
-            gotErrors = true;
-        }
-        await replyTo.edit(payload);
-    }
 
-    if(gotErrors)
+    await (async ()=> {
+        const channel = args.getChannel('channel', true) as GuildTextBasedChannel;
+        for(const bulkMessageArray of bulkDeletionArr){
+        
+            try {
+                let deleted = await bulkMesgDeleterInterval(channel,bulkMessageArray, msInterval);
+                numdeleted += deleted.size === bulkMessageArray.length ? bulkMessageArray.length : 0
+        
+                payload = {
+                    content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = max 100msg./${msInterval/1000}sec. 😉:white_check_mark: `
+                };
+                
+            } catch (error) {
+                payload = {
+                    content:baseContent+`Failed: ${numdeleted}/${numInDeletion} delay = max 100msg./${msInterval/1000}sec. 🤔:x:`
+                };
+                gotErrors = true;
+            }
+            await replyTo.edit(payload);
+        }
+    })();
+
+    baseContent = "Deletion in progress !!!!!!!!\n Doing singular deletion for older messages.";
+    await (async ()=> {
+        for(const mess of deletionArray){
+
+            try {
+                let deleted = mess.deletable ? await mesgDeleterInterval(mess, msInterval) : null;
+                numdeleted += deleted.id ? 1 : 0
+        
+                payload = {
+                    content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = max 1msg./${msInterval/1000}sec. 😉:white_check_mark: `
+                };
+                
+            } catch (error) {
+                payload = {
+                    content:baseContent+`Failed: ${numdeleted}/${numInDeletion} delay = max 1msg/${msInterval/1000}sec. 🤔:x:`
+                };
+                gotErrors = true;
+            }
+            await replyTo.edit(payload);
+        }
+    })();
+
+    if(!gotErrors)
         interaction.followUp({
-            content:"Deletion is finnished !!!!!!!!",
+            content:"Deletion is finnished !!!!!!!! 😉:white_check_mark: ",
             ephemeral: ephemerality
         });
     else {
@@ -148,18 +184,4 @@ async function interactionPostUpdate(commandContext:CommandContext, deletionArra
         });
     }
     return;
-}
-
-async function mesgDeleterInterval(msg:Message, msInterval:number) {
-    if(msInterval <= 0 || msInterval >= Number.MAX_SAFE_INTEGER){
-        const err = new Error();
-        err.message = `[${err.stack}]\nArgument msInterval is out of range => number[0-maxSafeInt]`;
-        throw err;
-    }
-    
-    return new Promise<Message> ( async (resolve) => {
-        setTimeout( async () => {
-            resolve( await msg.delete() ); 
-        }, msInterval);
-    });
 }

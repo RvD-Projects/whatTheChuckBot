@@ -21,7 +21,9 @@
   > - Les volumes sont sous: `/var/lib/docker/volumes`
 
 ### Travailler avec les conteneurs:
-- Redémmarer tout les conteneur: `docker restart $(docker ps -q)`
+- Accès log: `docker logs [--follow] [OPTIONS] CONTAINER`
+- Accès SSH: `docker exec -it <container name> /bin/bash`
+- Redémmarer tout les conteneur: `docker restart $(docker ps -q)` || `docker start $(docker ps -a -q -f status=exited)`
 - Stopper tout les conteneurs: `docker kill $(docker ps -q)`
 - Stop/Start un conteneur: `docker stop/start [opt] conteneurID`
 - Retirer un ou des conteneur: `docker rm $(docker ps -a -q)`
