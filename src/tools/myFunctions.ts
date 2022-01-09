@@ -59,7 +59,6 @@ export async function bulkMesgDeleterInterval(channel:GuildTextBasedChannel, msg
         return new Promise<Collection<string, Message<boolean>>> ( async (resolve, reject) => {
             setTimeout( async () => {
                 resolve( channel.bulkDelete(msgBulk) );
-                reject(null);
             }, msInterval);
         });
     return;
@@ -75,9 +74,9 @@ export async function mesgDeleterInterval(msg:Message, msInterval:number) {
     if(msg.deletable)
         return new Promise<Message> ( async (resolve, reject) => {
             setTimeout( async () => {
-                if(msg.deletable)
+                if(msg.deletable){
                     resolve( await msg.delete() );
-                reject(null);
+                }
             }, msInterval);
         });
     return;
@@ -88,7 +87,7 @@ export async function cacheAndGetFollowUpMsg(uncachedReplyTo, interaction: Exten
     return await interaction.channel.messages.fetch(cacheReplyTo.id);
 }
 
-export async function isBulkable(msgDateMS:number, daysDiffMax:number) {
-    const ms13days = 86_400_000 * daysDiffMax;
-    return (new Date().getTime() - msgDateMS) <= ms13days;
+export function isBulkable(msgDateMS:number, daysDiffMax:number) {
+    const msDays = 86_400_000 * daysDiffMax;
+    return (Date.now() - msgDateMS) <= msDays;
 }

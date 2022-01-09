@@ -3,10 +3,10 @@ import { commandHelper } from "../../..";
 import { CommandContext } from "../../../class/CommandContext";
 import { FollowUpObj, SubCommand } from "../../../class/Subcommand";
 import { isBulkable, cacheAndGetFollowUpMsg, bulkMesgDeleterInterval, mesgDeleterInterval } from "../../../tools/myFunctions";
-
+var numInDeletion = 0;
 export default new SubCommand( async (commandContext:CommandContext) => {
 
-     
+    
     const interaction = commandContext.interaction;
     const ephemerality = await commandHelper.resolveEphemerality(interaction, 'private');
     await interaction.deferReply( {ephemeral: ephemerality } );
@@ -18,10 +18,11 @@ export default new SubCommand( async (commandContext:CommandContext) => {
     
     try {
         let messageAuthor = "";
-        let numTotal = 0, numTriedInLoop = 0, numInDeletion = 0, numInCollection = 0;
+        let numTotal = 0, numTriedInLoop = 0, numInCollection = 0;
         
         const askUsername = args.getUser('author', true).username;
         const channel = args.getChannel('channel', true) as GuildTextBasedChannel;
+
         
         let msgCollection = await channel.messages.fetch(); /// Default to 50 messages fetched listed as date Desc.
         let collectionLastMsgID = msgCollection.lastKey(); /// Equivalent to the upmost posted msg. in the collection
@@ -46,7 +47,7 @@ export default new SubCommand( async (commandContext:CommandContext) => {
                 numTriedInLoop += messageAuthor === askUsername ? 1 : 0
                 if(mess.deletable && messageAuthor === askUsername){
                     numInDeletion++;
-                    if( isBulkable(mess.createdTimestamp, 13) ) {
+                    if( isBulkable(mess.createdTimestamp, 12) ) {
                         if(bulkDeletionArray[iBulk].length === 100){
                             bulkDeletionArray.push([]);
                             iBulk++;
@@ -89,15 +90,17 @@ export default new SubCommand( async (commandContext:CommandContext) => {
             interaction.client.emit('debug', `CHANNEL ${channel.name} IS BEING PURGED BY ${interaction.member.user.username} => channelID: ${channel.id} numDelted: ${numInDeletion}`) ;
         }
 
-
         await interaction.editReply( followUpObj.reply );
+        if(deletionArray || bulkDeletionArray[0].length > 0)
         await interactionPostUpdate(commandContext, deletionArray, bulkDeletionArray);
     }
     catch (e) {
         followUpObj.fromatOnError(e)
         await interaction.followUp(followUpObj.reply);
+        numInDeletion = 0;
         return;
     }
+    numInDeletion = 0;
     return;
 });
 
@@ -114,74 +117,91 @@ async function interactionPostUpdate(commandContext:CommandContext,
     
     let payload;
     let gotErrors = false;
-    let numdeleted = 0, numInDeletion = deletionArray.length;
-    let baseContent = "Deletion in progress !!!!!!!!\n Doin grouped deletion for recent messages.";
-
-    let replyTo = await interaction.followUp({
-        content:baseContent,
-        ephemeral: ephemerality
-    });
-    replyTo = await cacheAndGetFollowUpMsg(replyTo, interaction);
+    let numdeleted = 0
+    let replyTo;
 
 
     // TODO: fetch the API for dynamique usage and inject into client message about delay
     const msInterval = 3000;
     
+    if(bulkDeletionArr) {
+        await (async ()=> {
 
-    await (async ()=> {
-        const channel = args.getChannel('channel', true) as GuildTextBasedChannel;
-        for(const bulkMessageArray of bulkDeletionArr){
-        
-            try {
-                let deleted = await bulkMesgDeleterInterval(channel,bulkMessageArray, msInterval);
-                numdeleted += deleted.size === bulkMessageArray.length ? bulkMessageArray.length : 0
-        
-                payload = {
-                    content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = max 100msg./${msInterval/1000}sec. 😉:white_check_mark: `
-                };
-                
-            } catch (error) {
-                payload = {
-                    content:baseContent+`Failed: ${numdeleted}/${numInDeletion} delay = max 100msg./${msInterval/1000}sec. 🤔:x:`
-                };
-                gotErrors = true;
+            let baseContent = "Deletion in progress !!!!!!!!\n Doin grouped deletion for recent messages.";
+            replyTo = await interaction.followUp({
+                content:baseContent,
+                ephemeral: ephemerality
+            });
+            replyTo = await cacheAndGetFollowUpMsg(replyTo, interaction);
+    
+            const channel = args.getChannel('channel', true) as GuildTextBasedChannel;
+            for(const bulkMessageArray of bulkDeletionArr){
+            
+                try {
+                    let deleted = await bulkMesgDeleterInterval(channel,bulkMessageArray, msInterval);
+                    numdeleted += deleted.size === bulkMessageArray.length ? bulkMessageArray.length : 0
+            
+                    payload = {
+                        content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = max 100msg./${msInterval/1000}sec. 😉:white_check_mark: `
+                    };
+                    
+                } catch (error) {
+                    console.warn(error.message);
+                    payload = {
+                        content:baseContent+`Failed: ${numdeleted}/${numInDeletion} delay = max 100msg./${msInterval/1000}sec. 🤔:x:`
+                    };
+                    gotErrors = true;
+                }
+                await replyTo.edit(payload);
             }
-            await replyTo.edit(payload);
-        }
-    })();
+        })();
+    }
 
-    baseContent = "Deletion in progress !!!!!!!!\n Doing singular deletion for older messages.";
-    await (async ()=> {
-        for(const mess of deletionArray){
 
-            try {
-                let deleted = mess.deletable ? await mesgDeleterInterval(mess, msInterval) : null;
-                numdeleted += deleted.id ? 1 : 0
-        
-                payload = {
-                    content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = max 1msg./${msInterval/1000}sec. 😉:white_check_mark: `
-                };
-                
-            } catch (error) {
-                payload = {
-                    content:baseContent+`Failed: ${numdeleted}/${numInDeletion} delay = max 1msg/${msInterval/1000}sec. 🤔:x:`
-                };
-                gotErrors = true;
+    if(deletionArray){
+        await (async ()=> {
+            let baseContent = "Deletion in progress !!!!!!!!\n Doing singular deletion for older messages.";
+            if(!bulkDeletionArr){
+                replyTo = await interaction.followUp({
+                    content:baseContent,
+                    ephemeral: ephemerality
+                });
+                replyTo = await cacheAndGetFollowUpMsg(replyTo, interaction);
             }
-            await replyTo.edit(payload);
-        }
-    })();
+    
+            for(const mess of deletionArray){
+    
+                try {
+                    let deleted = mess.deletable ? await mesgDeleterInterval(mess, msInterval) : null;
+                    numdeleted += deleted.id ? 1 : 0
+            
+                    payload = {
+                        content:baseContent+`Deleted: ${numdeleted}/${numInDeletion} delay = max 1msg./${msInterval/1000}sec. 😉:white_check_mark: `
+                    };
+                    
+                } catch (error) {
+                    console.warn(error.message);
+                    payload = {
+                        content:baseContent+`Failed: ${numdeleted}/${numInDeletion} delay = max 1msg/${msInterval/1000}sec. 🤔:x:`
+                    };
+                    gotErrors = true;
+                }
+                await replyTo.edit(payload);
+            }
+        })();
+    }
 
-    if(!gotErrors)
-        interaction.followUp({
-            content:"Deletion is finnished !!!!!!!! 😉:white_check_mark: ",
-            ephemeral: ephemerality
-        });
-    else {
+
+    if(gotErrors) {
         interaction.followUp({
             content:"Deletion is finnished !!!!!!!! \n Some errors occured in the proccess 🤔:x:",
             ephemeral: ephemerality
         });
+        return;
     }
+    interaction.followUp({
+        content:"Deletion is finnished !!!!!!!! 😉:white_check_mark: ",
+        ephemeral: ephemerality
+    });
     return;
 }
