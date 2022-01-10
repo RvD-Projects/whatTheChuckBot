@@ -191,7 +191,6 @@ async function interactionPostUpdate(commandContext:CommandContext,
         })();
     }
 
-
     if(gotErrors) {
         interaction.followUp({
             content:"Deletion is finnished !!!!!!!! \n Some errors occured in the proccess 🤔:x:",

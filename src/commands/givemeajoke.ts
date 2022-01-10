@@ -27,8 +27,8 @@ async function fetchTheChuck(): Promise<any> {
     let result:any = {};
     const fetch_url = 'https://api.icndb.com/jokes/random/';
     
-    let fetcher = new HttpFetcher('Post',fetch_url);
-    let responseObj = await fetcher.execute();
+    let fetcher = new HttpFetcher();
+    let responseObj = await fetcher.get(fetch_url);
     
 
     result.valid = false;

@@ -101,7 +101,7 @@ export default new Command({
             await interaction.deferReply({ephemeral: true});
             interaction.followUp({
                 ephemeral: true,
-                content: "From SubCommand: I dont know what to do with that!\nThis command may be not implemented yet!"
+                content: "From SubCommand: I dont know what to do with that!\nThis command may be not implemented yet!:x:"
             });
             return;
         }

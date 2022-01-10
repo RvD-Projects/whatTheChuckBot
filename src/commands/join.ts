@@ -8,8 +8,8 @@ export default new Command({
     run: async ({ interaction }) => {
         await interaction.deferReply( {ephemeral: true} );
         const cmdChannel = await interaction.channel
+        
         const voiceChannel = await interaction.member.voice.channel
-
         if(!voiceChannel) return interaction.followUp("You have to join a voice channell first! 🤔:x:");
 
         await voiceConnectionsHelper.joinVoiceChannel(voiceChannel);

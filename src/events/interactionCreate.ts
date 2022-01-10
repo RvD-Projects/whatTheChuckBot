@@ -14,7 +14,7 @@ export default new Event("interactionCreate", async (interaction) => {
             await interaction.deferReply({ephemeral: true});
             interaction.followUp({
                 ephemeral: true,
-                content: "From Command: I dont know what to do with that!\nThis command may be not implemented yet!"
+                content: "From Command: I dont know what to do with that!\nThis command may be not implemented yet!:x:"
             });
             return;
         }
