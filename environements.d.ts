@@ -8,7 +8,7 @@ declare global {
             mongoUrl: string;
             mongoDevUrl: string;
             welcomeChannel:string;
-            enviroment: "dev" | "prod" ;
+            enviroment: "dev" | "prod";
         }
     }
 }

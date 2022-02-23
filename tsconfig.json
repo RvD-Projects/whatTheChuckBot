@@ -15,6 +15,6 @@
         "resolveJsonModule": true,
         "importHelpers": true
     },
-    "include": ["src", "environements.d.ts"],
+    "include": ["src", "environements.d.ts", "dev/scrapedCommands/deezer", "dev/scrapedCommands/deezer.ts", "src/static/node_modules/discord-xp", "discord-xp"],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }

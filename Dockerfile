@@ -8,4 +8,5 @@ COPY .env .
 COPY package-lock.json .
 COPY package.json .
 RUN npm install
+COPY /tools/models/discord-xp/levels.js /home/app/node_modules/discord-xp/models/levels.js
 CMD npm run start:min
