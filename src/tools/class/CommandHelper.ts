@@ -30,7 +30,7 @@ export default class CommandHelper {
         let subCommandName = interaction.options.getSubcommand(); 
         let groudName = interaction.options.getSubcommandGroup(false); //[optional]
 
-        let filePath:string = `${__dirname}/../../subCommands/${commandName}`;
+        let filePath:string = `${__dirname}/../../subcommands/${commandName}`;
 
         if(groudName) { filePath += `/${groudName}`;}
         filePath += `/${subCommandName}`;
@@ -39,8 +39,9 @@ export default class CommandHelper {
             `${filePath}{.ts,.js}`
         );
         
-        if(subCommandFile.length === 1)
-            return this.importFile(filePath)
+        if(subCommandFile.length === 1) {
+            return await this.importFile(filePath)
+        }   
         return;
     }
 }

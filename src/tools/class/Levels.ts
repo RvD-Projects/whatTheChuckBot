@@ -15,27 +15,10 @@ export class Levels extends DiscordXp {
         return await Levels.appendXp(user.userID, user.guildID, rnd);
     }
 
-    // static async createUser(userId: string, guildId: string) {
-    //     if (!userId) throw new TypeError("An user id was not provided.");
-    //     if (!guildId) throw new TypeError("A guild id was not provided.");
-
-    //     const isUser = await models.levels.findOne({ userID: userId, guildID: guildId });
-    //     if (isUser) return false;
-
-    //     const newUser = new models.levels({
-    //     userID: userId,
-    //     guildID: guildId
-    //     });
-
-    //     await newUser.save().catch(e => console.log(`Failed to create user: ${e}`));
-    //     return newUser;
-    // }
-
     constructor() {
         super()
-        let url:string = process.env.mongoUrl
-        if(process.env.enviroment ==="docker") url = process.env.mongoDockerUrl
-        console.warn("Mongoose: Trying to connect to " + url);
+        let url:string = process.env.mongoDevUrl
+        if(process.env.enviroment === "prod") url = process.env.mongoUrl
         this.connect(url) ? console.warn("Levels DB is connected !") : null;
     }
 
@@ -53,7 +36,7 @@ export class Levels extends DiscordXp {
     }
 
     static async updateUsers(guild): Promise<string> {
-
+        
         let updated = false;
         const members = await guild.members.cache;
         let humanMember = members.size;

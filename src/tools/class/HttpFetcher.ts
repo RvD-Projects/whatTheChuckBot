@@ -1,5 +1,6 @@
+import { Http2ServerResponse } from 'http2';
 import { HeaderInit, Headers } from 'node-fetch';
-const fetch = require('node-fetch');
+const httpFetch = require('node-fetch');
 
 
 export class HttpFetcher {
@@ -11,12 +12,12 @@ export class HttpFetcher {
         "Connection": "Close"
     };
 
-    fetchOptions:any = {
+    fetchOptions:FetchOptions = {
         // These properties are part of the Fetch Standard
         method: 'GET',
         headers: new Headers(this.headerMetas),
         body: null,                 // Request body. can be null, or a Node.js Readable stream
-        redirect: 'follow',         // Set to `manual` to extract redirect headers, `error` to reject redirect
+        redirect: 'Follow',         // Set to `manual` to extract redirect headers, `error` to reject redirect
         signal: null,               // Pass an instance of AbortSignal to optionally abort requests
 
         // The following properties are node-fetch extensions
@@ -29,28 +30,15 @@ export class HttpFetcher {
     };
 
     fetchUrl:string = "https://";
-    responseObj:any = {};
-
-    constructor(method:string, url:string,
-        headers?:HeaderInit,
-        options?:any
-    ) {
-
-        if(options){
-            this.fetchOptions = options;
-        }
-
-        if(headers){
-            headers = new Headers(headers);
-            this.fetchOptions.headers = headers;
-        }
-        this.fetchUrl = url;
-        this.fetchOptions.method = method.toUpperCase();
-    }
+    responseObj:any
 
     setOption(key:string, value) {
-        if( this.fetchOptions.hasOwnProperty(key) )
+        if( this.fetchOptions.hasOwnProperty(key) ){
             this.fetchOptions[key] = value;
+        }
+        else {
+            throw Error("This option property is not implemented");
+        }
     }
 
     setHeader(key:string, value:string) {
@@ -58,12 +46,42 @@ export class HttpFetcher {
             this.headerMetas[key] = value;
             this.fetchOptions.headers = new Headers(this.headerMetas);
         }
+        else {
+            throw Error("This header property is not implemented");
+        }
     }
 
-    execute():any {
-        this.responseObj = fetch(this.fetchUrl, this.fetchOptions)
+    private async fetch():Promise<any> {
+        this.responseObj = await httpFetch(this.fetchUrl, this.fetchOptions)
 			.then(response => response.json());
         return this.responseObj;
     }
+
+    async get(url:string):Promise<any> {
+        this.fetchUrl = url;
+        this.fetchOptions.method = "GET";
+        return await this.fetch();
+    }
+    async post(url:string, bodyJSON:string):Promise<any> {
+        this.fetchUrl = url;
+        this.fetchOptions.method = "GET";
+        this.fetchOptions.body = bodyJSON
+        return await this.fetch();
+    }
     
+}
+
+
+class FetchOptions {
+    public method: "GET" | "POST" | "PULL" | "PUT" | "DELETE" | "PATCH";
+    public headers:Headers;
+    public body:string = '{}'
+    public redirect: "Follow"
+    public signal:any = null
+    public follow:number = 10
+    public compress:boolean = false
+    public size:number = 0
+    public agent:any = null
+    public highWaterMark:number = 16384
+    public insecureHTTPParser:boolean = false
 }

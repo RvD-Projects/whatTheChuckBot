@@ -102,10 +102,10 @@ export class ExtendedClient extends Client {
     async registerCommands({ commands, guildId }: RegisterCommandsOptions) {
         if (guildId) {
             this.guilds.cache.get(guildId)?.commands.set(commands);
-            this.emit('warn',`Registering commands to ${guildId}`);
+            this.emit('warn',`Registering ${commands.length} commands to ${guildId}`);
         } else {
             this.application?.commands.set(commands);
-            this.emit('warn',"Registering global commands");
+            this.emit('warn',"Registering ${commands.length} global commands");
         }
     }
 
@@ -182,7 +182,7 @@ export class ExtendedClient extends Client {
 
     async importSubCommandFile(commandName:string, subCommandName:string, groudName?:string) {
 
-        let filePath:string = `${__dirname}/../subCommands/${commandName}`;
+        let filePath:string = `${__dirname}/../subcommands/${commandName}`;
 
         if(groudName) { filePath += `/${groudName}`;}
         filePath += `/${subCommandName}`;

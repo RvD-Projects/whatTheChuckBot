@@ -14,10 +14,10 @@ export default new Event("interactionCreate", async (interaction) => {
             await interaction.deferReply({ephemeral: true});
             interaction.followUp({
                 ephemeral: true,
-                content: "I dont know what to do with that!\nThis command may be not implemented yet!"
+                content: "From Command: I dont know what to do with that!\nThis command may be not implemented yet!:x:"
             });
+            return;
         }
-        
 
         return command.run({
             args: interaction.options as CommandInteractionOptionResolver,
@@ -25,24 +25,5 @@ export default new Event("interactionCreate", async (interaction) => {
             interaction: interaction as ExtendedInteraction,
         });
     }
-    
-    //TODO: THIS
-    // if (interaction.isSelectMenu()) {
-        
-    //     const message = interaction.channel.lastMessage;
-    //     const collector = message.createMessageComponentCollector({ componentType: 'SELECT_MENU', time: 15000 });
 
-    //     collector.on('collect', smi => {
-    //         if (smi.user.id === interaction.user.id) {
-    //             smi.reply(`${smi.user.id} clicked on the ${smi.customId} button.`);
-    //         } else {
-    //             smi.reply({ content: `These buttons aren't for you!`, ephemeral: true });
-    //         }
-    //     });
-
-    //     collector.on('end', collected => {
-    //         console.log(`Collected ${collected.size} interactions.`);
-    //     });
-        
-    // }
 });

@@ -82,10 +82,11 @@ export default new Command({
                 {
                     type:"SUB_COMMAND",
                     name:"singlefromuser",
-                    description:"[BETA]Can delete all message create by a user in a channel.",
+                    description:"[BETA]Will delete all or some messages created by a user in a channel.",
                     options: [
                         { name: 'channel', type: 'CHANNEL', description: 'The channel to purge', required: true },
                         { name: 'author', type: 'USER', description: 'Delete all message from this author.', required: true},
+                        { name: 'amount', type: 'NUMBER', description: 'Number to delete? Default = All(-1)', required: false },
                         { name: 'private', type: 'BOOLEAN', description: 'Show the reply only to yourself? Default = True', required: false }
                     ]
                 }
@@ -100,7 +101,7 @@ export default new Command({
             await interaction.deferReply({ephemeral: true});
             interaction.followUp({
                 ephemeral: true,
-                content: "I dont know what to do with that!\nThis command may be not implemented yet!"
+                content: "From SubCommand: I dont know what to do with that!\nThis command may be not implemented yet!:x:"
             });
             return;
         }
