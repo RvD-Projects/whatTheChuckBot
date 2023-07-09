@@ -2,7 +2,7 @@ export class ThemeHelper {
 
     WelcomerLightStyle = {
         titleColor:"#ffffff",
-        titleborderColor:"#000000",
+        titleBorderColor:"#000000",
         usernameColor: "#000000",
         usernameBoxColor:"#ffffff",
         hashTagColor: "#ffffff",
@@ -22,7 +22,7 @@ export class ThemeHelper {
 
     WelcomerDarkStyle = {
         titleColor:"#000000",
-        titleborderColor:"#ffffff",
+        titleBorderColor:"#ffffff",
         usernameColor: "#ffffff",
         usernameBoxColor:"#000000",
         hashTagColor: "#000000",
@@ -42,7 +42,7 @@ export class ThemeHelper {
 
     WelcomerCustomStyle = {
         titleColor:"#ffffff",
-        titleborderColor:"#000000",
+        titleBorderColor:"#000000",
         usernameColor: "#000000",
         usernameBoxColor:"#ffffff",
         hashTagColor: "#ffffff",
@@ -78,7 +78,7 @@ export class ThemeHelper {
 
         // Colors hexadecimal
         style.titleColor ? card.setColor("title", style.titleColor): null;
-        style.titleborderColor ? card.setColor("title-border", style.titleborderColor): null;
+        style.titleBorderColor ? card.setColor("title-border", style.titleBorderColor): null;
 
         style.usernameColor ? card.setColor("username", style.usernameColor): null;
         style.usernameBoxColor ? card.setColor("username-box", style.usernameBoxColor): null;

@@ -12,5 +12,4 @@ export default new Event("guildMemberAdd", async (member, interaction?) => {
 
     const card = await newCard.render(member);
     card.send(channel);
-
 });

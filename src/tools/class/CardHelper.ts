@@ -1,7 +1,7 @@
 import internal from "stream";
 import { theme } from "../..";
 import { AttachmentBuilder, BufferResolvable, GuildMember, TextBasedChannel } from "discord.js";
-const canvacord = require('canvacord');
+const Canvas = require("discord-canvas");
 
 export class CardHelper {
 
@@ -15,18 +15,18 @@ export class CardHelper {
     }
 
     async render(member: GuildMember) {
-        const welcomeCard = new canvacord.Welcomer()
-            .setUsername(member.user.username)
+        const welcomeCard = new Canvas.Welcome();
+        welcomeCard.setUsername(member.user.username)
             .setAvatar(member.user.displayAvatarURL())
+            .setGuildName(member.guild.name)
             .setMemberCount(member.guild.memberCount);
-            
+
+        welcomeCard.textTitle = "Welcome";
         welcomeCard.textMessage = `Welcome to ${member.guild.name}`;
-        welcomeCard.discriminator = `${member.user.discriminator}`;
         theme.setRndWelcomeStyle(welcomeCard);
 
-        const img = await welcomeCard.build();
-        
-        this.attachment = new AttachmentBuilder(img, {name: "welcome.png"}).attachment;
+        const image = await welcomeCard.toAttachment();
+        this.attachment = new AttachmentBuilder(image.toBuffer(), { name: "welcome.png" }).attachment;
         return this;
     }
 }

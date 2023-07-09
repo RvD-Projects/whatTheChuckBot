@@ -16,7 +16,6 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "canvacord": "^5.4.10",
     "discord-canvas": "^1.5.2",
     "discord.js": "^14.11.0",
     "dotenv": "^16.3.1",
