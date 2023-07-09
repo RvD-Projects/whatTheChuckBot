@@ -1,7 +1,11 @@
 require('dotenv').config();
+import SentryHelper from "./class/SentryHelper";
+
 import { ExtendedClient } from "./class/Client";
 import { CardHelper } from "./tools/class/CardHelper";
 import { ThemeHelper } from "./tools/class/ThemeHelper";
+
+export const sentryHelper = new SentryHelper().init();
 export const client = new ExtendedClient();
 export const theme = new ThemeHelper();
 export const newCard = new CardHelper();

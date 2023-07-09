@@ -1,5 +1,5 @@
 /**
-*  * $$$$$$$\  $$\                                               $$\       $$$$$\  $$$$$$\        $$\ 
+* $$$$$$$\  $$\                                               $$\       $$$$$\  $$$$$$\        $$\ 
 * $$  __$$\ \__|                                              $$ |      \__$$ |$$  __$$\       $$ |
 * $$ |  $$ |$$\  $$$$$$$\  $$$$$$$\  $$$$$$\   $$$$$$\   $$$$$$$ |         $$ |$$ /  \__|      $$ |
 * $$ |  $$ |$$ |$$  _____|$$  _____|$$  __$$\ $$  __$$\ $$  __$$ |         $$ |\$$$$$$\        $$ |
@@ -17,7 +17,6 @@ import {
     ThreadChannelType,
     ApplicationCommandDataResolvable
 } from "discord.js";
-import glob from "glob";
 import { client } from "..";
 import { PathLike } from "fs";
 import { resolve } from "path";

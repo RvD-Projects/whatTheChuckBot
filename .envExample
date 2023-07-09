@@ -2,3 +2,4 @@ environment=prod
 welcomeChannel=default
 guildIds=xxx,yyy
 botToken=#######################################################
+sentryDsn=#######################################################
