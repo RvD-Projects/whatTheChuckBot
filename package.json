@@ -8,7 +8,7 @@
   "license": "ISC",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node ./src/index.ts",
+    "start": "npm install && npm run build && node ./dist/index.js",
     "start:dev": "ts-node-dev ./src/index.ts",
     "start:prod": "node ./dist/index.js",
     "start:min": "node ./distMin/index.js",
