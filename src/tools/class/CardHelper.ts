@@ -17,9 +17,10 @@ export class CardHelper {
     async render(member: GuildMember) {
         const welcomeCard = new Canvas.Welcome();
         welcomeCard.setUsername(member.displayName)
-        .setAvatar(member.user.displayAvatarURL({ forceStatic: true, extension: ALLOWED_EXTENSIONS[1]}))
+            .setAvatar(member.user.displayAvatarURL({ forceStatic: true, extension: ALLOWED_EXTENSIONS[1] }))
             .setGuildName(member.guild.name)
-            .setMemberCount(member.guild.memberCount);
+            .setMemberCount(member.guild.memberCount)
+            .setDiscriminator(member.guild.memberCount);
 
         welcomeCard.textTitle = "Welcome";
         welcomeCard.textMessage = `Welcome to ${member.guild.name}`;
