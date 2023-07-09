@@ -19,8 +19,6 @@ export class CardHelper {
             .setUsername(member.user.username)
             .setAvatar(member.user.displayAvatarURL())
             .setMemberCount(member.guild.memberCount);
-        
-        console.log(member)
             
         welcomeCard.textMessage = `Welcome to ${member.guild.name}`;
         welcomeCard.discriminator = `${member.user.discriminator}`;
