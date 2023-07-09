@@ -3,7 +3,7 @@
   "main": "index.js",
   "name": "whatthechuckbot",
   "version": "1.0.0",
-  "description": "A discord bot for chuck noris jokes",
+  "description": "A discord bot for welcoming cards",
   "author": "RVÐ",
   "license": "ISC",
   "scripts": {

@@ -6,3 +6,6 @@
 /dist
 /distMin
 notes.md
+
+.env
+package-lock.json

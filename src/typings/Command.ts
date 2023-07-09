@@ -7,15 +7,6 @@ import {
 } from "discord.js";
 import { ExtendedClient } from "../class/Client";
 
-/**
- * {
- *  name: "commandname",
- * description: "any description",
- * run: async({ interaction }) => {
- *
- * }
- * }
- */
 export interface ExtendedInteraction extends CommandInteraction {
     member: GuildMember;
 }

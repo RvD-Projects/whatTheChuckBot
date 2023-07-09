@@ -8,19 +8,6 @@ services:
     volumes:
       - app-data:/home/app
 
-    links:
-      - mongo
-  mongo:
-    container_name: whatthechuck-mongo
-    image: mongo:5.0
-    restart: always
-    ports:
-      - '27018:27017'
-    volumes:
-      - mongo-db:/data/db
-
 volumes:
   app-data:
-    driver: local
-  mongo-db:
     driver: local

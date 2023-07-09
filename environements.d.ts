@@ -5,10 +5,8 @@ declare global {
             botToken: string;
             guildIds: string;
             inviteUrl: string;
-            mongoUrl: string;
-            mongoDevUrl: string;
             welcomeChannel:string;
-            enviroment: "dev" | "prod";
+            environment: "dev" | "prod";
         }
     }
 }

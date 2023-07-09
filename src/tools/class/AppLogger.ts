@@ -1,10 +1,6 @@
 const fs = require('fs')
 const pino = require('pino')
-//const pretty = require('pino-pretty')
 
-// log.debug('this will be written to file of level debug')
-// log.info('this will be written to file with levels debug,info')
-// log.fatal('this will be written to with levels debug,info,warn,error,fatal')
 export class AppLogger {
 
   id:string = "ffffffff"
