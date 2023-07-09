@@ -1,4 +1,4 @@
-enviroment=prod
+environment=prod
 welcomeChannel=default
-guildIds=["xxx", "yyy"]
+guildIds=xxx,yyy
 botToken=#######################################################

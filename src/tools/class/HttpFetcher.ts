@@ -1,11 +1,10 @@
-import { Http2ServerResponse } from 'http2';
-import { HeaderInit, Headers } from 'node-fetch';
+import { HeadersInit, Headers } from 'node-fetch';
 const httpFetch = require('node-fetch');
 
 
 export class HttpFetcher {
 
-    headerMetas:HeaderInit = {
+    headerMetas:HeadersInit = {
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
         "Content-Type": "application/json",

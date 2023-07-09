@@ -10,6 +10,7 @@ export default new Event("guildMemberAdd", async (member, interaction?) => {
         channel = await client.findGuildChannel(process.env.welcomeChannel, "GUILD_TEXT") as TextBasedChannel;
     }
 
-    return (await newCard.render(member)).send(channel);
+    const card = await newCard.render(member);
+    card.send(channel);
 
 });

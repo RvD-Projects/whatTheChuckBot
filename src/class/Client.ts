@@ -14,7 +14,7 @@ import {
     Collection,
     Interaction,
     ClientEvents,
-    ThreadChannelTypes,
+    ThreadChannelType,
     ApplicationCommandDataResolvable
 } from "discord.js";
 import glob from "glob";
@@ -22,13 +22,10 @@ import { client } from "..";
 import { PathLike } from "fs";
 import { resolve } from "path";
 import { Event } from "./Event";
-import { promisify } from "util";
 import { readdir, stat } from "node:fs/promises";
 import { CommandType } from "../typings/Command";
 import { AppLogger } from "../tools/class/AppLogger";
 import { RegisterCommandsOptions } from "../typings/client";
-
-const globPromise = promisify(glob);
 
 
 export class ExtendedClient extends Client {
@@ -142,7 +139,7 @@ export class ExtendedClient extends Client {
         .then(files => {console.warn(files); return files})
         .catch(e => console.error(e));
         
-        await commandFiles.forEach(async (filePath:string) => {
+        await commandFiles?.forEach(async (filePath:string) => {
 
             const regex = /^[^.]+\.js$|^[^.]+\.ts$/gm;
             let match = regex.exec(filePath);
@@ -177,23 +174,6 @@ export class ExtendedClient extends Client {
             );
             this.on(event.event, event.run);
         });
-    }
-
-
-    async importSubCommandFile(commandName:string, subCommandName:string, groudName?:string) {
-
-        let filePath:string = `${__dirname}/../subcommands/${commandName}`;
-
-        if(groudName) { filePath += `/${groudName}`;}
-        filePath += `/${subCommandName}`;
-
-        const subCommandFile = await globPromise(
-            `${filePath}{.ts,.js}`
-        );
-        
-        if(subCommandFile.length === 1)
-            return await this.importFile(filePath)
-        return;
     }
 
     async getCommandsHelp(): Promise<string> {
@@ -238,7 +218,7 @@ export class ExtendedClient extends Client {
         return await files.reduce((a, f) => a.concat(f), []);
     }
 
-    async findGuildChannel(name:string, type:"GUILD_CATEGORY" | "GUILD_NEWS" | "GUILD_STAGE_VOICE" | "GUILD_STORE" | "GUILD_TEXT" | ThreadChannelTypes | "GUILD_VOICE") {
+    async findGuildChannel(name:string, type:"GUILD_CATEGORY" | "GUILD_NEWS" | "GUILD_STAGE_VOICE" | "GUILD_STORE" | "GUILD_TEXT" | ThreadChannelType | "GUILD_VOICE") {
         return await client.channels.cache.find(c => c.type === type && c.name === name);
     }
 

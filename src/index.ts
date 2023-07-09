@@ -1,12 +1,10 @@
 require('dotenv').config();
 import { ExtendedClient } from "./class/Client";
 import { CardHelper } from "./tools/class/CardHelper";
-import CommandHelper from "./tools/class/CommandHelper";
 import { ThemeHelper } from "./tools/class/ThemeHelper";
 export const client = new ExtendedClient();
 export const theme = new ThemeHelper();
 export const newCard = new CardHelper();
-export const commandHelper = new CommandHelper();
 
 client.start();
 
