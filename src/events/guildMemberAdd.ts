@@ -1,15 +1,19 @@
 import { TextBasedChannel } from "discord.js";
-import { client, newCard } from "..";
+import { newCard } from "..";
 import { Event } from "../class/Event";
+import { DiscordManager } from "../class/DiscordManager";
 
 export default new Event("guildMemberAdd", async (member, interaction?) => {
     if (member.user.bot) return;
 
-    let channel: TextBasedChannel = member.guild.systemChannel
-    if (process.env.welcomeChannel.toLowerCase() !== "default") {
-        channel = await client.findGuildChannel(process.env.welcomeChannel, "GUILD_TEXT") as TextBasedChannel;
+    const channel: TextBasedChannel = member.guild.systemChannel
+    const card = await newCard.render(member);
+    const message = `All hail <@${member.id}> !!!`;
+
+    const messageContent = {
+        content: message,
+        files: [card.attachment]
     }
 
-    const card = await newCard.render(member);
-    card.send(channel);
+    return DiscordManager.send(channel, messageContent);
 });

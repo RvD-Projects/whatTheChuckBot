@@ -7,13 +7,6 @@ export class CardHelper {
 
     public attachment: BufferResolvable | internal.Stream
 
-    send(channel: TextBasedChannel) {
-        channel.sendTyping()
-        channel.send({
-            files: [this.attachment]
-        })
-    }
-
     async render(member: GuildMember) {
         const welcomeCard = new Canvas.Welcome();
         welcomeCard.setUsername(member.displayName)
