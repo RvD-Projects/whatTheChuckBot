@@ -8,7 +8,10 @@ export default new Command({
     description: "Will send a welcome banner. For yourself",
     run: async ({ interaction }) => {
         if (process.env.environment === 'prod') {
-            interaction.reply("Available only in test mode");
+            interaction.reply({
+                content: "Available only in test mode",
+                ephemeral: true
+            });
             return;
         }
         
@@ -29,7 +32,6 @@ export default new Command({
 
         await interaction.reply({
             content: messageContent.content,
-            //this is the important part
             ephemeral: true
         });
     }
