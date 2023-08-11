@@ -1,83 +1,97 @@
-import { Guild, GuildChannel, GuildChannelManager, TextBasedChannel } from 'discord.js';
+import { TextBasedChannel } from 'discord.js';
 import { HttpFetcher } from './HttpFetcher';
 import { client } from '../..';
+import subscriptions from '../../subscriptions';
 var fs = require('fs');
+var fsExtra = require('fs-extra');
 
 
 export class YoutubeFetcher extends HttpFetcher {
     linkParam = "watch?v=";
-    searchParam = "@TheKiffness/videos";
-    fetchUrl = "https://www.youtube.com/";
+    baseUrl = "https://youtube.com/"
 
     getUrlTextLine(date, url) {
         return date.toLocaleDateString() + " " + date.toLocaleTimeString() + " | " + url
     }
 
-    async asyncWriteToFile(newJsonEntry: any, fileName: string = "./data/youtube/@Kiffness.json") {
-        await fs.readFile(fileName, 'utf8', async function readFileCallback(err, data) {
+    async checkFileWriteAndPost(newJsonEntry: any, filePath: string, channelId: string, roleId: string, ytName: string) {
+        fsExtra.ensureFileSync(filePath, err => {
+            console.log(err);
+        });
+
+        await fs.readFile(filePath, 'utf8', async function readFileCallback(err, data) {
             if (err) {
                 console.log(err);
                 return;
             }
 
-            let fileObj = JSON.parse(data);
-            const entryTable = fileObj.kiffness ?? [];
+            let fileObj: any = {};
+            try {
+                fileObj = JSON.parse(data) ?? {};
+            } catch (error) {
+                fileObj = {};
+            }
 
+            const entryTable = fileObj.scraps ?? [];
             const alreadyInFile = entryTable.filter(e => {
                 return e.url === newJsonEntry.url;
             });
 
             if (alreadyInFile?.length) {
-                console.log(`@Kiffness Url: ${newJsonEntry.url} was already put in the files at: ${alreadyInFile[0].date}`);
+                console.log(`Url: ${newJsonEntry.url} was already put in the files at: ${alreadyInFile[0].date}`);
                 return;
             }
 
-            fileObj.kiffness = entryTable;
-            fileObj.kiffness.push(newJsonEntry);
+            fileObj.scraps = entryTable;
+            fileObj.scraps.push(newJsonEntry);
 
             const fileText = JSON.stringify(fileObj);
-            
-            await fs.writeFile(fileName, fileText, async () => { 
-                const guild = await client.guilds.fetch("984305093010673684");
-                let channel = await guild?.channels.fetch("1138019825311023114") as TextBasedChannel;
+            await fs.writeFile(filePath, fileText, async () => {
+                const guild = await client.guilds.fetch("276931890735218689");
+                let channel = await guild?.channels.fetch(channelId) as TextBasedChannel;
                 const isText = channel?.isTextBased ?? false;
                 if (!isText) {
                     return;
                 }
-        
-                channel.send("<@258071819108614144>\n" + newJsonEntry.url);
-            });
 
+                let message = `*Hey you <@&${roleId}>*\n`;
+                message += `**${ytName}** released a new video recently! Feel free to watch it on YT:\n`;
+                message += newJsonEntry.url;
+
+                channel.send(message);
+            });
         });
     }
 
 
-    async getVideo() {
-        try {
+    async getVideos() {
+        subscriptions.channels.forEach(async channel => {
+            channel.subs.forEach(async sub => {
+                try {
+                    const resp = await this.get(sub.url);
+                    const text = await resp.text();
+                    const date = new Date();
 
-            const resp = await this.get(this.fetchUrl + this.searchParam);
-            const text = await resp.text();
+                    const firstSplit = text?.split(this.linkParam)[1];
+                    const endTagPos = firstSplit?.search('",');
+                    const firstVideoTag = firstSplit?.slice(0, endTagPos);
 
-            const firstSplit = text?.split("watch?v=")[1];
-            const endTagPos = firstSplit?.search('",');
-            const firstVideoTag = firstSplit?.slice(0, endTagPos);
+                    const url = this.baseUrl + this.linkParam + firstVideoTag;
 
-            const date = new Date();
-            const url = this.fetchUrl + this.linkParam + firstVideoTag;
+                    const line = this.getUrlTextLine(date, url);
+                    console.warn();
+                    console.warn(sub.name + " got scrapped --> ", line);
 
-            console.warn();
-            const line = this.getUrlTextLine(date, url);
-            console.warn("@Kiffness fetched --> ", line);
-            console.warn();
+                    const filePath = `./data/youtube/${sub.name}.json`;
+                    const newEntry = { date: line.split(" | ")[0], url };
+                    await this.checkFileWriteAndPost(newEntry, filePath, channel.id, channel.mentionRoleId, sub.name);
 
-            const newEntry = { date: line.split(" | ")[0], url };
+                } catch (error) {
+                    console.error(error);
+                }
+            });
 
-            await this.asyncWriteToFile(newEntry);
-
-        } catch (error) {
-            console.error(error)
-        }
-
+        });
     }
 
 }

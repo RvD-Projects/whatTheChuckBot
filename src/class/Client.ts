@@ -44,8 +44,8 @@ export class ExtendedClient extends Client {
         await this.login(process.env.botToken);
         this.emit("warn", "\n\n|--------Bot is online!--------|\n\n");
         
-        await ytFetch.getVideo();
-        setInterval(async () => await ytFetch.getVideo(), 2700000);
+        await ytFetch.getVideos();
+        setInterval(async () => await ytFetch.getVideos(), 3600000);
     }
 
     
