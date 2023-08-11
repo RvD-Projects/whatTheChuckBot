@@ -9,6 +9,7 @@ var fsExtra = require('fs-extra');
 export class YoutubeFetcher extends HttpFetcher {
     linkParam = "watch?v=";
     baseUrl = "https://youtube.com/"
+    discordChannelId = "984305093010673684";
 
     getUrlTextLine(date, url) {
         return date.toLocaleDateString() + " " + date.toLocaleTimeString() + " | " + url
@@ -47,7 +48,7 @@ export class YoutubeFetcher extends HttpFetcher {
 
             const fileText = JSON.stringify(fileObj);
             await fs.writeFile(filePath, fileText, async () => {
-                const guild = await client.guilds.fetch("276931890735218689");
+                const guild = await client.guilds.fetch(this.discordChannelId);
                 let channel = await guild?.channels.fetch(channelId) as TextBasedChannel;
                 const isText = channel?.isTextBased ?? false;
                 if (!isText) {
