@@ -48,7 +48,7 @@ export class YoutubeFetcher extends HttpFetcher {
 
             const fileText = JSON.stringify(fileObj);
             await fs.writeFile(filePath, fileText, async () => {
-                const guild = await client.guilds.fetch(this.discordChannelId);
+                const guild = await client.guilds.fetch("984305093010673684");
                 let channel = await guild?.channels.fetch(channelId) as TextBasedChannel;
                 const isText = channel?.isTextBased ?? false;
                 if (!isText) {
