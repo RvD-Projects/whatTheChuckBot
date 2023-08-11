@@ -45,7 +45,7 @@ export class YoutubeFetcher extends HttpFetcher {
                     return;
                 }
         
-                channel.send("@WeConneected\n" + newJsonEntry.url);
+                channel.send("<@258071819108614144>\n" + newJsonEntry.url);
             });
 
         });
