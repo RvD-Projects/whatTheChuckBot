@@ -4,11 +4,13 @@ import SentryHelper from "./class/SentryHelper";
 import { ExtendedClient } from "./class/Client";
 import { CardHelper } from "./tools/class/CardHelper";
 import { ThemeHelper } from "./tools/class/ThemeHelper";
+import { YoutubeFetcher } from "./tools/class/YoutubeFetcher";
 
 export const sentryHelper = new SentryHelper().init();
-export const client = new ExtendedClient();
-export const theme = new ThemeHelper();
-export const newCard = new CardHelper();
+export const client = new ExtendedClient;
+export const theme = new ThemeHelper;
+export const newCard = new CardHelper;
+export const ytFetch = new YoutubeFetcher;
 
 // Include process module
 const process = require('process');

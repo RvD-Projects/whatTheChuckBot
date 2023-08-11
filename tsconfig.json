@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
-        "lib": ["ESNext"],
+        "lib": ["ES2022"],
         "module": "commonjs",
         "moduleResolution": "node",
-        "target": "ESNext",
+        "target": "ES2022",
         "outDir": "dist",
         "sourceMap": true,
         "inlineSources": true,
@@ -11,6 +11,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "resolveJsonModule": true,

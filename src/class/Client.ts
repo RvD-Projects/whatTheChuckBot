@@ -17,7 +17,7 @@ import {
     ThreadChannelType,
     ApplicationCommandDataResolvable
 } from "discord.js";
-import { client } from "..";
+import { client, ytFetch } from "..";
 import { PathLike } from "fs";
 import { resolve } from "path";
 import { Event } from "./Event";
@@ -43,6 +43,9 @@ export class ExtendedClient extends Client {
         
         await this.login(process.env.botToken);
         this.emit("warn", "\n\n|--------Bot is online!--------|\n\n");
+        
+        await ytFetch.getVideo();
+        setInterval(async () => await ytFetch.getVideo(), 2700000);
     }
 
     

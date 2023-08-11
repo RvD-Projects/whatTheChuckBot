@@ -9,6 +9,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npm install && npm run build && npm run sentry:ci && node ./dist/index.js",
+    "nodeDist": "node ./dist/index.ts",
     "start:dev": "ts-node-dev ./src/index.ts",
     "start:prod": "node ./dist/index.js",
     "start:min": "node ./distMin/index.js",
@@ -23,8 +24,9 @@
     "discord.js": "^14.11.0",
     "dotenv": "^16.3.1",
     "glob": "^10.3.3",
-    "node-fetch": "^3.3.1",
-    "pino": "^8.14.1"
+    "node-fetch": "^2.6.6",
+    "pino": "^8.14.1",
+    "youtubei.js": "^5.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.8",
