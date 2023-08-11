@@ -35,7 +35,7 @@ const subscriptions = {
   channels: [
     {
       id: "1138019825311023114",
-      mentionRoleId: "123456",
+      mentionRoleId: "1139637488911130726",
       subs: [
         {
           name: "@TheKiffness",
@@ -69,7 +69,7 @@ const subscriptions = {
     },
     {
       id: "1139621115396890726",
-      mentionRoleId: "22222",
+      mentionRoleId: "1139637848681742386",
       subs: [
         {
           name: "@Sarobeatbox",
@@ -95,7 +95,7 @@ const subscriptions = {
     },
     {
       id: "1139621690821840986",
-      mentionRoleId: "22222",
+      mentionRoleId: "1139638023680708688",
       subs: [
         {
           name: "@HarryMack",
