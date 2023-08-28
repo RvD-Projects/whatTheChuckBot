@@ -76,11 +76,9 @@ export class YoutubeFetcher extends HttpFetcher {
                     const firstSplit = text?.split(this.linkParam)[1];
                     const endTagPos = firstSplit?.search('",');
                     const firstVideoTag = firstSplit?.slice(0, endTagPos);
-
                     const url = this.baseUrl + this.linkParam + firstVideoTag;
-
                     const line = this.getUrlTextLine(date, url);
-                    console.warn();
+                    
                     console.warn(sub.name + " got scrapped --> ", line);
 
                     const filePath = `./data/youtube/${sub.name}.json`;
