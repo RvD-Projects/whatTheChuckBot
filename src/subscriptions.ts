@@ -38,6 +38,22 @@ const subscriptions = {
       mentionRoleId: "1139637488911130726",
       subs: [
         {
+          name: "@CyranMakesMusic",
+          url: "https://www.youtube.com/@CyranMakesMusic/videos",
+        },
+        {
+          name: "@FrankTedesco-Highlights",
+          url: "https://www.youtube.com/@FrankTedescoHighlights/videos",
+        },
+        {
+          name: "@FrankTedesco",
+          url: "https://www.youtube.com/@FrankTedescoOfficial/videos",
+        },
+        {
+          name: "@FrankTedesco-VODS",
+          url: "https://www.youtube.com/@FrankTedescoVODs/videos",
+        },
+        {
           name: "@TheKiffness",
           url: "https://www.youtube.com/@TheKiffness/videos",
         },
@@ -102,6 +118,18 @@ const subscriptions = {
           url: "https://www.youtube.com/@HarryMack/videos",
         },
         {
+          name: "@HarryMack-Clips",
+          url: "https://www.youtube.com/@HarryMackClips/videos",
+        },
+        {
+          name: "@MarcRebillet-WeOutside",
+          url: "https://www.youtube.com/playlist?list=PL_AprguVzvxHdlFAvJp6LXW2WLvNPe6m7",
+        },
+        {
+          name: "@MarcRebillet-Full-Music-Streams",
+          url: "https://www.youtube.com/playlist?list=PL_AprguVzvxF1d6OSMiLC7MDo8pIxsQxE",
+        },
+        {
           name: "@ChrisPJTurner",
           url: "https://www.youtube.com/@ChrisPJTurner/videos",
         }
@@ -109,6 +137,7 @@ const subscriptions = {
     }
   ]
 };
+
 
 
 export default subscriptions;
