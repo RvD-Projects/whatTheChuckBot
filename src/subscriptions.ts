@@ -38,6 +38,10 @@ const subscriptions = {
       mentionRoleId: "1139637488911130726",
       subs: [
         {
+          name: "@CyranMakesMusic",
+          url: "https://www.youtube.com/@CyranMakesMusic/videos",
+        },
+        {
           name: "@FrankTedesco-Highlights",
           url: "https://www.youtube.com/@FrankTedescoHighlights/videos",
         },
