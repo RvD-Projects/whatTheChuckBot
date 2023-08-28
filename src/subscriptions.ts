@@ -81,6 +81,10 @@ const subscriptions = {
           name: "@Justine-Griffin",
           url: "https://www.youtube.com/@Justine-Griffin/videos",
         },
+        {
+          name: "@MilesMusicKid",
+          url: "https://www.youtube.com/@milesmusickid/videos",
+        },
       ]
     },
     {
