@@ -8,7 +8,9 @@ export default new Event("guildMemberAdd", async (member, interaction?) => {
 
     const channel: TextBasedChannel = member.guild.systemChannel
     const card = await newCard.render(member);
-    const message = `All hail <@${member.id}> !!!`;
+    let message = `🖥️ 🤖  All hail <@${member.id}> !!! ⚡  Contact <@258071819108614144>  if needed !👾  🖥️\n\n`;
+    message += "- Informations et channel FR plus bas -  Contactez <@258071819108614144>  au besoin !\n";
+    message += "- Información y canal ES mas abajo - ¡ Contacte a <@312456737070252034> si es necesario !";
 
     const messageContent = {
         content: message,
