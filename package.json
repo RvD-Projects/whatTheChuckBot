@@ -18,15 +18,15 @@
     "sentry:ci": "sentry-cli sourcemaps inject --org rvdprojects --project what-the-chuck ./dist && sentry-cli sourcemaps upload --org rvdprojects --project what-the-chuck ./dist"
   },
   "dependencies": {
-    "@sentry/cli": "^2.19.4",
-    "@sentry/node": "^7.58.1",
+    "@sentry/cli": "^2.20.5",
+    "@sentry/node": "^7.63.0",
     "discord-canvas": "^1.5.2",
-    "discord.js": "^14.11.0",
+    "discord.js": "^14.12.1",
     "dotenv": "^16.3.1",
     "fs-extra": "^11.1.1",
     "glob": "^10.3.3",
-    "node-fetch": "^2.6.6",
-    "pino": "^8.14.1",
+    "pino": "^8.15.0",
+    "node-fetch": "^2.6.13",
     "youtubei.js": "^5.8.0"
   },
   "devDependencies": {
