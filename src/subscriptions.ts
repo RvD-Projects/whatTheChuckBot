@@ -85,6 +85,10 @@ const subscriptions = {
           name: "@MilesMusicKid",
           url: "https://www.youtube.com/@milesmusickid/videos",
         },
+        {
+          name: "@DovydasMusic",
+          url: "https://www.youtube.com/@DovydasMusic/videos",
+        },
       ]
     },
     {
