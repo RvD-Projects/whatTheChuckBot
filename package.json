@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@sentry/cli": "^2.20.5",
-    "@sentry/node": "^7.63.0",
+    "@sentry/node": "^7.64.0",
     "discord-canvas": "^1.5.2",
     "discord.js": "^14.12.1",
     "dotenv": "^16.3.1",
