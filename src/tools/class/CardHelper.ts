@@ -1,6 +1,6 @@
 import internal from "stream";
 import { theme } from "../..";
-import { ALLOWED_EXTENSIONS, AttachmentBuilder, BufferResolvable, GuildMember, PartialGuildMember, TextBasedChannel } from "discord.js";
+import { ALLOWED_EXTENSIONS, AttachmentBuilder, BufferResolvable, GuildMember, PartialGuildMember } from "discord.js";
 const Canvas = require("discord-canvas");
 
 export class CardHelper {

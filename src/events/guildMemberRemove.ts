@@ -21,5 +21,5 @@ export default new Event("guildMemberRemove", async (member, interaction?) => {
         ? member.guild.channels.cache.get(found.removeChannelId)
         : member.guild.systemChannel;
         
-    return DiscordManager.send(channel, messageContent);
+    return DiscordManager.guildSend(channel, messageContent);
 });
