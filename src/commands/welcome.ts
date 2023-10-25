@@ -28,7 +28,7 @@ export default new Command({
             files: [card.attachment]
         }
 
-        await DiscordManager.send(channel, messageContent);
+        await DiscordManager.guildSend(channel, messageContent);
 
         await interaction.reply({
             content: messageContent.content,
