@@ -7,7 +7,7 @@ export class CardHelper {
 
     public attachment: BufferResolvable | internal.Stream
 
-    async render(member: GuildMember) {
+    async render(member: GuildMember, string: title = "Welcome") {
         const welcomeCard = new Canvas.Welcome();
         welcomeCard.setUsername(member.displayName)
             .setAvatar(member.user.displayAvatarURL({ forceStatic: true, extension: ALLOWED_EXTENSIONS[1] }))
@@ -15,7 +15,7 @@ export class CardHelper {
             .setMemberCount(member.guild.memberCount)
             .setDiscriminator(member.guild.memberCount);
 
-        welcomeCard.textTitle = "Welcome";
+        welcomeCard.textTitle = title;
         welcomeCard.textMessage = `Welcome to ${member.guild.name}`;
         theme.setRndWelcomeStyle(welcomeCard);
 
