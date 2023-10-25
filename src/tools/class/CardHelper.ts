@@ -1,13 +1,13 @@
 import internal from "stream";
 import { theme } from "../..";
-import { ALLOWED_EXTENSIONS, AttachmentBuilder, BufferResolvable, GuildMember, TextBasedChannel } from "discord.js";
+import { ALLOWED_EXTENSIONS, AttachmentBuilder, BufferResolvable, GuildMember, PartialGuildMember, TextBasedChannel } from "discord.js";
 const Canvas = require("discord-canvas");
 
 export class CardHelper {
 
     public attachment: BufferResolvable | internal.Stream
 
-    async render(member: GuildMember, title: string) {
+    async render(member: GuildMember | PartialGuildMember, title?: string) {
         const card = new Canvas.Welcome();
         card.setUsername(member.displayName)
             .setAvatar(member.user.displayAvatarURL({ forceStatic: true, extension: ALLOWED_EXTENSIONS[1] }))
