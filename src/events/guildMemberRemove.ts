@@ -1,7 +1,7 @@
-import { TextBasedChannel } from "discord.js";
 import { newCard } from "..";
 import { Event } from "../class/Event";
 import { DiscordManager } from "../class/DiscordManager";
+import { getById } from "../tools/guildsChannels";
 
 export default new Event("guildMemberRemove", async (member, interaction?) => {
     if (member.user.bot) return;
@@ -16,6 +16,10 @@ export default new Event("guildMemberRemove", async (member, interaction?) => {
         files: [card.attachment]
     }
 
-    const channel: TextBasedChannel = member.guild.systemChannel;
+    const found = getById(member.guild.id);
+    const channel = found?.guildId
+        ? member.guild.channels.cache.get(found.removeChannelId)
+        : member.guild.systemChannel;
+        
     return DiscordManager.send(channel, messageContent);
 });
