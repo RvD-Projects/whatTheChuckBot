@@ -1,8 +1,8 @@
-import { MessageCreateOptions, MessagePayload, TextBasedChannel } from "discord.js"
+import { GuildBasedChannel, MessageCreateOptions, MessagePayload, PartialTextBasedChannel, TextBasedChannel } from "discord.js"
 
 export class DiscordManager {
 
-    public static async send(channel: TextBasedChannel, content: string | MessagePayload | MessageCreateOptions) {
+    public static async send(channel, content: string | MessagePayload | MessageCreateOptions) {
         channel.sendTyping();
         await channel.send(content)
     }
