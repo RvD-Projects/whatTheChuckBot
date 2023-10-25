@@ -21,7 +21,7 @@
     "@sentry/cli": "^2.20.6",
     "@sentry/node": "^7.63.0",
     "discord-canvas": "^1.5.2",
-    "discord.js": "^14.12.1",
+    "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
     "fs-extra": "^11.1.1",
     "glob": "^10.3.4",
