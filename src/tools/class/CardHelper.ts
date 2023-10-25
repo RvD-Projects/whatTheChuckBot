@@ -16,7 +16,7 @@ export class CardHelper {
             .setDiscriminator(member.guild.memberCount);
 
         card.textTitle = title ?? "Welcome";
-        card.textMessage = message ?? "Welcome to ${member.guild.name}`";
+        card.textMessage = message ??  `Welcome to ${member.guild.name}`;
         theme.setRndWelcomeStyle(card);
 
         const image = await card.toAttachment();
