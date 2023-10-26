@@ -12,7 +12,7 @@ export class CardHelper {
      * @param cardData 
      * @returns 
      */
-    async render(member: GuildMember | PartialGuildMember, cardData?: any) {
+    public async render(member: GuildMember | PartialGuildMember, cardData?: any) {
         const card = new Canvas.Welcome();
         card.setUsername(member.displayName)
             .setAvatar(member.user.displayAvatarURL({ forceStatic: true, extension: ALLOWED_EXTENSIONS[1] }))
