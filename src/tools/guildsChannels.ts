@@ -31,8 +31,8 @@ export const guildsChannels = [
         welcome: {
             channelId: "1166437265501847584",
             card: {
-                getTitle: null,
-                getMsg: null
+                getTitle: "Welcome",
+                getMsg: "Welcome to TempCity"
             },
             getMsg: (params: any) => {
                 return `🖥️ 🤖  Greetings <@${params.member.id}> ! ⚡  Welcome to CS2-CustomsMaps's Discord! You'll find Custom Maps and Custom CS2 Servers over here! GLHF!👾  🖥️\n`;
@@ -41,8 +41,8 @@ export const guildsChannels = [
         goodbye: {
             channelId: "1166585676297412658",
             card: {
-                getTitle: null,
-                getMsg: null
+                getTitle: "Bye bye",
+                getMsg: "We'll miss him/her!"
             },
             getMsg: (params: any) => {
                 return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
