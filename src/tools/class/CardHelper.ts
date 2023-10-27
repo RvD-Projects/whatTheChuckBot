@@ -9,7 +9,7 @@ export class CardHelper {
     /**
      * Prepare a renderable card attachement
      * @param member 
-     * @param cardData 
+     * @param cardData per-user data if any
      * @returns 
      */
     public async render(member: GuildMember | PartialGuildMember, cardData?: any) {
