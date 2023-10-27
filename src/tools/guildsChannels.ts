@@ -1,8 +1,53 @@
 export const guildsChannels = [
     {
+        //TempCity
+        guildId: "770057600867237898",
+        welcome: {
+            channelId: "1088581487470850140",
+            card: {
+                getTitle: null,
+                getMsg: null
+            },
+            getMsg: (params: any) => {
+                return `🖥️ 🤖  Greetings <@${params.member.id}> ! ⚡  Contact <@258071819108614144> if you need any help needed !👾  🖥️\n
+        - Informations et channel Français plus bas -  Contactez <@258071819108614144>  au besoin !
+        - Información y canal Espanol mas abajo - ¡ Contacte a <@312456737070252034> si es necesario !`;
+            }
+        },
+        goodbye: {
+            channelId: "1086738313689440276",
+            card: {
+                getTitle: null,
+                getMsg: null
+            },
+            getMsg: (params: any) => {
+                return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
+            }
+        }
+    },
+    {
+        //CS2-CustomMaps
         guildId: "1166437263543128144",
-        welcomeChannelId: null,
-        removeChannelId: "1166585676297412658",
+        welcome: {
+            channelId: "1166437265501847584",
+            card: {
+                getTitle: null,
+                getMsg: null
+            },
+            getMsg: (params: any) => {
+                return `🖥️ 🤖  Greetings <@${params.member.id}> ! ⚡  Welcome to CS2-CustomsMaps's Discord! You'll find Custom Maps and Custom CS2 Servers over here! GLHF!👾  🖥️\n`;
+            }
+        },
+        goodbye: {
+            channelId: "1166585676297412658",
+            card: {
+                getTitle: null,
+                getMsg: null
+            },
+            getMsg: (params: any) => {
+                return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
+            }
+        }
     },
 ];
 
