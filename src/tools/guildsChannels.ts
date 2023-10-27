@@ -1,8 +1,13 @@
 export const guildsChannels = [
     {
         guildId: "1166437263543128144",
-        welcomeChannelId: null,
+        welcomeChannelId: "1166437265501847584",
         removeChannelId: "1166585676297412658",
+    },
+    {
+        guildId: "770057600867237898",
+        welcomeChannelId: "1088581487470850140",
+        removeChannelId: "1086738313689440276",
     },
 ];
 
