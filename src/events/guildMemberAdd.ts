@@ -18,7 +18,7 @@ export default new Event("guildMemberAdd", async (member, interaction?) => {
 
     const card = await newCard.render(member, cardData);
     return DiscordManager.guildSend(channel, {
-        content: data.getMsg(member),
+        content: data.getMsg({member}),
         files: [card.getAttachment()]
     });
 });
