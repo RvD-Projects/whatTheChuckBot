@@ -20,8 +20,10 @@ export class CardHelper {
             .setMemberCount(member.guild.memberCount)
             .setDiscriminator(member.guild.memberCount);
 
-        card.textTitle = cardData?.getTitle ? cardData.getTitle({ member }) : "Welcome";
-        card.textMessage = cardData?.getMsg ? cardData.getMsg({ member }) : `Welcome to ${member.guild.name}`;
+        card.textTitle = cardData?.getTitle
+            ? cardData.getTitle({ member }) : "Welcome";
+        card.textMessage = cardData?.getMsg
+            ? cardData.getMsg({ member }) : `Welcome to ${member.guild.name}`;
 
         theme.setRndWelcomeStyle(card);
         const image = await card.toAttachment();
