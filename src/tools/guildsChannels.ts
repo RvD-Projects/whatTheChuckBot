@@ -1,5 +1,25 @@
 export const guildsChannels = [
     {
+        //Defaults
+        guildId: "default",
+        welcome: {
+            channelId: null,
+            card: {
+                getTitle: () => "Welcome",
+                getMsg: (params) => "We'll miss him / her!"
+            },
+            getMsg: (params:any) => `🤖  Greetings <@${params.member.id}> ! ⚡👾`
+        },
+        goodbye: {
+            channelId: null,
+            card: {
+                getTitle: () => "Bye bye",
+                getMsg: () => "We'll miss him / her!"
+            },
+            getMsg: (params:any) => `🤖  Say goddbye to <@${params.member.id}> ! 😢👾`
+        }
+    },
+    {
         //TempCity
         guildId: "770057600867237898",
         welcome: {
@@ -42,7 +62,7 @@ export const guildsChannels = [
             channelId: "1166585676297412658",
             card: {
                 getTitle: "Bye bye",
-                getMsg: "We'll miss him/her!"
+                getMsg: "We'll miss him / her!"
             },
             getMsg: (params: any) => {
                 return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
