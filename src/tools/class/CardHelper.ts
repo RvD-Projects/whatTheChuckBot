@@ -34,7 +34,7 @@ export class CardHelper {
     /**
      * getAttchement
      */
-    public getAttchement() {
+    public getAttachment() {
         return this.attachment;
     }
 }
