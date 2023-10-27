@@ -6,20 +6,20 @@ import { getById } from "../tools/guildsChannels";
 export default new Event("guildMemberRemove", async (member, interaction?) => {
     if (member.user.bot) return;
 
-    const title = `Bye bye`;
-    const cardMessage = `We'll miss him/her!`;
-    const message = `🖥️ 🤖  Goodbye <@${member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
+    const guildConfigs = getById(member.guild.id)
+        ?? getById("default");
 
-    const card = await newCard.render(member, title, cardMessage);
-    const messageContent = {
-        content: message,
-        files: [card.attachment]
-    }
+    const data = guildConfigs.goodbye;
+    const cardData = data.card;
 
-    const found = getById(member.guild.id);
-    const channel = found?.guildId
-        ? member.guild.channels.cache.get(found.removeChannelId)
+    const channel = data?.channelId
+        ? member.guild.channels.cache.get(data.channelId)
         : member.guild.systemChannel;
-        
-    return DiscordManager.guildSend(channel, messageContent);
+
+    const card = await newCard.render(member, cardData);
+    return DiscordManager.guildSend(channel, {
+        content: data.getMsg(member),
+        files: [card.getAttachment()]
+    });
 });
+
