@@ -6,7 +6,7 @@ export const guildsChannels = [
             channelId: null,
             card: {
                 getTitle: () => "Welcome",
-                getMsg: (params) => "We'll miss him / her!"
+                getMsg: (params:any) => "We'll miss him / her!"
             },
             getMsg: (params:any) => `🤖  Greetings <@${params.member.id}> ! ⚡👾`
         },
@@ -51,8 +51,8 @@ export const guildsChannels = [
         welcome: {
             channelId: "1166437265501847584",
             card: {
-                getTitle: "Welcome",
-                getMsg: "Welcome to TempCity"
+                getTitle: () => "Welcome",
+                getMsg: () => "Welcome to TempCity"
             },
             getMsg: (params: any) => {
                 return `🖥️ 🤖  Greetings <@${params.member.id}> ! ⚡  Welcome to CS2-CustomsMaps's Discord! You'll find Custom Maps and Custom CS2 Servers over here! GLHF!👾  🖥️\n`;
@@ -61,8 +61,8 @@ export const guildsChannels = [
         goodbye: {
             channelId: "1166585676297412658",
             card: {
-                getTitle: "Bye bye",
-                getMsg: "We'll miss him / her!"
+                getTitle: () => "Bye bye",
+                getMsg: () => "We'll miss him / her!"
             },
             getMsg: (params: any) => {
                 return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
