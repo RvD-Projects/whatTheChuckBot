@@ -32,7 +32,7 @@ export default new Command({
         const card = await newCard.render(member, cardData);
         return DiscordManager.guildSend(channel, {
             content: data.getMsg(member),
-            files: [card.getAttachement()]
+            files: [card.getAttachment()]
         });
     }
 });
