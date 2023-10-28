@@ -28,7 +28,7 @@ export default new Command({
         const serverFlag = args.getInteger("server", false) ?? "0";
         const commandFlag = args.getInteger("command", false) ?? "0";
 
-        ShellProcess.shellExec("./scripts/bash/manageCsDocker.sh", [`${serverFlag}`, `${commandFlag}`]);
+        ShellProcess.shellExec("./shells/bash/manageCsDocker.sh", [`${serverFlag}`, `${commandFlag}`]);
 
         await interaction.reply({ content: "✔️ Done!  🧙", ephemeral: true });
     }
