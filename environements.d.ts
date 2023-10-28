@@ -5,7 +5,6 @@ declare global {
             botToken: string;
             guildIds: string;
             inviteUrl: string;
-            welcomeChannel:string;
             environment: "dev" | "prod";
         }
     }
