@@ -20,7 +20,7 @@ export default new Command({
         console.log(interaction.member.user.id.toString())
 
         if (!managersIds.includes(interaction.member.user.id.toString())) {
-            await interaction.reply({ content: "❌ You shall not pass! 🧙", ephemeral: true });
+            await interaction.reply({ content: "❌ You shall not pass!  🧙", ephemeral: true });
             return;
         }
 
@@ -28,6 +28,6 @@ export default new Command({
         ShellProcess.bashCmd("ls", []);
         ShellProcess.bashCmd("whoami", []);
         ShellProcess.bashCmd("docker", ["ps", "-a"]);
-        await interaction.reply({ content: "✔️ Done! 🧙", ephemeral: true });
+        await interaction.reply({ content: "✔️ Done!  🧙", ephemeral: true });
     }
 });
