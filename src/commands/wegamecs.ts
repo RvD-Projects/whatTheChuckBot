@@ -24,10 +24,12 @@ export default new Command({
             return;
         }
 
-        ShellProcess.bashCmd("cd", ["/"]);
-        ShellProcess.bashCmd("ls", []);
-        ShellProcess.bashCmd("whoami", []);
-        ShellProcess.bashCmd("docker", ["ps", "-a"]);
+        ShellProcess.bashCmd("docker", ["stop", "cs2-WeConnected-ns1"]);
+        ShellProcess.bashCmd("docker", ["start", "cs2-WeConnected-ns1"]);
+
+        ShellProcess.bashCmd("docker", ["stop", "cs2-rafux-ns1"]);
+        ShellProcess.bashCmd("docker", ["start", "cs2-rafux-ns1"]);
+
         await interaction.reply({ content: "✔️ Done!  🧙", ephemeral: true });
     }
 });
