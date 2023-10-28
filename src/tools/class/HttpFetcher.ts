@@ -4,7 +4,7 @@ import { HeadersInit, Headers } from 'node-fetch';
 interface IAPIOptions {
     method: string,
     body: string,
-    headers:Headers
+    headers: Headers
 }
 
 
@@ -45,10 +45,10 @@ export class HttpFetcher {
         }
     }
 
-    private async fetch(url:string): Promise<any> {
+    private async fetch(url: string): Promise<any> {
         this.responseObj = await fetch(url, this.fetchOptions)
             .then(response => response);
-        
+
         return this.responseObj;
     }
 
@@ -56,15 +56,13 @@ export class HttpFetcher {
         this.fetchOptions.method = "GET";
         return await this.fetch(url);
     }
-    
+
     async post(url: string, bodyJSON: string): Promise<any> {
         this.fetchOptions.method = "GET";
         this.fetchOptions.body = bodyJSON
         return await this.fetch(url);
     }
-
 }
-
 
 class FetchOptions {
     public method: "GET" | "POST" | "PULL" | "PUT" | "DELETE" | "PATCH";

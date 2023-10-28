@@ -12,3 +12,4 @@ package-lock.json
 
 # Sentry Auth Token
 .sentryclirc
+data/youtube/

@@ -2,6 +2,7 @@ import { TextBasedChannel } from 'discord.js';
 import { HttpFetcher } from './HttpFetcher';
 import { client } from '../..';
 import subscriptions from '../../subscriptions';
+import { env } from 'node:process';
 var fs = require('fs');
 var fsExtra = require('fs-extra');
 
@@ -66,6 +67,10 @@ export class YoutubeFetcher extends HttpFetcher {
 
 
     async getVideos() {
+        if (env.environment !== "prod") {
+            return;
+        }
+        
         subscriptions.channels.forEach(async channel => {
             channel.subs.forEach(async sub => {
                 try {
@@ -78,7 +83,7 @@ export class YoutubeFetcher extends HttpFetcher {
                     const firstVideoTag = firstSplit?.slice(0, endTagPos);
                     const url = this.baseUrl + this.linkParam + firstVideoTag;
                     const line = this.getUrlTextLine(date, url);
-                    
+
                     console.warn(sub.name + " got scrapped --> ", line);
 
                     const filePath = `./data/youtube/${sub.name}.json`;
