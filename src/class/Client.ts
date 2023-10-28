@@ -108,7 +108,6 @@ export class ExtendedClient extends Client {
         }
     }
 
-
     resolveLogtoClient(id: string, message: string) {
         this.logToClient(id, message);
     }
