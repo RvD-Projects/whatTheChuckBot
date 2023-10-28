@@ -8,11 +8,15 @@ export default new Command({
     description: "Will do whatchu gotta do.",
     options: [
         {
-            name: "cmd-flag", description: "(default) 0: Restart, 1: Start, 2:Stop",
+            name: "server", description: "(default) 0: cs2-WeConnected-ns1, 1: cs2-rafux-ns1",
+            type: ApplicationCommandOptionType.Integer
+        },
+        {
+            name: "command", description: "(default) 0: Restart, 1: Start, 2:Stop",
             type: ApplicationCommandOptionType.Integer
         }
     ],
-    run: async ({ interaction }) => {
+    run: async ({ interaction, args }) => {
         if (interaction.member.user.bot) return;
 
         const managersIds = env.cs2ManagerId.split(',');
@@ -21,8 +25,10 @@ export default new Command({
             return;
         }
 
-        ShellProcess.bashCmd("docker", ["stop", "cs2-WeConnected-ns1"]);
-        ShellProcess.bashCmd("docker", ["start", "cs2-WeConnected-ns1"]);
+        const serverFlag = args.getInteger("server", false) ?? "0";
+        const commandFlag = args.getInteger("command", false) ?? "0";
+
+        ShellProcess.shellExec("./scripts/bash/manageCsDocker.sh", [`${serverFlag}`, `${commandFlag}`]);
 
         await interaction.reply({ content: "✔️ Done!  🧙", ephemeral: true });
     }
