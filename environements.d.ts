@@ -5,6 +5,7 @@ declare global {
             botToken: string;
             guildIds: string;
             inviteUrl: string;
+            cs2ManagerId: string
             environment: "dev" | "prod";
         }
     }

@@ -180,17 +180,17 @@ export class ExtendedClient extends Client {
     async getCommandsHelp(): Promise<string> {
         let str: string = "Here's the list of my available slash commands: \n\n";
         this.commands.forEach(element => {
-            str += "Command: /" + element.name + "\n";
-            str += "Description: " + element.description + "\n\n";
+            str += "\`\`\`Command: /" + element.name + "\n";
+            str += "Description: " + element.description + "\`\`\`\n\n";
         });
 
-        str += `Certaines commandes ne sont pas terminées [N.A.] ou sont en version [BETA]. Regardez les decriptions.
+        str += ` \`\`\`Certaines commandes ne sont pas terminées [N.A.] ou sont en version [BETA]. Regardez les decriptions.
 [N.A.] => Commande qui n'est simplement en cours développement.
 [BETA] => Commande qui peut travailler, qui n'est pas complétement terminée et qui pourrrait échouée.\n\n`;
 
         str += `Some command are not yet finnished [BETA] or implemented [N.A.]
 [N.A.] => Command that is not yet implemented.
-[BETA] => Command that can be run but could encounter some errors.\n\n`;
+[BETA] => Command that can be run but could encounter some errors.\n\n\`\`\``;
         return str;
     }
 
