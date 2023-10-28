@@ -16,9 +16,6 @@ export default new Command({
         if (interaction.member.user.bot) return;
 
         const managersIds = env.cs2ManagerId.split(',');
-        console.log(managersIds)
-        console.log(interaction.member.user.id.toString())
-
         if (!managersIds.includes(interaction.member.user.id.toString())) {
             await interaction.reply({ content: "❌ You shall not pass!  🧙", ephemeral: true });
             return;
