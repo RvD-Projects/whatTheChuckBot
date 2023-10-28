@@ -185,8 +185,8 @@ export class ExtendedClient extends Client {
         });
 
         str += `Certaines commandes ne sont pas terminées [N.A.] ou sont en version [BETA]. Regardez les decriptions.
-[N.A.] => Commande qui n'est simplement pas encore devloppée.
-[BETA] => Commande qui peut travailler, mais n'est pas complétement terminée ou elle pourrrait échouée.\n\n`;
+[N.A.] => Commande qui n'est simplement en cours développement.
+[BETA] => Commande qui peut travailler, qui n'est pas complétement terminée et qui pourrrait échouée.\n\n`;
 
         str += `Some command are not yet finnished [BETA] or implemented [N.A.]
 [N.A.] => Command that is not yet implemented.

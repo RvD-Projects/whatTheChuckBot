@@ -7,6 +7,9 @@
 ## DocekrDocs:
 >https://docs.docker.com/get-started/02_our_app/
 #
+## TS - ChildProcess:
+>https://dev.to/masanori_msl/node-js-typescript-windows-play-with-child-process-114e
+#
 
 ## Docker-notes:
 
