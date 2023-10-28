@@ -1,4 +1,4 @@
-environment=prod
+environment=dev
 guildIds=xxx,yyy
 botToken=#######################################################
 sentryDsn=#######################################################
