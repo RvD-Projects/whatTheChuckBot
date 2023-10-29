@@ -35,7 +35,7 @@ export default new Command({
         execProcess.on('close', async (code: number, args: any[]) => {
             console.log(`shellExec on close code: ${code} args: ${args}`);
             const reply = code == 0
-                ? "✔️ Job's terminated sucessfully!  🧙"
+                ? "✔️ Job's terminated sucessfully! 🧙"
                 : "❌ Job's terminated with error!  🧙";
 
             setTimeout(async () => {
