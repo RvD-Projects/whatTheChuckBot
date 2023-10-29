@@ -30,7 +30,7 @@ export default new Command({
         const commandFlag = args.getInteger("command", false) ?? "0";
 
         const execProcess = ShellProcess.shellExec("./shells/bash/manageCsDocker.sh", [`${serverFlag}`, `${commandFlag}`]);
-        await interaction.reply({ content: "✔️Job was launched, wait for results... 🧙 ", ephemeral: true });
+        await interaction.reply({ content: " ✔️ Job was launched, wait for results... 🧙 ", ephemeral: true });
 
         execProcess.on('close', async (code: number, args: any[]) => {
             console.log(`shellExec on close code: ${code} args: ${args}`);
@@ -48,7 +48,9 @@ export default new Command({
         let interval = setInterval(async () => {
             i = i > loadingMarks.length - 1 ? 0 : i;
             j = j > clockHoursEmojies.length - 1 ? 0 : j;
-            await interaction.editReply({ content: ` ${clockHoursEmojies[j++]} Job's running: \`[${loadingMarks[i++]}]\` 🧙 ` });
+
+            const prct = "`[" + loadingMarks[i++] + "]`";
+            await interaction.editReply({ content: ` ${clockHoursEmojies[j++]} Job's running: ${prct} 🧙 ` });
         }, 516);
     }
 });
