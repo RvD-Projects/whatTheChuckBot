@@ -30,11 +30,11 @@ export default new Command({
             const member = args.getMember("member") as GuildMember
                 ?? interaction.member;
 
-            const type = args.getInteger("type", false) ? "remove" : "welcome";
+            const type = args.getInteger("type", false) ? "goodbye" : "welcome";
             const channel = args.getChannel('channel', false, [ChannelType.GuildText])
                 ?? guild.systemChannel;
 
-            await sendBanner(member, type ? 'remove' : 'add', channel);
+            await sendBanner(member, type, channel);
             interaction.reply({ content: "Done!", ephemeral: true });
         } catch (error) {
             interaction.reply({ content: "Error!", ephemeral: true });

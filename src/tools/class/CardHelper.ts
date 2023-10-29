@@ -12,10 +12,12 @@ export class CardHelper {
      * @param cardData per-user data if any
      * @returns 
      */
-    public async render(member: GuildMember | PartialGuildMember, textTitle:string, textMessage:string) {
+    public async render(member: GuildMember | PartialGuildMember, textTitle: string, textMessage: string) {
         if (!member || member.user.bot) return;
-        
+
         const card = new Canvas.Welcome();
+        card.textTitle = textTitle;
+        card.textMessage = textMessage;
         card.setUsername(member.displayName)
             .setAvatar(member.user.displayAvatarURL({ forceStatic: true, extension: ALLOWED_EXTENSIONS[1] }))
             .setGuildName(member.guild.name)
