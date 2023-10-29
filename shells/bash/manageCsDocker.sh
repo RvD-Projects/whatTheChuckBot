@@ -1,66 +1,104 @@
 #! /bin/bash
-if [ "$#" -ne 2 ]
-then
+if [ "$#" -ne 2 ]; then
     echo "Incorrect number of arguments"
     exit 1
 fi
 
-cmd="restart"
-dockerName="cs2-WeConnected-ns1"
-
 case "$1" in
-    "0")
-        dockerName="cs2-WeConnected-ns1"
+"0")
+    dockerName="cs2-WeConnected-ns1"
     ;;
-    
-    "1")
-        dockerName="cs2-rafux-ns1"
+
+"1")
+    dockerName="cs2-rafux-ns1"
     ;;
-    
-    *)
-        dockerName="cs2-WeConnected-ns1"
+
+*)
+    dockerName="cs2-WeConnected-ns1"
     ;;
 esac
 
 case "$2" in
-    "0")
-        cmd="restart"
+"0")
+    cmd="restart"
     ;;
-    
-    "1")
-        cmd="start"
+
+"1")
+    cmd="start"
     ;;
-    
-    "2")
-        cmd="stop"
+
+"2")
+    cmd="stop"
     ;;
-    
-    *)
-        cmd="restart"
+
+*)
+    cmd="restart"
     ;;
 esac
 
-echo ""
-echo "Job to be done: $cmd --> $dockerName"
-
-format="{{.Names}}+{{.Status}}"
-statuses=$(docker ps --format $format --filter "name=$dockerName")
+statuses=$(docker ps -a --format {{.Names}}+{{.Status}} --filter name=$dockerName)
 readarray -d + -t statsArr <<<"$statuses"
 
 echo ""
-echo "Results"
-up=1
-[[ ${statsArr[0]} -eq $dockerName ]] && echo "Container was found" || echo "Container not found" || exit 1;
-[[ ${statsArr[1]} = Up* ]] && echo "Container is running" || echo "Container not up" && up=0
+echo "Container health:"
+if [[ ${statsArr[0]} == "$dockerName" ]]; then
+    echo "$dockerName was found."
+    echo $statuses
+else
+    echo "$dockerName was not found."
+    echo $statuses
+    exit 0
+fi
+echo ""
 
-[[ $up -eq 0 && "$cmd" == "stop" ]] && exit 0
-[[ $up -eq 1 && "$cmd" == "stop" ]] && docker $cmd $dockerName && exit 0
+if [[ ${statsArr[1]} = Up* ]]; then
+    up=1
+else
+    up=0
+fi
 
-[[ $up -eq 0 && "$cmd" == "start" ]] && docker $cmd $dockerName && exit 0
-[[ $up -eq 1 && "$cmd" == "start" ]] && exit 0
+echo "Job to be done:"
+if [[ $up == 1 ]]; then
+    case "$cmd" in
+    "restart")
+        echo "Doing case 1 :: docker restart $dockerName"
+        docker restart $dockerName
+        exit 0
+        ;;
 
-[[ $up -eq 0 && "$cmd" == "restart" ]] && cmd="start" && docker $cmd $dockerName && exit 0
-[[ $up -eq 1 && "$cmd" == "restart" ]] && docker $cmd $dockerName && exit 0
+    "start")
+        echo "Doing case 2 :: docker restart $dockerName"
+        docker restart $dockerName
+        exit 0
+        ;;
+    "stop")
+        echo "Doing case 3 :: docker stop $dockerName"
+        docker stop $dockerName
+        exit 0
+        ;;
+    esac
+fi
 
+if [[ $up == 0 ]]; then
+    case "$cmd" in
+    "restart")
+        echo "Doing case 4 :: docker start $dockerName"
+        docker start $dockerName
+        exit 0
+        ;;
 
+    "start")
+        echo "Doing case 5 :: docker start $dockerName"
+        docker start $dockerName
+        exit 0
+        ;;
+    "stop")
+        echo "Doing case 6 :: docker stop $dockerName"
+        docker stop $dockerName
+        exit 0
+        ;;
+    esac
+fi
+
+echo "Bad exit...."
 exit 1
