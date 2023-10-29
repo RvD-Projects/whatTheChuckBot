@@ -2,7 +2,7 @@ import { ApplicationCommandOptionType } from "discord.js";
 import { Command } from "../class/Command";
 import { env } from "process";
 import ShellProcess from "../tools/class/ShellProcess";
-import { clockHoursEmojies } from "../constants/emojies";
+import { clockHoursEmojies, loadingMarks } from "../constants/emojies";
 
 export default new Command({
     name: "wegamecs",
@@ -22,7 +22,7 @@ export default new Command({
 
         const managersIds = env.cs2ManagerId.split(',');
         if (!managersIds.includes(interaction.member.user.id.toString())) {
-            await interaction.reply({ content: "❌ You shall not pass!  🧙", ephemeral: true });
+            await interaction.reply({ content: "❌You shall not pass! 🧙", ephemeral: true });
             return;
         }
 
@@ -30,13 +30,13 @@ export default new Command({
         const commandFlag = args.getInteger("command", false) ?? "0";
 
         const execProcess = ShellProcess.shellExec("./shells/bash/manageCsDocker.sh", [`${serverFlag}`, `${commandFlag}`]);
-        await interaction.reply({ content: "✔️ Job was launched, wait for results...  🧙", ephemeral: true });
+        await interaction.reply({ content: "✔️Job was launched, wait for results... 🧙", ephemeral: true });
 
         execProcess.on('close', async (code: number, args: any[]) => {
             console.log(`shellExec on close code: ${code} args: ${args}`);
             const reply = code == 0
-                ? "✔️ Job's terminated sucessfully! 🧙"
-                : "❌ Job's terminated with error!  🧙";
+                ? "✔️Job's terminated sucessfully! 🧙"
+                : "❌Job's terminated with error!  🧙";
 
             setTimeout(async () => {
                 clearInterval(interval);
@@ -44,12 +44,11 @@ export default new Command({
             })
         });
 
-        let i,j = 1;
+        let i: number, j: number = 0;
         let interval = setInterval(async () => {
-            i = i == 10 ? -1 : i;
-            j = j>=  clockHoursEmojies.length ? -1 : j;
-            const dots = Array.from(Array(i++), () => ".").concat("");
-            await interaction.editReply({ content: `${clockHoursEmojies[j++]} Job's running: \`[${dots}]\`  🧙` });
+            i = i >= loadingMarks.length - 1 ? -1 : i;
+            j = j >= clockHoursEmojies.length - 1 ? -1 : j;
+            await interaction.editReply({ content: `${clockHoursEmojies[j++]} Job's running: \`[${loadingMarks[i++]}]\` 🧙` });
         }, 500);
     }
 });

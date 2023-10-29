@@ -6,7 +6,7 @@ export default class ShellProcess {
     public static shellExec(command: string, args: string[]) {
         const execProcess = spawn(command, args);
         console.log('shellExec', command, args);
-        console.log('file:', execProcess.spawnfile);
+        console.log('shellExec File:', execProcess.spawnfile);
 
         return execProcess;
     }
