@@ -44,7 +44,7 @@ export default new Command({
             })
         });
 
-        let i: number, j: number = 0;
+        let i: number = 0, j: number = 0;
         let interval = setInterval(async () => {
             i = i > loadingMarks.length - 1 ? 0 : i;
             j = j > clockHoursEmojies.length - 1 ? 0 : j;
