@@ -2,6 +2,7 @@ import { ApplicationCommandOptionType } from "discord.js";
 import { Command } from "../class/Command";
 import { env } from "process";
 import ShellProcess from "../tools/class/ShellProcess";
+import { clockHoursEmojies } from "../constants/emojies";
 
 export default new Command({
     name: "wegamecs",
@@ -28,8 +29,27 @@ export default new Command({
         const serverFlag = args.getInteger("server", false) ?? "0";
         const commandFlag = args.getInteger("command", false) ?? "0";
 
-        ShellProcess.shellExec("./shells/bash/manageCsDocker.sh", [`${serverFlag}`, `${commandFlag}`]);
+        const execProcess = ShellProcess.shellExec("./shells/bash/manageCsDocker.sh", [`${serverFlag}`, `${commandFlag}`]);
+        await interaction.reply({ content: "✔️ Job was launched, wait for results...  🧙", ephemeral: true });
 
-        await interaction.reply({ content: "✔️ Done!  🧙", ephemeral: true });
+        execProcess.on('close', async (code: number, args: any[]) => {
+            console.log(`shellExec on close code: ${code} args: ${args}`);
+            const reply = code == 0
+                ? "✔️ Job's terminated sucessfully!  🧙"
+                : "❌ Job's terminated with error!  🧙";
+
+            setTimeout(async () => {
+                clearInterval(interval);
+                await interaction.editReply({ content: reply });
+            })
+        });
+
+        let i,j = 0;
+        let interval = setInterval(async () => {
+            i = i == 10 ? -1 : i;
+            j = j>=  clockHoursEmojies.length ? -1 : j;
+            const dots = Array.from(Array(i++), () => ".").concat("");
+            await interaction.editReply({ content: `${clockHoursEmojies[j++]} Job's running: \`[${dots}]\`  🧙` });
+        }, 500);
     }
 });
