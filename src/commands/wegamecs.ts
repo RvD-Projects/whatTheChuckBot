@@ -50,7 +50,7 @@ export default new Command({
             j = j > clockHoursEmojies.length - 1 ? 0 : j;
 
             const prct = "`[" + loadingMarks[i++] + "]`";
-            const face = i %2 == 0 ? "😔" : "😴";
+            const face = i %3 != 0 ? "😔" :  "😴";
             await interaction.editReply({ content: `${clockHoursEmojies[j++]} Job's running: ${prct} ${face}` });
         }, 516);
     }
