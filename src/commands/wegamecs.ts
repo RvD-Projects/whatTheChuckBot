@@ -46,9 +46,9 @@ export default new Command({
 
         let i: number, j: number = 0;
         let interval = setInterval(async () => {
-            i = i >= loadingMarks.length - 1 ? -1 : i;
-            j = j >= clockHoursEmojies.length - 1 ? -1 : j;
-            await interaction.editReply({ content: `${clockHoursEmojies[j++]} Job's running: \`[${loadingMarks[i++]}]\` 🧙` });
-        }, 500);
+            i = i > loadingMarks.length - 1 ? 0 : i;
+            j = j > clockHoursEmojies.length - 1 ? 0 : j;
+            await interaction.editReply({ content: `${clockHoursEmojies[j++]} Job's running: \`[${loadingMarks[i++]}]\`  🧙` });
+        }, 250);
     }
 });
