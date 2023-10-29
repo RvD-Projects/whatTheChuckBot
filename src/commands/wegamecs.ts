@@ -44,7 +44,7 @@ export default new Command({
             })
         });
 
-        let i,j = 0;
+        let i,j = 1;
         let interval = setInterval(async () => {
             i = i == 10 ? -1 : i;
             j = j>=  clockHoursEmojies.length ? -1 : j;
