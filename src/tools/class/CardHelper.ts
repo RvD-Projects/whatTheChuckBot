@@ -12,18 +12,15 @@ export class CardHelper {
      * @param cardData per-user data if any
      * @returns 
      */
-    public async render(member: GuildMember | PartialGuildMember, cardData?: any) {
+    public async render(member: GuildMember | PartialGuildMember, textTitle:string, textMessage:string) {
+        if (!member || member.user.bot) return;
+        
         const card = new Canvas.Welcome();
         card.setUsername(member.displayName)
             .setAvatar(member.user.displayAvatarURL({ forceStatic: true, extension: ALLOWED_EXTENSIONS[1] }))
             .setGuildName(member.guild.name)
             .setMemberCount(member.guild.memberCount)
             .setDiscriminator(member.guild.memberCount);
-
-        card.textTitle = cardData?.getTitle
-            ? cardData.getTitle({ member }) : "Welcome";
-        card.textMessage = cardData?.getMsg
-            ? cardData.getMsg({ member }) : `Welcome to ${member.guild.name}`;
 
         theme.setRndWelcomeStyle(card);
         const image = await card.toAttachment();

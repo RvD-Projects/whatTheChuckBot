@@ -6,9 +6,9 @@ export const guildsChannels = [
             channelId: null,
             card: {
                 getTitle: () => "Welcome !!!",
-                getMsg: (params:any) => "We are glad to have you here!"
+                getMsg: (params: any) => "We are glad to have you here!"
             },
-            getMsg: (params:any) => `🤖  Greetings <@${params.member.id}> ! ⚡👾`
+            getContent: (params: any) => `🤖  Greetings <@${params.member.id}> ! ⚡👾`
         },
         goodbye: {
             channelId: null,
@@ -16,7 +16,7 @@ export const guildsChannels = [
                 getTitle: () => "Bye bye",
                 getMsg: () => "We'll miss him / her!"
             },
-            getMsg: (params:any) => `🤖  Say goddbye to <@${params.member.id}> ! 😢👾`
+            getContent: (params: any) => `🤖  Say goddbye to <@${params.member.id}> ! 😢👾`
         }
     },
     {
@@ -24,11 +24,7 @@ export const guildsChannels = [
         guildId: "770057600867237898",
         welcome: {
             channelId: "1088581487470850140",
-            card: {
-                getTitle: null,
-                getMsg: null
-            },
-            getMsg: (params: any) => {
+            getContent: (params: any) => {
                 return `🖥️ 🤖  Greetings <@${params.member.id}> ! ⚡  Contact <@258071819108614144> if you need any help needed !👾  🖥️\n
         - Informations et channel Français plus bas -  Contactez <@258071819108614144>  au besoin !
         - Información y canal Espanol mas abajo - ¡ Contacte a <@312456737070252034> si es necesario !`;
@@ -36,11 +32,7 @@ export const guildsChannels = [
         },
         goodbye: {
             channelId: "1086738313689440276",
-            card: {
-                getTitle: null,
-                getMsg: null
-            },
-            getMsg: (params: any) => {
+            getContent: (params: any) => {
                 return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
             }
         }
@@ -50,11 +42,7 @@ export const guildsChannels = [
         guildId: "1166437263543128144",
         welcome: {
             channelId: "1166437265501847584",
-            card: {
-                getTitle: null,
-                getMsg: null
-            },
-            getMsg: (params: any) => {
+            getContent: (params: any) => {
                 return `🖥️ 🤖  Greetings <@${params.member.id}> ! ⚡  Welcome to CS2-CustomsMaps's Discord! You'll find Custom Maps and Custom CS2 Servers over here! GLHF!👾  🖥️\n`;
             }
         },
@@ -64,15 +52,15 @@ export const guildsChannels = [
                 getTitle: () => "Bye bye",
                 getMsg: () => "We'll miss him / her!"
             },
-            getMsg: (params: any) => {
+            getContent: (params: any) => {
                 return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
             }
         }
     },
     {
         guildId: "770057600867237898",
-        welcomeChannelId: "1088581487470850140",
-        removeChannelId: "1086738313689440276",
+        welcome: { channelId: "1088581487470850140" },
+        goodbye: { channelId: "1088581487470850140" }
     },
 ];
 
