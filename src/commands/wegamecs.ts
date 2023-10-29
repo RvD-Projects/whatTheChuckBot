@@ -32,25 +32,27 @@ export default new Command({
         const execProcess = ShellProcess.shellExec("./shells/bash/manageCsDocker.sh", [`${serverFlag}`, `${commandFlag}`]);
         await interaction.reply({ content: "✅ Job was launched, wait for results... 🧙", ephemeral: true });
 
-        execProcess.on('close', async (code: number, args: any[]) => {
-            console.log(`shellExec on close code: ${code} args: ${args}`);
-            const reply = code == 0
-                ? "❌✅ Job's terminated sucessfully! 🧙"
-                : "❌✅ Job's terminated with error! 🧙";
+        setTimeout(() => {
+            let i: number = 0, j: number = 0;
+            let interval = setInterval(async () => {
+                i = i > loadingMarks.length - 1 ? 0 : i;
+                j = j > clockHoursEmojies.length - 1 ? 0 : j;
 
-            setTimeout(async () => {
-                clearInterval(interval);
-                await interaction.editReply({ content: reply });
-            })
-        });
+                const prct = "`[" + loadingMarks[i++] + "]`";
+                await interaction.editReply({ content: `${clockHoursEmojies[j++]} Job's running: ${prct} 🧙` });
+            }, 516);
 
-        let i: number = 0, j: number = 0;
-        let interval = setInterval(async () => {
-            i = i > loadingMarks.length - 1 ? 0 : i;
-            j = j > clockHoursEmojies.length - 1 ? 0 : j;
+            execProcess.on('close', async (code: number, args: any[]) => {
+                console.log(`shellExec on close code: ${code} args: ${args}`);
+                const reply = code == 0
+                    ? "✅ Job's terminated sucessfully! 🧙"
+                    : "❌ Job's terminated with error! 🧙";
 
-            const prct = "`[" + loadingMarks[i++] + "]`";
-            await interaction.editReply({ content: `${clockHoursEmojies[j++]} Job's running: ${prct} 🧙` });
-        }, 516);
+                setTimeout(async () => {
+                    clearInterval(interval);
+                    await interaction.editReply({ content: reply });
+                }, 3000)
+            });
+        }, 3000);
     }
 });
