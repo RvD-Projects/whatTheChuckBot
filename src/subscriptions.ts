@@ -125,10 +125,10 @@ const subscriptions = {
           name: "@HarryMack",
           url: "https://www.youtube.com/@HarryMack/videos",
         },
-        {
-          name: "@HarryMack-Clips",
-          url: "https://www.youtube.com/@HarryMackClips/videos",
-        },
+        // {
+        //   name: "@HarryMack-Clips",
+        //   url: "https://www.youtube.com/@HarryMackClips/videos",
+        // },
         {
           name: "@MarcRebillet-WeOutside",
           url: "https://www.youtube.com/playlist?list=PL_AprguVzvxHdlFAvJp6LXW2WLvNPe6m7",
