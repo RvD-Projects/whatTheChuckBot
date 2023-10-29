@@ -49,6 +49,6 @@ export default new Command({
             i = i > loadingMarks.length - 1 ? 0 : i;
             j = j > clockHoursEmojies.length - 1 ? 0 : j;
             await interaction.editReply({ content: `${clockHoursEmojies[j++]} Job's running: \`[${loadingMarks[i++]}]\`  🧙` });
-        }, 250);
+        }, 516);
     }
 });
