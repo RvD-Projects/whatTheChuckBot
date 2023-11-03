@@ -1,5 +1,6 @@
 require('dotenv').config();
 import SentryHelper from "./class/SentryHelper";
+import OpenAI from 'openai';
 
 import { ExtendedClient } from "./class/Client";
 import { CardHelper } from "./tools/class/CardHelper";
@@ -8,6 +9,8 @@ import { YoutubeFetcher } from "./tools/class/YoutubeFetcher";
 
 export const sentryHelper = new SentryHelper().init();
 export const client = new ExtendedClient;
+
+export const openAI = new OpenAI();
 export const theme = new ThemeHelper;
 export const newCard = new CardHelper;
 export const ytFetch = new YoutubeFetcher;

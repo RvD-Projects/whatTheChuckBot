@@ -15,7 +15,9 @@ import {
     Interaction,
     ClientEvents,
     ThreadChannelType,
-    ApplicationCommandDataResolvable
+    ApplicationCommandDataResolvable,
+    GatewayIntentBits,
+    Partials
 } from "discord.js";
 import { client, ytFetch } from "..";
 import { PathLike } from "fs";
@@ -34,7 +36,15 @@ export class ExtendedClient extends Client {
     applogger: AppLogger = new AppLogger('app', process.env.botToken, 'warn');
 
     constructor() {
-        super({ intents: 32767 });
+        super({
+            intents: [
+                GatewayIntentBits.DirectMessages,
+                GatewayIntentBits.Guilds,
+                GatewayIntentBits.GuildMessages,
+                GatewayIntentBits.MessageContent,
+            ],
+            partials: [Partials.Channel],
+        });
     }
 
     async start() {
