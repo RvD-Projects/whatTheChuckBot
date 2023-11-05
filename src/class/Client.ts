@@ -38,10 +38,15 @@ export class ExtendedClient extends Client {
     constructor() {
         super({
             intents: [
-                GatewayIntentBits.DirectMessages,
                 GatewayIntentBits.Guilds,
+                GatewayIntentBits.GuildInvites,
+                GatewayIntentBits.GuildMembers,
                 GatewayIntentBits.GuildMessages,
+                GatewayIntentBits.GuildPresences,
+                GatewayIntentBits.GuildIntegrations,
                 GatewayIntentBits.MessageContent,
+                GatewayIntentBits.DirectMessages,
+                GatewayIntentBits.DirectMessages
             ],
             partials: [Partials.Channel],
         });
@@ -66,11 +71,9 @@ export class ExtendedClient extends Client {
 
         // Commands
         const slashCommands = await this.getSlashCommandsFromDir(`${__dirname}/../commands/`);
-
-
-        this.on("ready", async () => {
+        this.on("ready", () => {
             let ids = process.env.guildIds.split(',');
-            await ids.forEach(id => {
+            ids.forEach(id => {
                 this.registerCommands({
                     commands: slashCommands,
                     guildId: id
@@ -175,7 +178,6 @@ export class ExtendedClient extends Client {
             .catch(e => console.error(e));
 
         await eventFiles.forEach(async (filePath) => {
-
             const regex = /^[^.]+\.js$|^[^.]+\.ts$/gm;
             let match = regex.exec(filePath);
             if (!match) return;
@@ -183,6 +185,8 @@ export class ExtendedClient extends Client {
             const event: Event<keyof ClientEvents> = await this.importFile(
                 filePath
             );
+
+            console.log("registering", filePath);
             this.on(event.event, event.run);
         });
     }
