@@ -56,12 +56,7 @@ export const guildsChannels = [
                 return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
             }
         }
-    },
-    {
-        guildId: "770057600867237898",
-        welcome: { channelId: "1088581487470850140" },
-        goodbye: { channelId: "1088581487470850140" }
-    },
+    }
 ];
 
 export function getById(guildId: string) {
