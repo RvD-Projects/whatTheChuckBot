@@ -44,6 +44,11 @@ export class YoutubeFetcher extends HttpFetcher {
                 return;
             }
 
+            if (newJsonEntry.url.includes(" ")) {
+                console.log(`Url: ${newJsonEntry.url} was malformated...`);
+                return;
+            }
+
             fileObj.scraps = entryTable;
             fileObj.scraps.push(newJsonEntry);
 
