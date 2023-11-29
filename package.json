@@ -18,7 +18,7 @@
     "sentry:ci": "sentry-cli sourcemaps inject --org rvdprojects --project what-the-chuck ./dist && sentry-cli sourcemaps upload --org rvdprojects --project what-the-chuck ./dist"
   },
   "dependencies": {
-    "@sentry/cli": "^2.20.5",
+    "@sentry/cli": "^2.21.3",
     "@sentry/node": "^7.76.0",
     "discord-canvas": "^1.5.2",
     "discord.js": "^14.14.0",
