@@ -6,6 +6,7 @@ import { clockHoursEmojis, loadingMarks } from "../constants/emojis";
 
 export default new Command({
     name: "wegamecs",
+    public: false,
     description: "Will do as you wish.",
     options: [
         {

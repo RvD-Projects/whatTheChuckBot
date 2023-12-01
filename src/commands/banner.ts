@@ -6,6 +6,7 @@ import { getById } from "../tools/guildsChannels";
 
 export default new Command({
     name: "banner",
+    public: true,
     description: "Will send a banner.",
     options: [
         {

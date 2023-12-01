@@ -31,9 +31,9 @@ import { RegisterCommandsOptions } from "../typings/client";
 
 export class ExtendedClient extends Client {
     commands: Collection<string, CommandType> = new Collection();
-    clientsloggers: Collection<string, AppLogger> = new Collection();
-    devlogger: AppLogger = new AppLogger('dev', process.env.botToken);
-    applogger: AppLogger = new AppLogger('app', process.env.botToken, 'warn');
+    clientsLoggers: Collection<string, AppLogger> = new Collection();
+    devLogger: AppLogger = new AppLogger('dev', process.env.botToken);
+    appLogger: AppLogger = new AppLogger('app', process.env.botToken, 'warn');
 
     constructor() {
         super({
@@ -70,12 +70,14 @@ export class ExtendedClient extends Client {
         await this.registerEventListerFromDir(`${__dirname}/../events/`);
 
         // Commands
-        const slashCommands = await this.getSlashCommandsFromDir(`${__dirname}/../commands/`);
+        const { publics, privates } = await this.getSlashCommandsFromDir(`${__dirname}/../commands/`);
+
         this.on("ready", () => {
-            let ids = process.env.guildIds.split(',');
+            this.registerCommands({commands: publics});
+            const ids = process.env.guildIds.split(',');
             ids.forEach(id => {
                 this.registerCommands({
-                    commands: slashCommands,
+                    commands: privates,
                     guildId: id
                 });
                 this.addClientLogger(id);
@@ -87,27 +89,27 @@ export class ExtendedClient extends Client {
 
         this.on('interactionCreate', (i) => {
             let id = i?.guildId;
-            if (this.clientsloggers?.has(id)) {
-                let clientLogger = this.clientsloggers.get(id).logger;
+            if (this.clientsLoggers?.has(id)) {
+                let clientLogger = this.clientsLoggers.get(id).logger;
                 this.clientInteractionInfos(i, clientLogger);
             }
         });
 
         this.on("debug", (m) => {
             console.debug(m);
-            this.devlogger?.logger?.info(m);
+            this.devLogger?.logger?.info(m);
         });
 
         this.on("warn", (m) => {
             console.warn(m);
-            this.applogger?.logger?.warn(m);
-            this.devlogger?.logger?.warn(m);
+            this.appLogger?.logger?.warn(m);
+            this.devLogger?.logger?.warn(m);
         });
 
         this.on("error", (m) => {
             console.error(m);
-            this.applogger?.logger?.error(m);
-            this.devlogger?.logger?.error(m);
+            this.appLogger?.logger?.error(m);
+            this.devLogger?.logger?.error(m);
         });
     }
 
@@ -115,19 +117,16 @@ export class ExtendedClient extends Client {
         if (guildId) {
             this.guilds.cache.get(guildId)?.commands.set(commands);
             this.emit('warn', `Registering ${commands.length} commands to ${guildId}`);
-        } else {
-            this.application?.commands.set(commands);
-            this.emit('warn', "Registering ${commands.length} global commands");
+            return;
         }
-    }
 
-    resolveLogtoClient(id: string, message: string) {
-        this.logToClient(id, message);
+        this.application?.commands.set(commands);
+        this.emit('warn', "Registering ${commands.length} global commands");
     }
 
     addClientLogger(id: string) {
-        if (!this.clientsloggers?.has(id)) {
-            this.clientsloggers.set(id, new AppLogger('client', id, 'info'));
+        if (!this.clientsLoggers?.has(id)) {
+            this.clientsLoggers.set(id, new AppLogger('client', id, 'info'));
             this.emit('debug', `Your Client-logger: is online!`);
             this.emit('warn', `Client-logger ${id}: is online!`);
         }
@@ -138,15 +137,16 @@ export class ExtendedClient extends Client {
     }
 
     logToClient(id: string, message: string) {
-        if (this.clientsloggers?.has(id)) {
+        if (this.clientsLoggers?.has(id)) {
             this.emit('debug', `Login to client ${id}: ` + message)
-            this.clientsloggers.get(id).logger.info(message);
+            this.clientsLoggers.get(id).logger.info(message);
         }
     }
 
     async getSlashCommandsFromDir(dirPath: PathLike) {
 
-        const slashCommands: ApplicationCommandDataResolvable[] = [];
+        const publics: CommandType[] = [];
+        const privates: CommandType[] = [];
 
         // Get all files from commands _dir
         const commandFiles = await this.getFiles(dirPath)
@@ -165,9 +165,12 @@ export class ExtendedClient extends Client {
 
             this.emit('debug', JSON.stringify(command));
             this.commands.set(command.name, command);
-            slashCommands.push(command);
+            command.public
+                ? publics.push(command)
+                : privates.push(command);
         });
-        return await slashCommands;
+
+        return { publics, privates };
     }
 
     async registerEventListerFromDir(dirPath: PathLike) {
@@ -224,10 +227,10 @@ export class ExtendedClient extends Client {
     }
 
     async getFiles(dir) {
-        const subdirs = await readdir(dir);
+        const subDirs = await readdir(dir);
 
-        const files = await Promise.all(subdirs.map(async (subdir) => {
-            const res = resolve(dir, subdir);
+        const files = await Promise.all(subDirs.map(async (subDir) => {
+            const res = resolve(dir, subDir);
             return (await stat(res)).isDirectory() ? this.getFiles(res) : res;
         }));
         return await files.reduce((a, f) => a.concat(f), []);

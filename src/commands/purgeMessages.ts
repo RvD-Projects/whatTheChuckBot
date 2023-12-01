@@ -6,6 +6,7 @@ import { Console } from "console";
 
 export default new Command({
     name: "purge-messages",
+    public: true,
     description: "Will delete as many messages as possible in the given channel.",
     options: [
         {

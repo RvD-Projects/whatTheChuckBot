@@ -3,6 +3,7 @@ import { Command } from "../class/Command";
 
 export default new Command({
     name: "help",
+    public: true,
     description: "Will display help for commands. (this)",
     run: async ({ interaction }) => {
         if (interaction.member.user.bot) return;
