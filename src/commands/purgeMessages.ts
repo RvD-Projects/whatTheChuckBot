@@ -46,7 +46,7 @@ export default new Command({
 
             }, 500);
 
-            const fetOptions = {cache:false, before: Date.now().toString()};
+            const fetOptions = {cache:false, before: channel.lastMessageId, limit: 100};
             let messages = await channel.messages.fetch(fetOptions);
             while (messages?.size > 0) {
                 messages.forEach(async msg => {
