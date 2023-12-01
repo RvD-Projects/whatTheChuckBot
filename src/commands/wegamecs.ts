@@ -2,11 +2,11 @@ import { ApplicationCommandOptionType } from "discord.js";
 import { Command } from "../class/Command";
 import { env } from "process";
 import ShellProcess from "../tools/class/ShellProcess";
-import { clockHoursEmojies, loadingMarks } from "../constants/emojies";
+import { clockHoursEmojis, loadingMarks } from "../constants/emojis";
 
 export default new Command({
     name: "wegamecs",
-    description: "Will do whatchu gotta do.",
+    description: "Will do as you wish.",
     options: [
         {
             name: "server", description: "(default) 0: cs2-WeConnected-ns1, 1: cs2-rafux-ns1",
@@ -35,7 +35,7 @@ export default new Command({
         execProcess.on('close', async (code: number, args: any[]) => {
             console.log(`shellExec on close code: ${code} args: ${args}`);
             const reply = code == 0
-                ? "✅ Job's terminated sucessfully! 🧙"
+                ? "✅ Job's terminated successfully! 🧙"
                 : "❌ Job's terminated with error! 🧙";
 
             setTimeout(async () => {
@@ -47,11 +47,11 @@ export default new Command({
         let i: number = 0, j: number = 0;
         let interval = setInterval(async () => {
             i = i > loadingMarks.length - 1 ? 0 : i;
-            j = j > clockHoursEmojies.length - 1 ? 0 : j;
+            j = j > clockHoursEmojis.length - 1 ? 0 : j;
 
-            const prct = "`[" + loadingMarks[i++] + "]`";
-            const face = i %3 != 0 ? "😔" :  "😴";
-            await interaction.editReply({ content: `${clockHoursEmojies[j++]} Job's running: ${prct} ${face}` });
-        }, 516);
+            const percent = "`[" + loadingMarks[i++] + "]`";
+            const face = i % 3 != 0 ? "😔" : "😴";
+            await interaction.editReply({ content: `${clockHoursEmojis[j++]} Job's running: ${percent} ${face}` });
+        }, 500);
     }
 });
