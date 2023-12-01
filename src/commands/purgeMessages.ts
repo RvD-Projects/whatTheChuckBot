@@ -45,7 +45,8 @@ export default new Command({
 
             }, 500);
 
-            let messages = await channel.messages.fetch({cache:true});
+            const fetOptions = {cache:false, before: Date.now().toString()};
+            let messages = await channel.messages.fetch(fetOptions);
             while (messages?.size > 0) {
                 messages.forEach(async msg => {
                     try {
@@ -67,7 +68,7 @@ export default new Command({
                     }
                 });
 
-                messages = await channel.messages.fetch({cache:true});
+                messages = await channel.messages.fetch(fetOptions);
             }
 
             clearInterval(interval);
