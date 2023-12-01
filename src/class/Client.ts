@@ -121,7 +121,7 @@ export class ExtendedClient extends Client {
         }
 
         this.application?.commands.set(commands);
-        this.emit('warn', "Registering ${commands.length} global commands");
+        this.emit('warn', `Registering ${commands.length} global commands`);
     }
 
     addClientLogger(id: string) {
