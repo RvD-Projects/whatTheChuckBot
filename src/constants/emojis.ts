@@ -1,4 +1,4 @@
-export const clockHoursEmojies = [
+export const clockHoursEmojis = [
     "🕛",  // 12:00
     "🕐",  // 1:00
     "🕑",  // 2:00
