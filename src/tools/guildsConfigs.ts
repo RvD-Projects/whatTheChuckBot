@@ -38,7 +38,7 @@ export const guildsConfigs = [
                 getTitle: () => "Bye bye",
                 getMsg: () => "We'll miss him / her!"
             },
-            getContent: (params: any) => `🤖  Say goddbye to <@${params.member.id}> ! 😢👾`
+            getContent: (params: any) => `🤖  Say goodbye to <@${params.member.id}> ! 😢👾`
         },
         cs2RconChannels: {
             "1185347837026914304": {
