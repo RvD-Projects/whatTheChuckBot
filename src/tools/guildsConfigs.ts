@@ -43,7 +43,7 @@ export const guildsConfigs = [
         cs2RconChannels: {
             "1185347837026914304": {
                 port: 27016,
-                ip: "192.168.1.128",
+                ip: "rvdprojects.synology.me",
                 password: env["RCON_PASS_192_168_1_128_27016"],
                 region: "US_EAST",
             }
@@ -89,7 +89,7 @@ export const guildsConfigs = [
         cs2RconChannels: {
             "1185376233433862214": {
                 port: 27016,
-                ip: "192.168.1.128",
+                ip: "rvdprojects.synology.me",
                 password: env["RCON_PASS_192_168_1_128_27016"],
                 region: "US_EAST",
             }
