@@ -46,6 +46,13 @@ export const guildsConfigs = [
                 ip: "rvdprojects.synology.me",
                 password: env["RCON_PASS_192_168_1_128_27016"],
                 region: "US_EAST",
+            },
+            "1185593961541275698": {
+                dev:true,
+                port: 27016,
+                ip: "rvdprojects.synology.me",
+                password: env["RCON_PASS_192_168_1_128_27016"],
+                region: "US_EAST",
             }
         }
     },

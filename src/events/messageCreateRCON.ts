@@ -2,8 +2,11 @@ import { Event } from "../class/Event";
 import { Server, RCON, MasterServer } from '@fabricio-191/valve-server-query';
 import { getGuildConfigsById } from "../tools/guildsConfigs";
 import { textToLines, toSafeJsonString } from "../tools/myFunctions";
+import { env } from "process";
+import { HttpFetcher } from "../tools/class/HttpFetcher";
 
 
+// https://www.ghostcap.com/cs2-commands/
 // https://www.npmjs.com/package/@fabricio-191/valve-server-query
 export default new Event("messageCreate", async (message) => {
   if (!message?.author || message.author.bot) return;
@@ -14,12 +17,16 @@ export default new Event("messageCreate", async (message) => {
       return;
     }
 
-    const configs = getGuildConfigsById(message.guildId.toString());
-    if (!configs?.cs2RconChannels[message.channelId.toString()]) {
+    const configs = getGuildConfigsById(message.guildId);
+    if (!configs?.cs2RconChannels[message.channelId]) {
       return;
     }
 
-    const serverConf = configs.cs2RconChannels[message.channelId.toString()];
+    const serverConf = configs.cs2RconChannels[message.channelId];
+    if (env.environment === 'dev' && !serverConf.dev) {
+      return;
+    }
+
     const connectionsParams = {
       ip: serverConf.ip,
       port: serverConf.port,
@@ -62,11 +69,15 @@ export default new Event("messageCreate", async (message) => {
         break;
     }
 
-    const outputs = textToLines(consoleOut, 1000);
+    const outputs = textToLines(consoleOut, 1800);
     message.channel.send('✅ Response:\n```' + outputs[0] + "```");
 
     for (let i = 1; i < outputs.length; i++) {
-      message.channel.send('- more:\n```' + outputs[i] + "```");
+      const prefix = i < outputs.length - 1
+        ? `- more \`(${i+1}/${outputs.length})\`:\n`
+        : `- last \`(${i+1}/${outputs.length})\`:\n`;
+
+        message.channel.send(prefix + '```' + outputs[i] + "```");
     }
 
   } catch (error) {

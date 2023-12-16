@@ -58,7 +58,7 @@ export class HttpFetcher {
     }
 
     async post(url: string, bodyJSON: string): Promise<any> {
-        this.fetchOptions.method = "GET";
+        this.fetchOptions.method = "POST";
         this.fetchOptions.body = bodyJSON
         return await this.fetch(url);
     }
