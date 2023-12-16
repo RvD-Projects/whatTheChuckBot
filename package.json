@@ -18,30 +18,31 @@
     "sentry:ci": "sentry-cli sourcemaps inject --org rvdprojects --project what-the-chuck ./dist && sentry-cli sourcemaps upload --org rvdprojects --project what-the-chuck ./dist"
   },
   "dependencies": {
-    "@sentry/cli": "^2.22.3",
-    "@sentry/node": "^7.84.0",
+    "@fabricio-191/valve-server-query": "^4.1.9",
+    "@sentry/cli": "^2.23.0",
+    "@sentry/node": "^7.88.0",
     "discord-canvas": "^1.5.2",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
     "fs-extra": "^11.2.0",
     "glob": "^10.3.10",
     "node-fetch": "^2.7.0",
-    "openai": "^4.20.1",
-    "pino": "^8.16.2",
+    "openai": "^4.22.0",
+    "pino": "^8.17.1",
     "youtubei.js": "^5.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.5",
+    "@babel/core": "^7.23.6",
     "@types/glob": "^8.1.0",
     "@types/jquery": "^3.5.29",
-    "@types/node": "^20.10.1",
+    "@types/node": "^20.10.4",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-uglify": "^3.0.2",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.3.2",
+    "typescript": "^5.3.3",
     "uglify-js": "^3.17.4"
   }
 }

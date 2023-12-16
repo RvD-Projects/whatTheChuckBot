@@ -2,7 +2,7 @@ import { ApplicationCommandOptionType, ChannelType, GuildMember, PartialGuildMem
 import { newCard } from "..";
 import { Command } from "../class/Command";
 import { DiscordManager } from "../class/DiscordManager";
-import { getById } from "../tools/guildsChannels";
+import { getGuildConfigsById } from "../tools/guildsConfigs";
 
 export default new Command({
     name: "banner",
@@ -52,8 +52,8 @@ export async function sendBanner(
 
     if (!member || member.user.bot) return;
 
-    const defConfigs = getById("default");
-    const guildConfigs = getById(member.guild.id) ?? defConfigs;
+    const defConfigs = getGuildConfigsById("default");
+    const guildConfigs = getGuildConfigsById(member.guild.id) ?? defConfigs;
 
     const data = type === "goodbye"
         ? (guildConfigs?.goodbye ?? defConfigs?.goodbye)

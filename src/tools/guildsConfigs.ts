@@ -1,4 +1,6 @@
-export const guildsChannels = [
+import { env } from "process";
+
+export const guildsConfigs = [
     {
         //Defaults
         guildId: "default",
@@ -16,7 +18,35 @@ export const guildsChannels = [
                 getTitle: () => "Bye bye",
                 getMsg: () => "We'll miss him / her!"
             },
+            getContent: (params: any) => `🤖  Say goodbye to <@${params.member.id}> ! 😢👾`
+        }
+    },
+    {
+        // RaFuX
+        guildId: "276931890735218689",
+        welcome: {
+            channelId: null,
+            card: {
+                getTitle: () => "Welcome !!!",
+                getMsg: (params: any) => "We are glad to have you here!"
+            },
+            getContent: (params: any) => `🤖  Greetings <@${params.member.id}> ! ⚡👾`
+        },
+        goodbye: {
+            channelId: null,
+            card: {
+                getTitle: () => "Bye bye",
+                getMsg: () => "We'll miss him / her!"
+            },
             getContent: (params: any) => `🤖  Say goddbye to <@${params.member.id}> ! 😢👾`
+        },
+        cs2RconChannels: {
+            "1185347837026914304": {
+                port: 27016,
+                ip: "192.168.1.128",
+                password: env["RCON_PASS_192_168_1_128_27016"],
+                region: "US_EAST",
+            }
         }
     },
     {
@@ -55,15 +85,22 @@ export const guildsChannels = [
             getContent: (params: any) => {
                 return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
             }
+        },
+        cs2RconChannels: {
+            "1185376233433862214": {
+                port: 27016,
+                ip: "192.168.1.128",
+                password: env["RCON_PASS_192_168_1_128_27016"],
+                region: "US_EAST",
+            }
         }
     }
 ];
 
-export function getById(guildId: string) {
-    for (let i = 0; i < guildsChannels.length; i++) {
-        const current = guildsChannels[i];
-        if (current.guildId === guildId) {
-            return current;
-        }
-    }
+export function getGuildConfigsById(guildId: string) {
+    const found = guildsConfigs.find((config) => {
+        return config.guildId === guildId;
+    });
+
+    return found;
 }
