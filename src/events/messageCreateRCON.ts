@@ -16,7 +16,7 @@ export default new Event("messageCreate", async (message) => {
 
     const configs = getGuildConfigsById(message.guildId.toString());
     if (!configs?.cs2RconChannels[message.channelId.toString()]) {
-      throw new Error("No cs2 configs found for this Discord® guild/channel.");
+      return;
     }
 
     const serverConf = configs.cs2RconChannels[message.channelId.toString()];
