@@ -16,12 +16,12 @@ export default new Event("messageCreate", async (message) => {
       return;
     }
 
-    const configs = getGuildConfigsById(message.guildId);
-    if (!configs?.cs2RconChannels[message.channelId]) {
+    const configs = getGuildConfigsById(message.guildId)?.cs2RconChannels;
+    if (!configs || !configs[message.channelId]) {
       return;
     }
 
-    const serverConf = configs.cs2RconChannels[message.channelId];
+    const serverConf = configs[message.channelId];
     if (env.environment === 'dev' && !serverConf.dev) {
       return;
     }
