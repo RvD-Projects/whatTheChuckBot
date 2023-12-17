@@ -1,4 +1,5 @@
 import path from 'path';
+import http from 'https';
 import https from 'https';
 import { readFileSync } from 'fs';
 
@@ -24,10 +25,17 @@ function setupServer(app: Express) {
         cert: readFileSync(path.join(__dirname, 'certs/server.cert')),
     };
 
-    const httpsServer = https.createServer(serverOptions, app);
-    httpsServer.listen(3434, () => {
+    const httpServer = http.createServer(app);
+    httpServer.listen(3434, () => {
         console.log("");
         console.warn(`|--------HTTPS Server listening on port 3434!--------|`);
+        console.log("");
+    });
+
+    const httpsServer = https.createServer(serverOptions, app);
+    httpsServer.listen(3438, () => {
+        console.log("");
+        console.warn(`|--------HTTPS Server listening on port 3438!--------|`);
         console.log("");
     });
 }
