@@ -11,11 +11,6 @@ export default new Event("messageCreate", async (message) => {
   if (!message?.author || message.author.bot) return;
 
   try {
-    const prompt = message.content.toString();
-    if (prompt.length >= 128) {
-      return;
-    }
-
     const configs = getGuildConfigsById(message.guildId)?.cs2RconChannels;
     if (!configs || !configs[message.channelId]) {
       return;
@@ -26,6 +21,12 @@ export default new Event("messageCreate", async (message) => {
       return;
     }
 
+    const prompt = message.content.toString();
+    if (prompt.length >= 128) {
+      message.author.send("❌ An error occurred: Rcon prompt must be 128 characters long max.");
+      return;
+    }
+
     const connectionsParams = {
       ip: serverConf.ip,
       port: serverConf.port,
@@ -33,7 +34,6 @@ export default new Event("messageCreate", async (message) => {
       password: null
     };
 
-    let rcon = null;
     let server = null;
     let consoleOut = "Silence is golden.";
 
@@ -69,19 +69,24 @@ export default new Event("messageCreate", async (message) => {
     }
 
     const outputs = textToLines(consoleOut, 1800);
-    message.channel.send('✅ Response:\n```' + outputs[0] + "```");
+    if (outputs.length === 0) {
+      message.channel.send("✅ Response:\n```" + "Done! (empty)" + "```");
+      return;
+    }
+
+    message.channel.send("✅ Response:\n```" + outputs[0] + "```");
 
     for (let i = 1; i < outputs.length; i++) {
       const prefix = i < outputs.length - 1
-        ? `- more \`(${i+1}/${outputs.length})\`:\n`
-        : `- last \`(${i+1}/${outputs.length})\`:\n`;
+        ? `- more \`(${i + 1}/${outputs.length})\`:\n`
+        : `- last \`(${i + 1}/${outputs.length})\`:\n`;
 
-        message.channel.send(prefix + '```' + outputs[i] + "```");
+      message.channel.send(prefix + "```" + outputs[i] + "```");
     }
 
   } catch (error) {
     console.error(error);
-    message.channel.send('❌ An error occurred:\n```' + error.message + "```");
+    message.channel.send("❌ An error occurred:\n```" + error.message + "```");
   }
 
 });
