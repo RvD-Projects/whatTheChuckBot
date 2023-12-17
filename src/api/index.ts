@@ -1,53 +1,50 @@
-import express, { NextFunction, Request, Response, Router } from 'express';
-import { body, validationResult } from 'express-validator';
-import { textToLines } from '../tools/myFunctions';
-import { getGuildConfigsById } from '../tools/guildsConfigs';
-import { client } from '..';
-import { TextBasedChannel } from 'discord.js';
+import express, { NextFunction, Request, Response } from 'express';
+import helmet from 'helmet';
+import { Express } from 'express-serve-static-core';
+import session from 'express-session';
+import { readFileSync } from 'fs';
+import path from 'path';
 
-/////////////////////////////////////
+import Cs2Router from './Http/Routers/Cs2Router';
 
-const router = Router();
-
-const taskValidationRules = [
-    body('title').notEmpty().withMessage('Title is required'),
-    body('description').notEmpty().withMessage('Description is required'),
-    body('completed').isBoolean().withMessage('Completed must be a boolean'),
-];
-
-
-// https://github.com/akzet1n/csgo-http-log-parser/blob/main/src/controllers/parser.controller.js
-router.post('/logs', async (req: Request, res: Response) => {
-    const guild = await client.guilds.fetch("276931890735218689");
-    let channel = await guild?.channels.fetch("1185639534780764242") as TextBasedChannel;
-    const isText = channel?.isTextBased ?? false;
-    if (!isText) {
-        return;
-    }
-
-    const outputs = textToLines(JSON.stringify(req.body), 1800);
-    for (let i = 0; i < outputs.length; i++) {
-        channel.send('```' + outputs[i] + "```");
-    }
-
-    return res.status(200).json({ message: "OK" });
-});
-
-/////////////////////////////////////
 
 export function initExpress() {
     const app = express();
+    setupAppConfigs(app);
+    setupRoutes(app);
+    setupServer(app);
+}
+
+function setupServer(app: Express) {
+    const serverOptions = {
+        // cert: readFileSync(path.join(__dirname, 'certs/host.crt')),
+        // key: readFileSync(path.join(__dirname, 'certs/host.key')),
+    }
+
+    const server = require('https').Server(serverOptions, app);
+    server.listen(3434, () => {
+        console.log(`Server running at http://localhost:3434`);
+    });
+}
+
+function setupAppConfigs(app: Express) {
+    app.disable('x-powered-by');
     app.use(express.json());
-    app.use('/cs2', router);
+    app.use(helmet());
 
+    app.set('trust proxy', 1);
+    app.use(session({
+        secret: 'igVg1iV2x7cyAPu',
+        name: 'wfEj9FcCiQOhmHD'
+    }));
+}
 
+function setupRoutes(app: Express) {
+    app.use('/cs2', Cs2Router);
     // Add this error handling middleware
     app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         console.error(err.stack);
         res.status(500).send('Something went wrong');
     });
-
-    app.listen(3434, () => {
-        console.log(`Server running at http://localhost:3434`);
-    });
 }
+

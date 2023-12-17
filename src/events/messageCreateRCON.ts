@@ -3,7 +3,6 @@ import { Server, RCON, MasterServer } from '@fabricio-191/valve-server-query';
 import { getGuildConfigsById } from "../tools/guildsConfigs";
 import { textToLines, toSafeJsonString } from "../tools/myFunctions";
 import { env } from "process";
-import { HttpFetcher } from "../tools/class/HttpFetcher";
 
 
 // https://www.ghostcap.com/cs2-commands/
