@@ -18,6 +18,6 @@
         "importHelpers": true,
         "sourceRoot": "/"
     },
-    "include": ["src", "environments.d.ts", "src/commands/.ts"],
+    "include": ["src", "environments.d.ts"],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }

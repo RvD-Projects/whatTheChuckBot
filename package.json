@@ -6,8 +6,9 @@
   "description": "A discord bot for welcoming cards",
   "author": "RVÐ",
   "license": "ISC",
+  "assets": "",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc && cp -r src/api/certs dist/api/",
     "start": "npm install && npm run build && npm run sentry:ci && node ./dist/index.js",
     "nodeDist": "node ./dist/index.ts",
     "start:dev": "ts-node-dev ./src/index.ts",
