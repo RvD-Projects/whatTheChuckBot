@@ -4,7 +4,7 @@
 > https://discord.com/developers/docs/intro
 ## DiscordJS:
 > https://discord.js.org/#/docs/main/stable/class/Client
-## DocekrDocs:
+## DockerDocs:
 >https://docs.docker.com/get-started/02_our_app/
 #
 ## TS - ChildProcess:
