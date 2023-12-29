@@ -15,7 +15,6 @@ import {
     Interaction,
     ClientEvents,
     ThreadChannelType,
-    ApplicationCommandDataResolvable,
     GatewayIntentBits,
     Partials
 } from "discord.js";
@@ -80,13 +79,11 @@ export class ExtendedClient extends Client {
                     commands: privates,
                     guildId: id
                 });
-                this.addClientLogger(id);
             });
         });
     }
 
     async registerBaseListener() {
-
         this.on('interactionCreate', (i) => {
             let id = i?.guildId;
             if (this.clientsLoggers?.has(id)) {
@@ -103,13 +100,11 @@ export class ExtendedClient extends Client {
         this.on("warn", (m) => {
             console.warn(m);
             this.appLogger?.logger?.warn(m);
-            this.devLogger?.logger?.warn(m);
         });
 
         this.on("error", (m) => {
             console.error(m);
             this.appLogger?.logger?.error(m);
-            this.devLogger?.logger?.error(m);
         });
     }
 

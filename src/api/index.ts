@@ -28,7 +28,7 @@ function setupServer(app: Express) {
     const httpServer = http.createServer(app);
     httpServer.listen(3434, () => {
         console.log("");
-        console.warn(`|--------HTTPS Server listening on port 3434!--------|`);
+        console.warn(`|--------HTTP Server listening on port 3434!--------|`);
         console.log("");
     });
 

@@ -1,3 +1,4 @@
+import { GuildMember } from "discord.js";
 import { env } from "process";
 
 export const guildsConfigs = [
@@ -19,6 +20,9 @@ export const guildsConfigs = [
                 getMsg: () => "We'll miss him / her!"
             },
             getContent: (params: any) => `🤖  Say goodbye to <@${params.member.id}> ! 😢👾`
+        },
+        cs2: {
+            dockerAccess: ['owner', 'admin']
         }
     },
     {
@@ -40,34 +44,36 @@ export const guildsConfigs = [
             },
             getContent: (params: any) => `🤖  Say goodbye to <@${params.member.id}> ! 😢👾`
         },
-        cs2RconChannels: {
-            "1185347837026914304": {
-                port: 27016,
-                ip: "rvdprojects.synology.me",
-                password: env["RCON_PASS_192_168_1_128_27016"],
-                region: "US_EAST",
+        cs2: {
+            rconChannels: {
+                "1185347837026914304": {
+                    port: 27016,
+                    ip: "rvdprojects.synology.me",
+                    password: env["RCON_PASS_192_168_1_128_27016"],
+                    region: "US_EAST",
+                },
+                "1185593961541275698": {
+                    dev: true,
+                    port: 27016,
+                    ip: "rvdprojects.synology.me",
+                    password: env["RCON_PASS_192_168_1_128_27016"],
+                    region: "US_EAST",
+                }
             },
-            "1185593961541275698": {
-                dev:true,
-                port: 27016,
-                ip: "rvdprojects.synology.me",
-                password: env["RCON_PASS_192_168_1_128_27016"],
-                region: "US_EAST",
-            }
-        },
-        cs2ChatChannels: {
-            "1185991869121957938": {
-                port: 27016,
-                ip: "rvdprojects.synology.me",
-                password: env["RCON_PASS_192_168_1_128_27016"],
-                region: "US_EAST",
-            },
-            "1185983351325200444": {
-                dev:true,
-                port: 27016,
-                ip: "rvdprojects.synology.me",
-                password: env["RCON_PASS_192_168_1_128_27016"],
-                region: "US_EAST",
+            chatChannels: {
+                "1185991869121957938": {
+                    port: 27016,
+                    ip: "rvdprojects.synology.me",
+                    password: env["RCON_PASS_192_168_1_128_27016"],
+                    region: "US_EAST",
+                },
+                "1185983351325200444": {
+                    dev: true,
+                    port: 27016,
+                    ip: "rvdprojects.synology.me",
+                    password: env["RCON_PASS_192_168_1_128_27016"],
+                    region: "US_EAST",
+                }
             }
         }
     },
@@ -108,24 +114,31 @@ export const guildsConfigs = [
                 return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
             }
         },
-        cs2RconChannels: {
-            "1185404438412808313": {
-                port: 27016,
-                ip: "rvdprojects.synology.me",
-                password: env["RCON_PASS_192_168_1_128_27016"],
-                region: "US_EAST",
+        cs2: {
+            dockerAccess: ["trusted player"],
+            rconChannels: {
+                "1185404438412808313": {
+                    port: 27016,
+                    ip: "rvdprojects.synology.me",
+                    password: env["RCON_PASS_192_168_1_128_27016"],
+                    region: "US_EAST",
+                }
+            },
+            chatChannels: {
+                "1185992702928621630": {
+                    port: 27016,
+                    ip: "rvdprojects.synology.me",
+                    password: env["RCON_PASS_192_168_1_128_27016"],
+                    region: "US_EAST",
+                }
             }
         },
-        cs2ChatChannels: {
-            "1185992702928621630": {
-                port: 27016,
-                ip: "rvdprojects.synology.me",
-                password: env["RCON_PASS_192_168_1_128_27016"],
-                region: "US_EAST",
-            }
-        }
     }
 ];
+
+export function getDefaultConfigs() {
+    return getGuildConfigsById('default');
+}
 
 export function getGuildConfigsById(guildId: string) {
     const found = guildsConfigs.find((config) => {
@@ -133,4 +146,32 @@ export function getGuildConfigsById(guildId: string) {
     });
 
     return found;
+}
+
+export function hasCs2DockerAccess(member: GuildMember) {
+    const guildId = member.guild.id;
+    const config = guildsConfigs.find((config) => {
+        return config.guildId === guildId;
+    });
+
+    if (!config) {
+        console.log("No config found.");
+        return null;
+    }
+
+    if (member.guild.ownerId === member.id) {
+        return true;
+    }
+
+    const accesses: String[] = getDefaultConfigs().cs2.dockerAccess
+        .concat(config.cs2.dockerAccess ?? []);
+
+    for (const role of member.roles.cache.values()) {
+        const name:string = role.name.toLowerCase();
+        if(accesses.includes(name)) {
+            return true;
+        }
+    }
+
+    return false;
 }

@@ -1,11 +1,11 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { Command } from "../class/Command";
-import { env } from "process";
 import ShellProcess from "../tools/class/ShellProcess";
 import { clockHoursEmojis, loadingMarks } from "../constants/emojis";
+import { getGuildConfigsById, hasCs2DockerAccess } from "../tools/guildsConfigs";
 
 export default new Command({
-    name: "wegamecs",
+    name: "cs-boot",
     public: false,
     description: "Will do as you wish.",
     options: [
@@ -21,16 +21,15 @@ export default new Command({
     run: async ({ interaction, args }) => {
         if (interaction.member.user.bot) return;
 
-        const managersIds = env.cs2ManagerId.split(',');
-        if (!managersIds.includes(interaction.member.user.id.toString())) {
+        if(!hasCs2DockerAccess(interaction.member)) {
             await interaction.reply({ content: "❌ You shall not pass! 🧙", ephemeral: true });
             return;
         }
 
         const serverFlag = args.getInteger("server", false) ?? "0";
         const commandFlag = args.getInteger("command", false) ?? "0";
-
         const execProcess = ShellProcess.shellExec("./shells/bash/manageCsDocker.sh", [`${serverFlag}`, `${commandFlag}`]);
+
         await interaction.reply({ content: "✅ Job was launched, wait for results... 🧙", ephemeral: true });
 
         execProcess.on('close', async (code: number, args: any[]) => {

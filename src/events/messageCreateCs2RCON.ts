@@ -1,5 +1,5 @@
 import { Event } from "../class/Event";
-import { Server, RCON, MasterServer } from '@fabricio-191/valve-server-query';
+import { Server, RCON } from '@fabricio-191/valve-server-query';
 import { getGuildConfigsById } from "../tools/guildsConfigs";
 import { textToLines, toSafeJsonString } from "../tools/myFunctions";
 import { env } from "process";
@@ -11,7 +11,7 @@ export default new Event("messageCreate", async (message) => {
   if (!message?.author || message.author.bot) return;
 
   try {
-    const configs = getGuildConfigsById(message.guildId)?.cs2RconChannels;
+    const configs = getGuildConfigsById(message.guildId)?.cs2?.rconChannels;
     if (!configs || !configs[message.channelId]) {
       return;
     }
