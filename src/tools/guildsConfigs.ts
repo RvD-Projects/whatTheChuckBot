@@ -133,7 +133,15 @@ export const guildsConfigs = [
                 }
             }
         },
+    },
+    //RC-505
+    {
+        guildId: "1197480594284756993",
+        goodbye: {
+            channelId: "1197687123373990038",
+        }
     }
+
 ];
 
 export function getDefaultConfigs() {
@@ -167,8 +175,8 @@ export function hasCs2DockerAccess(member: GuildMember) {
         .concat(config.cs2.dockerAccess ?? []);
 
     for (const role of member.roles.cache.values()) {
-        const name:string = role.name.toLowerCase();
-        if(accesses.includes(name)) {
+        const name: string = role.name.toLowerCase();
+        if (accesses.includes(name)) {
             return true;
         }
     }
