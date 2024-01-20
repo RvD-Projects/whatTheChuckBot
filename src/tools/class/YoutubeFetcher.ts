@@ -71,13 +71,13 @@ export class YoutubeFetcher extends HttpFetcher {
 
 
     async getVideos() {
-        subscriptions.servers.forEach(server => {
+        subscriptions.servers?.forEach(server => {
             if (server.devOnly && env.environment !== "prod") {
                 return;
             }
 
-            server.channels.forEach(async channel => {
-                channel.subs.forEach(async sub => {
+            server.channels?.forEach(async channel => {
+                channel.subs?.forEach(async sub => {
                     try {
                         const resp = await this.get(sub.url);
                         const text = await resp.text();
@@ -99,6 +99,7 @@ export class YoutubeFetcher extends HttpFetcher {
                 });
 
             });
+
         })
     }
 }
