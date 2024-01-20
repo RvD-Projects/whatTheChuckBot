@@ -10,13 +10,12 @@ var fsExtra = require('fs-extra');
 export class YoutubeFetcher extends HttpFetcher {
     linkParam = "watch?v=";
     baseUrl = "https://youtube.com/"
-    discordChannelId = "984305093010673684";
 
     getUrlTextLine(date, url) {
         return date.toLocaleDateString() + " " + date.toLocaleTimeString() + " | " + url
     }
 
-    async checkFileWriteAndPost(newJsonEntry: any, filePath: string, channelId: string, roleId: string, ytName: string) {
+    async checkFileWriteAndPost(newJsonEntry: any, filePath: string, server: any, channel: any, ytName: string) {
         fsExtra.ensureFileSync(filePath, err => {
             console.log(err);
         });
@@ -49,58 +48,57 @@ export class YoutubeFetcher extends HttpFetcher {
                 return;
             }
 
-            fileObj.scraps = entryTable;
+            fileObj.scraps.reverse().slice(0, 2).reverse();
             fileObj.scraps.push(newJsonEntry);
 
             const fileText = JSON.stringify(fileObj);
             await fs.writeFile(filePath, fileText, async () => {
-                const guild = await client.guilds.fetch("984305093010673684");
-                let channel = await guild?.channels.fetch(channelId) as TextBasedChannel;
-                const isText = channel?.isTextBased ?? false;
+                const guild = await client.guilds.fetch(server.id);
+                let txtChannel = await guild?.channels.fetch(channel.id) as TextBasedChannel;
+                const isText = txtChannel?.isTextBased ?? false;
                 if (!isText) {
                     return;
                 }
 
-                let message = `*Hey you <@&${roleId}>*\n`;
+                let message = `*Hey you <@&${channel.mentionRoleId}>*\n`;
                 message += `**${ytName}** released a new video recently! Feel free to watch it on YT:\n`;
                 message += newJsonEntry.url;
 
-                channel.send(message);
+                txtChannel.send(message);
             });
         });
     }
 
 
     async getVideos() {
-        if (env.environment !== "prod") {
-            return;
-        }
-        
-        subscriptions.channels.forEach(async channel => {
-            channel.subs.forEach(async sub => {
-                try {
-                    const resp = await this.get(sub.url);
-                    const text = await resp.text();
-                    const date = new Date();
+        subscriptions.servers.forEach(server => {
+            if (server.devOnly && env.environment !== "prod") {
+                return;
+            }
 
-                    const firstSplit = text?.split(this.linkParam)[1];
-                    const endTagPos = firstSplit?.search('",');
-                    const firstVideoTag = firstSplit?.slice(0, endTagPos);
-                    const url = this.baseUrl + this.linkParam + firstVideoTag;
-                    const line = this.getUrlTextLine(date, url);
+            server.channels.forEach(async channel => {
+                channel.subs.forEach(async sub => {
+                    try {
+                        const resp = await this.get(sub.url);
+                        const text = await resp.text();
+                        const date = new Date();
 
-                    console.warn(sub.name + " got scrapped --> ", line);
+                        const firstSplit = text?.split(this.linkParam)[1];
+                        const endTagPos = firstSplit?.search('",');
+                        const firstVideoTag = firstSplit?.slice(0, endTagPos);
+                        const url = this.baseUrl + this.linkParam + firstVideoTag;
+                        const line = this.getUrlTextLine(date, url);
 
-                    const filePath = `./data/youtube/${sub.name}.json`;
-                    const newEntry = { date: line.split(" | ")[0], url };
-                    await this.checkFileWriteAndPost(newEntry, filePath, channel.id, channel.mentionRoleId, sub.name);
+                        const newEntry = { date: line.split(" | ")[0], url };
+                        const filePath = `./data/youtube/${server.name}/${sub.name}.json`;
+                        await this.checkFileWriteAndPost(newEntry, filePath, server, channel, sub.name);
 
-                } catch (error) {
-                    console.error(error);
-                }
+                    } catch (error) {
+                        console.error(error);
+                    }
+                });
+
             });
-
-        });
+        })
     }
-
 }
