@@ -33,8 +33,8 @@ export class YoutubeFetcher extends HttpFetcher {
                 fileObj = {};
             }
 
-            const entryTable = fileObj.scraps ?? [];
-            const alreadyInFile = entryTable.filter(e => {
+            fileObj.scraps = fileObj.scraps ?? [];
+            const alreadyInFile = fileObj.scraps.filter(e => {
                 return e.url === newJsonEntry.url;
             });
 
@@ -53,18 +53,22 @@ export class YoutubeFetcher extends HttpFetcher {
 
             const fileText = JSON.stringify(fileObj);
             await fs.writeFile(filePath, fileText, async () => {
-                const guild = await client.guilds.fetch(server.id);
-                let txtChannel = await guild?.channels.fetch(channel.id) as TextBasedChannel;
-                const isText = txtChannel?.isTextBased ?? false;
-                if (!isText) {
-                    return;
+                try {
+                    const guild = await client.guilds.fetch(server.id);
+                    const txtChannel = await guild?.channels.fetch(channel.id) as TextBasedChannel;
+
+                    if (!txtChannel?.isTextBased ?? false) {
+                        return;
+                    }
+
+                    let message = `*Hey you <@&${channel.mentionRoleId}>*\n`;
+                    message += `**${ytName}** released a new video recently! Feel free to watch it on YT:\n`;
+                    message += newJsonEntry.url;
+
+                    txtChannel.send(message);
+                } catch (error) {
+                    console.error(error);
                 }
-
-                let message = `*Hey you <@&${channel.mentionRoleId}>*\n`;
-                message += `**${ytName}** released a new video recently! Feel free to watch it on YT:\n`;
-                message += newJsonEntry.url;
-
-                txtChannel.send(message);
             });
         });
     }
@@ -72,7 +76,7 @@ export class YoutubeFetcher extends HttpFetcher {
 
     async getVideos() {
         subscriptions.servers?.forEach(server => {
-            if (server.devOnly && env.environment !== "prod") {
+            if (server.devOnly && env.environment == "prod") {
                 return;
             }
 
