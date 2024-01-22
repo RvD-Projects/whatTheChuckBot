@@ -138,7 +138,7 @@ export const guildsConfigs = [
     {
         guildId: "1197480594284756993",
         goodbye: {
-            channelId: "1198758781052534796",
+            channelId: "1197687123373990038",
         }
     }
 
