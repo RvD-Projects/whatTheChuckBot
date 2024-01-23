@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@fabricio-191/valve-server-query": "^4.1.9",
-    "@sentry/cli": "^2.23.1",
+    "@sentry/cli": "^2.23.2",
     "@sentry/node": "^7.91.0",
     "@types/express-validator": "^3.0.0",
     "cors": "^2.8.5",
