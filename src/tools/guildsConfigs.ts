@@ -140,8 +140,29 @@ export const guildsConfigs = [
         goodbye: {
             channelId: "1197687123373990038",
         }
+    },
+    {
+        // StillNoCake
+        guildId: "1202439418204389417",
+        cs2: {
+            rconChannels: {
+                "1202439558952910871": {
+                    port: 27015,
+                    ip: "ts.stillnocake.com",
+                    password: env["RCON_PASS_STILL_NO_CAKE"],
+                    region: "US_EAST",
+                }
+            },
+            chatChannels: {
+                "1202440139083882527": {
+                    port: 27015,
+                    ip: "ts.stillnocake.com",
+                    password: env["RCON_PASS_STILL_NO_CAKE"],
+                    region: "US_EAST",
+                },
+            }
+        }
     }
-
 ];
 
 export function getDefaultConfigs() {
