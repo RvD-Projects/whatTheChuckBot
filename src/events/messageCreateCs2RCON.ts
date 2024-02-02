@@ -21,7 +21,7 @@ export default new Event("messageCreate", async (message) => {
     }
 
     const prompt = message.content.toString();
-    if (!handleSanityChecks(prompt, serverConf, message)) {
+    if (!handleSanityChecks(serverConf, prompt, message)) {
       return;
     }
 
