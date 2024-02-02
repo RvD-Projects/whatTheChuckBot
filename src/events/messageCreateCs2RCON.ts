@@ -94,8 +94,8 @@ function handleSanityChecks(serverConf, prompt: string, message) {
     return false;
   }
 
-  const filters = serverConf.cmdWhitelist;
-  if (!filters.length) {
+  const filters = serverConf?.cmdWhitelist;
+  if (!filters?.length) {
     return true;
   }
 
