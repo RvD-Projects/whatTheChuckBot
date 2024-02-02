@@ -83,9 +83,8 @@ export const guildsConfigs = [
         welcome: {
             channelId: "1088581487470850140",
             getContent: (params: any) => {
-                return `🖥️ 🤖  Greetings <@${params.member.id}> ! ⚡  Contact <@258071819108614144> if you need any help needed !👾  🖥️\n
-        - Informations et channel Français plus bas -  Contactez <@258071819108614144>  au besoin !
-        - Información y canal Espanol mas abajo - ¡ Contacte a <@312456737070252034> si es necesario !`;
+                return `🖥️ 🤖  Greetings <@${params.member.id}> ! ⚡  Contact <@258071819108614144> or <@691686714976239726> if you need any help!👾  🖥️\n
+        - Informations et channel Français plus bas -  Contactez <@258071819108614144> ou <@691686714976239726> au besoin !`;
             }
         },
         goodbye: {
