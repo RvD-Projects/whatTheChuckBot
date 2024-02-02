@@ -123,12 +123,25 @@ export const guildsConfigs = [
                     password: env["RCON_PASS_192_168_1_128_27016"],
                     region: "US_EAST",
                 },
+                "1203080698710196324": {
+                    port: 27016,
+                    ip: "rvdprojects.synology.me",
+                    password: env["RCON_PASS_192_168_1_128_27016"],
+                    region: "US_EAST",
+                    cmdWhitelist: ['map', 'exec', 'sv_gravity', 'host_workshop_map', 'bot_kick']
+                },
                 "1202829534144237619": {
                     port: 27017,
                     ip: "rvdprojects.synology.me",
                     password: env["RCON_PASS_192_168_1_128_27016"],
                     region: "US_EAST",
-                    cmdWhitelist: ['map', 'exec', 'sv_gravity', 'host_workshop_map']
+                },
+                "1203080769019584562": {
+                    port: 27017,
+                    ip: "rvdprojects.synology.me",
+                    password: env["RCON_PASS_192_168_1_128_27016"],
+                    region: "US_EAST",
+                    cmdWhitelist: ['map', 'exec', 'sv_gravity', 'host_workshop_map', 'bot_kick']
                 }
             },
             chatChannels: {
