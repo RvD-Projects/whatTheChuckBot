@@ -96,7 +96,7 @@ export const guildsConfigs = [
         }
     },
     {
-        //CS2-CustomMaps
+        //Smoking_Volcano
         guildId: "1166437263543128144",
         welcome: {
             channelId: "1166437265501847584",
@@ -122,6 +122,13 @@ export const guildsConfigs = [
                     ip: "rvdprojects.synology.me",
                     password: env["RCON_PASS_192_168_1_128_27016"],
                     region: "US_EAST",
+                },
+                "1202829534144237619": {
+                    port: 27017,
+                    ip: "rvdprojects.synology.me",
+                    password: env["RCON_PASS_192_168_1_128_27016"],
+                    region: "US_EAST",
+                    cmdWhitelist: ['map', 'exec', 'sv_gravity', 'host_workshop_map']
                 }
             },
             chatChannels: {

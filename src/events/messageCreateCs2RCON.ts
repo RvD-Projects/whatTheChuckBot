@@ -4,7 +4,6 @@ import { getGuildConfigsById } from "../tools/guildsConfigs";
 import { textToLines, toSafeJsonString } from "../tools/myFunctions";
 import { env } from "process";
 
-
 // https://www.ghostcap.com/cs2-commands/
 // https://www.npmjs.com/package/@fabricio-191/valve-server-query
 export default new Event("messageCreate", async (message) => {
@@ -22,8 +21,7 @@ export default new Event("messageCreate", async (message) => {
     }
 
     const prompt = message.content.toString();
-    if (prompt.length >= 128) {
-      message.author.send("❌ An error occurred: Rcon prompt must be 128 characters long max.");
+    if (!handleSanityChecks(prompt, serverConf, message)) {
       return;
     }
 
@@ -60,7 +58,6 @@ export default new Event("messageCreate", async (message) => {
         break;
 
       default:
-        // TODO: blacklist some prompts keywords
         connectionsParams.password = serverConf.password;
         const rcon = await RCON(connectionsParams);
         consoleOut = await rcon.exec(prompt);
@@ -90,3 +87,32 @@ export default new Event("messageCreate", async (message) => {
   }
 
 });
+
+function handleSanityChecks(serverConf, prompt: string, message) {
+  if (prompt?.length >= 128) {
+    message.author.send("❌ An error occurred: Rcon prompt must be 128 characters long max.");
+    return false;
+  }
+
+  const filters = serverConf.cmdWhitelist;
+  if (!filters.length) {
+    return true;
+  }
+
+  const split = prompt.split(" ");
+  const cmd = split[0];
+  const singleCmdArgOnly = /^\w+\s+\w+$/;
+
+  let isAllowed = filters.some((filter: any) => {
+    return cmd.startsWith(filter);
+  });
+
+  if (split.length === 1) {
+    return isAllowed;
+  }
+
+  isAllowed = isAllowed && singleCmdArgOnly.test(prompt);
+  !isAllowed && message.author.send("❌ An error occurred: Your prompt includes a command that is not allowed.");
+
+  return isAllowed;
+}
