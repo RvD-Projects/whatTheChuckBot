@@ -100,7 +100,7 @@ export const guildsConfigs = [
         welcome: {
             channelId: "1166437265501847584",
             getContent: (params: any) => {
-                return `🖥️ 🤖  Greetings <@${params.member.id}> ! ⚡  Welcome to CS2-CustomsMaps's Discord! You'll find Custom Maps and Custom CS2 Servers over here! GLHF!👾  🖥️\n`;
+                return `🌋 🔥 Greetings <@${params.member.id}>! 🌋 Welcome to S_Smoking V_Volcano's Discord! Here, you'll dive into a volcanic mix of gaming, from Palworld to Minecraft, CS2, and beyond, as we explore different games from time to time! Dive into the lava of gaming and have a blast! 🔥 GLHF! 🎮\n`;
             }
         },
         goodbye: {
