@@ -21,7 +21,7 @@ export default new Event("messageCreate", async (message) => {
     }
 
     const prompt = message.content.toString();
-    if (!handleSanityChecks(prompt, serverConf, message)) {
+    if (!handleSanityChecks(serverConf, prompt, message)) {
       return;
     }
 
@@ -94,8 +94,8 @@ function handleSanityChecks(serverConf, prompt: string, message) {
     return false;
   }
 
-  const filters = serverConf.cmdWhitelist;
-  if (!filters.length) {
+  const filters = serverConf?.cmdWhitelist;
+  if (!filters?.length) {
     return true;
   }
 
