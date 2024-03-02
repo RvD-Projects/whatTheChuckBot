@@ -23,6 +23,9 @@ export const guildsConfigs = [
         },
         cs2: {
             dockerAccess: ['owner', 'admin']
+        },
+        ollama: {
+            url: "http://localhost:11434/api"
         }
     },
     {
