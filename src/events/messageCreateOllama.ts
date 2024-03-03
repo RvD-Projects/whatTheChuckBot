@@ -31,20 +31,21 @@ export default new Event("messageCreate", async (message) => {
       return;
     }
 
+    await message.channel.sendTyping();
     const firstWord = msgContent.split(" ")[0];
     const model = getModelByPrefix(firstWord);
-    const responseStart = `[\`\`\`${model}\`\`\`]:\n`;
+    const responseStart = `\`[${model}]:\``;
 
     const prompt = msgContent.replace(firstWord + " ", '');
     const response = await chat(model, prompt, author, ollamaConfigs);
 
-    message.author.send(`${responseStart}${response}`);
+    await message.author.send(`${responseStart}${response}`);
 
   } catch (error) {
     if (error.type === 'request-timeout') {
       error.message = `Request timed out: Waited \`${timeout}ms\` and no response where given.`;
     }
-    message.author.send('❌Query error:\n' + error.message);
+    await message.author.send('❌Query error:\n' + error.message);
   }
 });
 
@@ -62,28 +63,27 @@ async function chat(model: string, prompt: string, author: User, configs: any): 
   const messages = messagesState.get(author.id) ?? [];
   messages.push({
     role: "user",
-    content: prompt,
-    images: null
+    content: prompt
   });
 
   const options = {
-    model: model ?? "llama2",
-    format: "json",
-    stream: false,
-    messages,
+    "model": model ?? "llama2",
+    "stream": false,
+    "messages": messages,
   };
 
   const response = await fetcher.post(`${configs.url}/chat`, JSON.stringify(options));
   const data = await response.json();
   const message = data?.message;
+  const text = message?.content;
 
-  if (!message) {
+  if (!text) {
     return "(void)";
   }
 
   messages.push(message);
   messagesState.set(author.id, messages);
-  return message.content;
+  return text;
 }
 
 /**
