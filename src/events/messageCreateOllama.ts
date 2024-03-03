@@ -1,19 +1,16 @@
+//https://github.com/ollama/ollama/blob/main/docs/api.md
+import { User } from "discord.js";
 import { Event } from "../class/Event";
 import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { getDefaultConfigs } from "../tools/guildsConfigs";
 
-const prefix: string = 'ai:';
+const timeout = 30000;
+const prefix: string = 'ai';
 const resetPrefix: string = 'ai:stop';
-
-const fetcher = new HttpFetcher;
 const messagesState: Map<string, Array<any>> = new Map;
 
-const chatBody = {
-  model: "llama2",
-  format: "json",
-  stream: false,
-  messages: [],
-};
+const fetcher = new HttpFetcher;
+fetcher.setOption('timeout', timeout);
 
 export default new Event("messageCreate", async (message) => {
   if (!message?.author || message.author.bot) return;
@@ -26,55 +23,67 @@ export default new Event("messageCreate", async (message) => {
   }
 
   try {
-    const userId = message.author.id;
+    const author = message.author;
     const msgContent = message.content;
-    const messages = messagesState.get(userId) ?? [];
 
     if (msgContent === resetPrefix) {
-      messagesState.set(userId, []);
+      messagesState.set(author.id, []);
       return;
     }
 
     const firstWord = msgContent.split(" ")[0];
     const model = getModelByPrefix(firstWord);
+    const responseStart = `[\`\`\`${model}\`\`\`]:\n`;
 
-    const prompt = msgContent.replace(prefix, '');
-    messages.push({
-      role: "user",
-      content: prompt,
-      images: null
-    });
+    const prompt = msgContent.replace(firstWord + " ", '');
+    const response = await chat(model, prompt, author, ollamaConfigs);
 
-    const options = { ...chatBody, messages, model };
-    const response = await generate(options, userId, ollamaConfigs);
-
-    message.channel.send(`\`\`\`${response}\`\`\``);
+    message.author.send(`${responseStart}${response}`);
 
   } catch (error) {
-    console.error(error);
-    message.channel.send('❌An query error occurred:\n```' + error.message + "```");
+    if (error.type === 'request-timeout') {
+      error.message = `Request timed out: Waited \`${timeout}ms\` and no response where given.`;
+    }
+    message.author.send('❌Query error:\n' + error.message);
   }
 });
 
 /**
  * Function to chat with an AI model.
- * Will update the messagesState of the user.
+ * Will get and update the messages (state) of the user.
  * 
- * @param {*} options
- * @param {string} userId
+ * @param {string} model
+ * @param {string} prompt
+ * @param {User} author
  * @param {*} configs
- * @return {*}  {Promise<string>}
+ * @return {Promise<string>}
  */
-async function generate(options: any, userId: string, configs: any): Promise<string> {
-  const response = await fetcher.post(`${configs.url}/chat`, JSON.stringify(options));
-
-  messagesState.set(userId, response.message ?? {
-    "role": "assistant",
-    "content": "",
-    "image": null
+async function chat(model: string, prompt: string, author: User, configs: any): Promise<string> {
+  const messages = messagesState.get(author.id) ?? [];
+  messages.push({
+    role: "user",
+    content: prompt,
+    images: null
   });
 
-  return response?.message[0]?.content ?? "(void)";
+  const options = {
+    model: model ?? "llama2",
+    format: "json",
+    stream: false,
+    messages,
+  };
+
+  const response = await fetcher.post(`${configs.url}/chat`, JSON.stringify(options));
+  const data = await response.json();
+  const message = data?.message;
+
+  if (!message) {
+    return "(void)";
+  }
+
+  messages.push(message);
+  messagesState.set(author.id, messages);
+  return message.content;
 }
 
 /**
@@ -88,7 +97,7 @@ function getModelByPrefix(prefix: string): string {
     return "llama2";
   }
 
-  //TODO: Use a shortname associative listing
+  //TODO: Use a shortname associative listing (json)
 
   return prefix.split('-')[1] ?? "llama2";
 }

@@ -4,7 +4,8 @@ import { HeadersInit, Headers } from 'node-fetch';
 interface IAPIOptions {
     method: string,
     body: string,
-    headers: Headers
+    headers: Headers,
+    timeout: number
 }
 
 
@@ -18,9 +19,10 @@ export class HttpFetcher {
     };
 
     fetchOptions: IAPIOptions = {
+        timeout: 60000,
+        body: null,
         method: 'GET',
-        headers: new Headers(this.headerMetas),
-        body: null
+        headers: new Headers(this.headerMetas)
     };
 
     fetchUrl: string = "https://";
