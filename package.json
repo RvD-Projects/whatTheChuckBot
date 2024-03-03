@@ -35,7 +35,7 @@
     "helmet": "^7.1.0",
     "https": "^1.0.0",
     "node-fetch": "^2.7.0",
-    "openai": "^4.24.7",
+    "openai": "^4.26.0",
     "pino": "^8.17.2",
     "youtubei.js": "^5.8.0"
   },
