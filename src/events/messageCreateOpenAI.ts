@@ -2,8 +2,8 @@ import { openAI } from "..";
 import { Event } from "../class/Event";
 
 const conversationState: Map<string, string> = new Map()
-const prefix: string = '!ai';
-const resetPrefix: string = '!ai!';
+const prefix: string = '!oai';
+const resetPrefix: string = '!oai!';
 
 export default new Event("messageCreate", async (message) => {
   if (!message?.author || message.author.bot) return;

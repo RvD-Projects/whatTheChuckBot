@@ -4,8 +4,8 @@ import { getDefaultConfigs } from "../tools/guildsConfigs";
 
 const fetcher = new HttpFetcher;
 const contextStates: Map<string, object> = new Map()
-const prefix: string = '!ol';
-const resetPrefix: string = '!ol!';
+const prefix: string = '!okai';
+const resetPrefix: string = '!stopai';
 
 const defaultGenBody = {
   model: "llama2",
@@ -17,7 +17,7 @@ const defaultGenBody = {
 
 export default new Event("messageCreate", async (message) => {
   if (!message?.author || message.author.bot) return;
-  if (!message.content.startsWith(prefix)) return;
+  if (!message.content.toLowerCase().startsWith(prefix)) return;
 
   const ollamaConfigs = getDefaultConfigs()?.ollama;
   if (!ollamaConfigs || !ollamaConfigs?.url) {
@@ -51,7 +51,7 @@ async function generate(prompt: string, context: any, userId: string, configs: a
   options.prompt = prompt;
   options.context = context;
 
-  const responseObj = await fetcher.post(configs.url, JSON.stringify(options));
+  const responseObj = await fetcher.post(`${configs.url}/generate`, JSON.stringify(options));
   contextStates.set(userId, responseObj.context ?? []);
 
   return responseObj.response;
