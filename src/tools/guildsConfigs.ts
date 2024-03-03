@@ -25,7 +25,7 @@ export const guildsConfigs = [
             dockerAccess: ['owner', 'admin']
         },
         ollama: {
-            url: "http://localhost:11434/api"
+            url: "http://ctrlaidel.ddns.net:11434/api"
         }
     },
     {
