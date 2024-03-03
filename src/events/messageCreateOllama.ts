@@ -2,17 +2,17 @@ import { Event } from "../class/Event";
 import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { getDefaultConfigs } from "../tools/guildsConfigs";
 
-const fetcher = new HttpFetcher;
-const contextStates: Map<string, object> = new Map()
-const prefix: string = '!okai';
-const resetPrefix: string = '!stopai';
+const prefix: string = 'ai:';
+const resetPrefix: string = 'ai:stop';
 
-const defaultGenBody = {
+const fetcher = new HttpFetcher;
+const messagesState: Map<string, Array<any>> = new Map;
+
+const chatBody = {
   model: "llama2",
   format: "json",
-  context: [],
   stream: false,
-  prompt: null,
+  messages: [],
 };
 
 export default new Event("messageCreate", async (message) => {
@@ -27,15 +27,26 @@ export default new Event("messageCreate", async (message) => {
 
   try {
     const userId = message.author.id;
-    const context = contextStates.get(userId) ?? [];
+    const msgContent = message.content;
+    const messages = messagesState.get(userId) ?? [];
 
-    if (message.content === resetPrefix) {
-      contextStates.set(userId, []);
+    if (msgContent === resetPrefix) {
+      messagesState.set(userId, []);
       return;
     }
 
-    const prompt = message.content.replace(prefix, '');
-    const response = await generate(prompt, context, userId, ollamaConfigs);
+    const firstWord = msgContent.split(" ")[0];
+    const model = getModelByPrefix(firstWord);
+
+    const prompt = msgContent.replace(prefix, '');
+    messages.push({
+      role: "user",
+      content: prompt,
+      images: null
+    });
+
+    const options = { ...chatBody, messages, model };
+    const response = await generate(options, userId, ollamaConfigs);
 
     message.channel.send(`\`\`\`${response}\`\`\``);
 
@@ -45,14 +56,39 @@ export default new Event("messageCreate", async (message) => {
   }
 });
 
-// Function to interact with OpenAI and generate text
-async function generate(prompt: string, context: any, userId: string, configs: any): Promise<string> {
-  const options = { ...defaultGenBody };
-  options.prompt = prompt;
-  options.context = context;
+/**
+ * Function to chat with an AI model.
+ * Will update the messagesState of the user.
+ * 
+ * @param {*} options
+ * @param {string} userId
+ * @param {*} configs
+ * @return {*}  {Promise<string>}
+ */
+async function generate(options: any, userId: string, configs: any): Promise<string> {
+  const response = await fetcher.post(`${configs.url}/chat`, JSON.stringify(options));
 
-  const responseObj = await fetcher.post(`${configs.url}/generate`, JSON.stringify(options));
-  contextStates.set(userId, responseObj.context ?? []);
+  messagesState.set(userId, response.message ?? {
+    "role": "assistant",
+    "content": "",
+    "image": null
+  });
 
-  return responseObj.response;
+  return response?.message[0]?.content ?? "(void)";
+}
+
+/**
+ * Will check if the prefix contains a model name.
+ *
+ * @param {string} prefix
+ * @return {string} The parsed model name
+ */
+function getModelByPrefix(prefix: string): string {
+  if (!prefix.includes(':')) {
+    return "llama2";
+  }
+
+  //TODO: Use a shortname associative listing
+
+  return prefix.split('-')[1] ?? "llama2";
 }
