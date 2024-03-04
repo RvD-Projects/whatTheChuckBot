@@ -6,7 +6,7 @@ import { getDefaultConfigs } from "../tools/guildsConfigs";
 import { textToLines } from "../tools/myFunctions";
 
 const timeout = 30000;
-const prefix: string = 'ai';
+const prefix: string = 'ai:';
 const resetPrefix: string = 'ai:stop';
 const messagesState: Map<string, Array<any>> = new Map;
 
@@ -104,5 +104,5 @@ function getModelByPrefix(prefix: string): string {
 
   //TODO: Use a shortname associative listing (json)
 
-  return prefix.split('-')[1] ?? "llama2";
+  return prefix.split(':')[1] ?? "llama2";
 }
