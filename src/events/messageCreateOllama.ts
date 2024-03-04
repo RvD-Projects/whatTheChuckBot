@@ -104,5 +104,6 @@ function getModelByPrefix(prefix: string): string {
 
   //TODO: Use a shortname associative listing (json)
 
-  return prefix.split(':')[1]?.split(" ")[0] ?? "llama2";
+  const model = prefix.split(':')[1]?.split(" ")[0];
+  return model?.length ? model : "llama2";
 }
