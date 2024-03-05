@@ -36,7 +36,7 @@
     "https": "^1.0.0",
     "node-fetch": "^2.7.0",
     "openai": "^4.26.0",
-    "pino": "^8.17.2",
+    "pino": "^8.18.0",
     "youtubei.js": "^5.8.0"
   },
   "devDependencies": {
