@@ -4,11 +4,14 @@ import { Event } from "../class/Event";
 import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { getDefaultConfigs } from "../tools/guildsConfigs";
 import { textToLines } from "../tools/myFunctions";
+import { ollamaModels } from "../ollamaModels";
 
 const timeout = 30000;
 const prefix: string = 'ai:';
 const resetPrefix: string = 'ai:stop';
 const messagesState: Map<string, Array<any>> = new Map;
+const aiModels = ollamaModels;
+
 
 const fetcher = new HttpFetcher;
 fetcher.setOption('timeout', timeout);
@@ -35,6 +38,9 @@ export default new Event("messageCreate", async (message) => {
     await message.channel.sendTyping();
     const firstWord = msgContent.split(" ")[0];
     const model = getModelByPrefix(firstWord);
+
+
+
     const responseStart = `\`[${model}]:\``;
 
     const prompt = msgContent.replace(firstWord + " ", '');
@@ -103,7 +109,10 @@ function getModelByPrefix(prefix: string): string {
   }
 
   //TODO: Use a shortname associative listing (json)
+  const inputName = prefix.split(':')[1]?.split(" ")[0];
+  const modelFoundName = aiModels[inputName]?.name ?? "llama2";
 
-  const model = prefix.split(':')[1]?.split(" ")[0];
-  return model?.length ? model : "llama2";
+
+  return {modelFoundName, inputName};
+
 }
