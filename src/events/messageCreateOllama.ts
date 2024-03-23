@@ -53,6 +53,10 @@ export default new Event("messageCreate", async (message) => {
       author.send(lines[i]);
     }
 
+    const lines = textToLines(`${responseStart}${response}`, 1800);
+    for (let i = 0; i < lines.length; i++) {
+      author.send(lines[i]);
+    }
 
   } catch (error) {
     if (error.type === 'request-timeout') {
