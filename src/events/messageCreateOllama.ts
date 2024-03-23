@@ -3,9 +3,10 @@ import { User } from "discord.js";
 import { Event } from "../class/Event";
 import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { getDefaultConfigs } from "../tools/guildsConfigs";
+import { textToLines } from "../tools/myFunctions";
 
 const timeout = 30000;
-const prefix: string = 'ai';
+const prefix: string = 'ai:';
 const resetPrefix: string = 'ai:stop';
 const messagesState: Map<string, Array<any>> = new Map;
 
@@ -39,7 +40,11 @@ export default new Event("messageCreate", async (message) => {
     const prompt = msgContent.replace(firstWord + " ", '');
     const response = await chat(model, prompt, author, ollamaConfigs);
 
-    await message.author.send(`${responseStart}${response}`);
+    const lines = textToLines(`${responseStart}${response}`, 1800);
+    for (let i = 0; i < lines.length; i++) {
+      author.send(lines[i]);
+    }
+
 
   } catch (error) {
     if (error.type === 'request-timeout') {
@@ -99,5 +104,6 @@ function getModelByPrefix(prefix: string): string {
 
   //TODO: Use a shortname associative listing (json)
 
-  return prefix.split('-')[1] ?? "llama2";
+  const model = prefix.split(':')[1]?.split(" ")[0];
+  return model?.length ? model : "llama2";
 }
