@@ -583,10 +583,10 @@ export const ollamaModels = {
         "description": "This is a simple modelfile that acts as a english teacher.",
         "Latency": ""
     },
-    "python-coder": {
-        "name": "hub/kron/python-coder:latest",
+    "EMPTY99": {
+        "name": "empty",
         "id": 99,
-        "description": "Using phind-codellama and primed to excel at Python Coding.",
+        "description": "",
         "Latency": ""
     },
     "based": {
@@ -679,10 +679,10 @@ export const ollamaModels = {
         "description": "This is a simple modelfile that acts as a motivational coach.",
         "Latency": ""
     },
-    "bakllava": {
-        "name": "hub/neuromorph1c/bakllava:latest",
+    "EMPTY115": {
+        "name": "empty",
         "id": 115,
-        "description": "Gemma Model is Google's Open Source Model based on Gemini Models. This Modelfile load he 2b-instruct variant with a suitable System message.",
+        "description": "",
         "Latency": ""
     },
     "cortana": {
@@ -781,10 +781,10 @@ export const ollamaModels = {
         "description": "assistant for the java language",
         "Latency": ""
     },
-    "code-companion": {
+    "EMPTY132": {
         "name": "hub/samm/code-companion:latest",
         "id": 132,
-        "description": "A coding assistant that cuts the crap and gets right to the point",
+        "description": "",
         "Latency": ""
     },
     "llamamodel": {

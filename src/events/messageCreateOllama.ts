@@ -37,14 +37,16 @@ export default new Event("messageCreate", async (message) => {
 
     await message.channel.sendTyping();
     const firstWord = msgContent.split(" ")[0];
-    const model = getModelByPrefix(firstWord);
+    const { modelFoundName, inputName } = getModelByPrefix(firstWord);
+    if (inputName === null) {
+
+    }
 
 
-
-    const responseStart = `\`[${model}]:\``;
+    const responseStart = `\`[${inputName}]:\``;
 
     const prompt = msgContent.replace(firstWord + " ", '');
-    const response = await chat(model, prompt, author, ollamaConfigs);
+    const response = await chat(modelFoundName, prompt, author, ollamaConfigs);
 
     const lines = textToLines(`${responseStart}${response}`, 1800);
     for (let i = 0; i < lines.length; i++) {
@@ -103,16 +105,13 @@ async function chat(model: string, prompt: string, author: User, configs: any): 
  * @param {string} prefix
  * @return {string} The parsed model name
  */
-function getModelByPrefix(prefix: string): string {
+function getModelByPrefix(prefix: string): { modelFoundName: string, inputName: string } {
   if (!prefix.includes(':')) {
-    return "llama2";
+    return { modelFoundName: "llama2", inputName: null };
   }
 
-  //TODO: Use a shortname associative listing (json)
   const inputName = prefix.split(':')[1]?.split(" ")[0];
   const modelFoundName = aiModels[inputName]?.name ?? "llama2";
 
-
-  return {modelFoundName, inputName};
-
+  return { modelFoundName, inputName };
 }
