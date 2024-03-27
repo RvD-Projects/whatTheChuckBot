@@ -10,7 +10,7 @@ case "$1" in
     ;;
 
 "1")
-    dockerName="cs2-WeConnected-ns1"
+    dockerName="cs2-WeConnected-ns2"
     ;;
 
 *)
