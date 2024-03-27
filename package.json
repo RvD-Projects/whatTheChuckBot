@@ -16,7 +16,8 @@
     "start:min": "node ./distMin/index.js",
     "uglify": "node ./gulp/main.js",
     "watch": "tsc -w",
-    "sentry:ci": "sentry-cli sourcemaps inject --org rvdprojects --project what-the-chuck ./dist && sentry-cli sourcemaps upload --org rvdprojects --project what-the-chuck ./dist"
+    "sentry:ci": "sentry-cli sourcemaps inject --org rvdprojects --project what-the-chuck ./dist && sentry-cli sourcemaps upload --org rvdprojects --project what-the-chuck ./dist",
+    "clear-branches": "git branch | xargs git branch -D"
   },
   "dependencies": {
     "@fabricio-191/valve-server-query": "^4.1.9",
