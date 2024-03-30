@@ -89,7 +89,9 @@ async function chat(
   const data = await response.json();
   const message = data?.message;
   const text = message?.content;
-
+  if (!text) {
+    return "(void)";
+  }
   messages.push(message);
   messagesState.set(author.id, messages);
   return text;
