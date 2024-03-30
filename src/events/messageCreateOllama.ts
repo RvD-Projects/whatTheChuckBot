@@ -36,15 +36,9 @@ export default new Event("messageCreate", async (message) => {
     await message.channel.sendTyping();
     const firstWord = msgContent.split(" ")[0];
     const { modelFoundName, lookUpAlias } = getModelByPrefix(firstWord);
-    if (lookUpAlias === null) {
-      
-    }
-
     const responseStart = `\`[${lookUpAlias}]:\``;
-
     const prompt = msgContent.replace(firstWord + " ", "");
     const response = await chat(modelFoundName, prompt, author, ollamaConfigs);
-
     const lines = textToLines(`${responseStart}${response}`, 1800);
     for (let i = 0; i < lines.length; i++) {
       author.send(lines[i]);
