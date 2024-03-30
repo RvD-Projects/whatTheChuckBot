@@ -83,9 +83,6 @@ async function chat(
     `${configs.url}/chat`,
     JSON.stringify(options)
   );
-  if (!text) {
-    return "(void)";
-  }
   const data = await response.json();
   const message = data?.message;
   const text = message?.content;
