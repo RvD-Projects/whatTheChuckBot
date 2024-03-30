@@ -2,7 +2,6 @@
 /logs
 /node_modules
 /dev
-/.vscode
 /dist
 /distMin
 notes.md
