@@ -1,5 +1,8 @@
 environment=dev
+welcomeChannel=default
 guildIds=xxx,yyy
 botToken=#######################################################
 sentryDsn=#######################################################
 OPENAI_API_KEY=###########################################
+DB_CONN_STRING=##############
+DB_NAME=############

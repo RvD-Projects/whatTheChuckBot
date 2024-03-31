@@ -1,4 +1,4 @@
-require('dotenv').config();
+import 'dotenv/config'
 import SentryHelper from "./class/SentryHelper";
 import OpenAI from 'openai';
 
