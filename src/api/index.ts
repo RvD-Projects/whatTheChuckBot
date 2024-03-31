@@ -5,7 +5,6 @@ import { readFileSync } from 'fs';
 
 import cors from 'cors';
 import helmet from 'helmet';
-import session from 'express-session';
 import { Express } from 'express-serve-static-core';
 import express from 'express';
 
@@ -27,16 +26,12 @@ function setupServer(app: Express) {
 
     const httpServer = http.createServer(app);
     httpServer.listen(3434, () => {
-        console.log("");
-        console.warn(`|--------HTTP Server listening on port 3434!--------|`);
-        console.log("");
+        console.log(`\n|--------HTTP Server listening on port 3434!--------|\n`);
     });
 
     const httpsServer = https.createServer(serverOptions, app);
     httpsServer.listen(3438, () => {
-        console.log("");
-        console.warn(`|--------HTTPS Server listening on port 3438!--------|`);
-        console.log("");
+        console.log(`\n|--------HTTPS Server listening on port 3438!--------|\n`);
     });
 }
 
@@ -45,11 +40,7 @@ function setupAppConfigs(app: Express) {
     app.use(express.json());
     app.use(helmet());
     app.set('trust proxy', 1);
-    app.use(session({
-        secret: 'igVg1iV2x7cyAPu',
-        name: 'wfEj9FcCiQOhmHD'
-    }));
-
+    
     app.use(cors({
         origin: [
             'https://192.168.1.100',
