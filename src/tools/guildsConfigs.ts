@@ -185,6 +185,7 @@ export const guildsConfigs = [
             }
         }
     },
+    {
         // Pankunai
         guildId: "1211321545109012561",
         welcome: {
@@ -203,6 +204,7 @@ export const guildsConfigs = [
             },
             getContent: (params: any) => `🤖  Dite au revoir à <@${params.member.id}> ! 😢👾`
         }
+    },
 ];
 
 export function getDefaultConfigs() {
