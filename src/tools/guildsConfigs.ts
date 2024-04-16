@@ -192,7 +192,7 @@ export const guildsConfigs = [
             channelId: "1211321545226588209",
             card: {
                 getTitle: () => "Bienvenue !!!",
-                getMsg: (params: any) => "Merci d'avoir rejoin le serveur !"
+                getMsg: (params: any) => "Merci d'avoir rejoint le serveur !"
             },
             getContent: (params: any) => `🤖  Bienvenue <@${params.member.id}> ! ⚡👾`
         },
