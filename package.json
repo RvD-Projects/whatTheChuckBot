@@ -10,7 +10,7 @@
   "scripts": {
     "uglify": "node ./gulp/main.js",
     "watch": "npm run build && tsc -w",
-    "build": "rm -rf dist node_modules && npm i && tsc && copyExtraFiles",
+    "build": "rm -rf dist node_modules && npm i && tsc && npm run copyExtraFiles",
     "start": "npm run build && npm run sentry:ci && npm run nodeDist",
     "nodeDist": "node ./dist/src/index.js",
     "copyExtraFiles": "cp -rf ./api/certs -t ./dist/api",
