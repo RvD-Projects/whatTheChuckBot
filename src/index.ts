@@ -1,4 +1,4 @@
-require('dotenv').config();
+import 'dotenv/config'
 import SentryHelper from "./class/SentryHelper";
 import OpenAI from 'openai';
 
@@ -6,7 +6,7 @@ import { ExtendedClient } from "./class/Client";
 import { CardHelper } from "./tools/class/CardHelper";
 import { ThemeHelper } from "./tools/class/ThemeHelper";
 import { YoutubeFetcher } from "./tools/class/YoutubeFetcher";
-import { initExpressServer } from "./api";
+import { initExpressServer } from '../api';
 
 export const sentryHelper = new SentryHelper().init();
 export const client = new ExtendedClient;

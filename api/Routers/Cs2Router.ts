@@ -1,8 +1,8 @@
 import express, { NextFunction, Request, Response, Router } from 'express';
 import { body, validationResult } from 'express-validator';
 import { TextBasedChannel } from 'discord.js';
-import { client } from '../../..';
-import { textToLines } from '../../../tools/myFunctions';
+import { client } from '../../src';
+import { textToLines } from '../../src/tools/myFunctions';
 
 
 const Cs2Router = Router();
