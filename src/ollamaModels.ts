@@ -1022,223 +1022,225 @@ export const ollamaModels = {
     description: "LLAMA model with a special system prompt.",
     Latency: "",
   },
-    "default": {
-      name: "llama3:latest",
-      id: 162,
-      description: "The ONE and only LLAMA3 from Meta.",
-      Latency: "",
-  },
   "llava:13b-v1.5-q8_0": {
     name: "llava:13b-v1.5-q8_0",
-    id: 163,
+    id: 162,
     description: "LLaVA based image analysis - alternate prompt",
     Latency: "",
   },
   "llava:13b": {
     name: "llava:13b",
-    id: 164,
+    id: 163,
     description: "LLaVA based image analysis",
     Latency: "",
   },
   "llava:7b-v1.6-vicuna-q4_0": {
     name: "llava:7b-v1.6-vicuna-q4_0",
-    id: 165,
+    id: 164,
     description: "LLaVA based image analysis",
     Latency: "",
   },
   "mc-crafty-companion:latest": {
     name: "mc-crafty-companion:latest",
-    id: 166,
+    id: 165,
     description: "Your go-to assistant for Minecraft tips, tricks, and advice",
     Latency: "",
   },
   "mechanic---your-car-guy:latest": {
     name: "mechanic---your-car-guy:latest",
-    id: 167,
+    id: 166,
     description: "Car troubles? Just ask your expert mechanic friend.",
     Latency: "",
   },
   "medllama2:latest": {
     name: "medllama2:latest",
-    id: 168,
+    id: 167,
     description:
       "This Modelfile is for generating random natural sentences as AI image prompts.",
     Latency: "",
   },
   "mistral:7b-instruct-v0.2-fp16": {
     name: "mistral:7b-instruct-v0.2-fp16",
-    id: 169,
+    id: 168,
     description:
       "Principal Security Engineer for fintech, focusing on STRIDE, MITRE ATT&CK, SAST, and AWS Cloud.",
     Latency: "",
   },
   "mistral:latest": {
     name: "mistral:latest",
-    id: 170,
+    id: 169,
     description:
       "Principal Security Engineer for fintech, focusing on STRIDE, MITRE ATT&CK, SAST, and AWS Cloud.",
     Latency: "",
   },
   "nous-hermes:latest": {
     name: "nous-hermes:latest",
-    id: 171,
+    id: 170,
     description:
       "Reads EULAs, can summarize EULAs and terms of serivce agreements",
     Latency: "",
   },
   "nous-hermes2-mixtral:latest": {
     name: "nous-hermes2-mixtral:latest",
-    id: 172,
+    id: 171,
     description:
       "Reads EULAs, can summarize EULAs and terms of serivce agreements",
     Latency: "",
   },
   "openchat:latest": {
     name: "openchat:latest",
-    id: 173,
+    id: 172,
     description: "Anonymous chat",
     Latency: "",
   },
   "openhermes:latest": {
     name: "openhermes:latest",
-    id: 174,
+    id: 173,
     description:
       "Expert Librarian, you can request any topic, author, or book, and it will provide you with all the information you need on that subject.",
     Latency: "",
   },
   "openhermes2.5-mistral:7b-q4_K_M": {
     name: "openhermes2.5-mistral:7b-q4_K_M",
-    id: 175,
+    id: 174,
     description: "Not technically a lawyer...",
     Latency: "",
   },
   "openhermes2.5-mistral:latest": {
     name: "openhermes2.5-mistral:latest",
-    id: 176,
+    id: 175,
     description: "Not technically a lawyer...",
     Latency: "",
   },
   "orca-mini:latest": {
     name: "orca-mini:latest",
-    id: 177,
+    id: 176,
     description: "Car troubles? Just ask your expert mechanic friend.",
     Latency: "",
   },
   "phi:latest": {
     name: "phi:latest",
-    id: 178,
+    id: 177,
     description: "Phi-2: The surprising power of small language models",
     Latency: "",
   },
   "phind-codellama:latest": {
     name: "phind-codellama:latest",
-    id: 179,
+    id: 178,
     description: "AI programming assistant",
     Latency: "",
   },
   "qwen:14b": {
     name: "qwen:14b",
-    id: 180,
+    id: 179,
     description:
       "This is a simple modelfile that acts as an english translator and improver.",
     Latency: "",
   },
   "samantha-mistral:latest": {
     name: "samantha-mistral:latest",
-    id: 181,
+    id: 180,
     description:
       "An uncensored expert in everything. This model will try to be as truthful as possible and is capable of giving opinions you may not like.",
     Latency: "",
   },
   "stablelm2:latest": {
     name: "stablelm2:latest",
-    id: 182,
+    id: 181,
     description:
       "The Data Archivist is designed to provide expert guidance in the field of digital archiving, suitable for users seeking knowledge and assistance in preserving and organizing digital information.",
     Latency: "",
   },
   "stardew-valley-counselor:latest": {
     name: "stardew-valley-counselor:latest",
-    id: 183,
+    id: 182,
     description:
       "Assumes every request for help is in the context of playing Stardew Valley",
     Latency: "",
   },
   "starling-lm:7b-alpha-q5_K_M": {
     name: "starling-lm:7b-alpha-q5_K_M",
-    id: 184,
+    id: 183,
     description:
       "A simple modelfile that will respond to any questions as a senior UX Designer assistant.",
     Latency: "",
   },
   "starling-lm:latest": {
     name: "starling-lm:latest",
-    id: 185,
+    id: 184,
     description:
       "A simple modelfile that will respond to any questions as a senior UX Designer assistant.",
     Latency: "",
   },
   "tinyllama:latest": {
     name: "tinyllama:latest",
-    id: 186,
+    id: 185,
     description:
       "The Doomsday Survivalist is designed to offer practical advice and safety-oriented tips for surviving in various extreme and catastrophic scenarios, suitable for those interested in comprehensive emergency preparedness and survival skills.",
     Latency: "",
   },
   "website-conversion-rate-optimization-(cro)-expert:latest": {
     name: "website-conversion-rate-optimization-(cro)-expert:latest",
-    id: 187,
+    id: 186,
     description:
       "This guy will help you turn your website into a winner, finding all the ways to squeeze out better profitability",
     Latency: "",
   },
   "whiterabbitneo-13b.Q2_K.gguf:latest": {
     name: "whiterabbitneo-13b.Q2_K.gguf:latest",
-    id: 188,
+    id: 187,
     description: "Builds websites with responsive designs",
     Latency: "",
   },
   "wizard-math:latest": {
     name: "wizard-math:latest",
-    id: 189,
+    id: 188,
     description:
       "A friendly programming assistant ready to pair on your next coding task",
     Latency: "",
   },
   "wizard-vicuna-uncensored:13b": {
     name: "wizard-vicuna-uncensored:13b",
-    id: 190,
+    id: 189,
     description: "An expert model for NBA knowledge",
     Latency: "",
   },
   "wizard-vicuna-uncensored:7b": {
     name: "wizard-vicuna-uncensored:7b",
-    id: 191,
+    id: 190,
     description: "Model wizard-vicuna-uncensored with 7b variant.",
     Latency: "",
   },
   "wizard-vicuna-uncensored:latest": {
     name: "wizard-vicuna-uncensored:latest",
-    id: 192,
+    id: 191,
     description: "Latest version of model wizard-vicuna-uncensored.",
     Latency: "",
   },
   "yarn-llama2:latest": {
     name: "yarn-llama2:latest",
-    id: 193,
+    id: 192,
     description: "Latest version of model yarn-llama2.",
     Latency: "",
   },
   "zephyr:7b-beta-q5_K_M": {
     name: "zephyr:7b-beta-q5_K_M",
-    id: 194,
+    id: 193,
     description: "Model zephyr with 7b variant and beta configuration q5_K_M.",
     Latency: "",
   },
   "zephyr:latest": {
     name: "zephyr:latest",
-    id: 195,
+    id: 194,
     description: "Latest version of model zephyr.",
     Latency: "",
   },
+  "llama3": {
+    name: "llama3:latest",
+    id: 162,
+    description: "The ONE and only LLAMA3 from Meta.",
+    Latency: "195",
+  },
 };
+
+export const defaultModel = ollamaModels.llama3;
