@@ -7,9 +7,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { Express } from 'express-serve-static-core';
 import express from 'express';
-
-import Cs2Router from './Http/Routers/Cs2Router';
-import RootRouter from './Http/Routers/rootRouter';
+import RootRouter from './Routers/rootRouter';
+import Cs2Router from './Routers/Cs2Router';
 
 export function initExpressServer() {
     const app = express();

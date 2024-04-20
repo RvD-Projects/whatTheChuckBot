@@ -1,25 +1,26 @@
 {
   "keywords": [],
   "main": "index.js",
-  "name": "whatthechuckbot",
+  "name": "WhatTheChuckBot",
   "version": "1.0.0",
   "description": "A discord bot for welcoming cards",
   "author": "RVÐ",
   "license": "ISC",
   "assets": "",
   "scripts": {
-    "watch": "npm run build && tsc -w",
-    "build": "rm -rf dist node_modules && npm i && tsc",
-    "start": "npm run build && npm run sentry:ci && node ./dist/src/index.js",
     "uglify": "node ./gulp/main.js",
-    "sentry:ci": "sentry-cli sourcemaps inject --org rvdprojects --project what-the-chuck ./dist && sentry-cli sourcemaps upload --org rvdprojects --project what-the-chuck ./dist",
-    "clear-branches": "git branch | xargs git branch -D"
+    "watch": "npm run build && tsc -w",
+    "build": "rm -rf dist node_modules && npm i && tsc && copyExtraFiles",
+    "start": "npm run build && npm run sentry:ci && npm run nodeDist",
+    "nodeDist": "node ./dist/src/index.js",
+    "copyExtraFiles": "cp -rf ./api/certs -t ./dist/api",
+    "clear-branches": "git branch | xargs git branch -D",
+    "sentry:ci": "sentry-cli sourcemaps inject --org rvdprojects --project what-the-chuck ./dist && sentry-cli sourcemaps upload --org rvdprojects --project what-the-chuck ./dist"
   },
   "dependencies": {
     "@fabricio-191/valve-server-query": "^4.1.9",
     "@sentry/cli": "^2.31.0",
     "@sentry/node": "^7.109.0",
-    "@types/express-validator": "^3.0.0",
     "cors": "^2.8.5",
     "discord-canvas": "^1.5.2",
     "discord.js": "^14.14.1",
