@@ -1237,9 +1237,9 @@ export const ollamaModels = {
   },
   "llama3": {
     name: "llama3:latest",
-    id: 162,
+    id: 195,
     description: "The ONE and only LLAMA3 from Meta.",
-    Latency: "195",
+    Latency: "",
   },
 };
 
