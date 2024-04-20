@@ -1235,4 +1235,12 @@ export const ollamaModels = {
     description: "Latest version of model zephyr.",
     Latency: "",
   },
+  "llama3": {
+    name: "llama3:latest",
+    id: 195,
+    description: "The ONE and only LLAMA3 from Meta.",
+    Latency: "",
+  },
 };
+
+export const defaultModel = ollamaModels.llama3;
