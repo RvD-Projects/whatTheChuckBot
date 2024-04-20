@@ -9,7 +9,7 @@
   "assets": "",
   "scripts": {
     "watch": "npm run build && tsc -w",
-    "build": "rm -rf dist node_modules && npm i && tsc && cp -r src/api/certs dist/api/",
+    "build": "rm -rf dist node_modules && npm i && tsc",
     "start": "npm run build && npm run sentry:ci && node ./dist/src/index.js",
     "uglify": "node ./gulp/main.js",
     "sentry:ci": "sentry-cli sourcemaps inject --org rvdprojects --project what-the-chuck ./dist && sentry-cli sourcemaps upload --org rvdprojects --project what-the-chuck ./dist",

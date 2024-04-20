@@ -18,6 +18,6 @@
         "importHelpers": true,
         "sourceRoot": "/"
     },
-    "include": ["src", "environments.d.ts", "services"],
+    "include": ["src", "api", "services", "environments.d.ts"],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }
