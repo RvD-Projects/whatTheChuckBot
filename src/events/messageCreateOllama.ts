@@ -8,6 +8,7 @@ import { defaultModel, defaultModelAlias, ollamaModels, UserModelState } from ".
 
 const prefix: string = "ai:";
 const resetPrefix: string = "ai:stop";
+const configPrefix: string = "ai:conf";
 const messagesState: Map<string, Array<any>> = new Map();
 const modelState: Map<string, UserModelState> = new Map();
 const aiModels = ollamaModels;
@@ -32,22 +33,27 @@ export default new Event("messageCreate", async (message: Message) => {
   const author = message.author;
   const msgContent = message.content;
 
-  if (msgContent === resetPrefix) {
-    messagesState.set(author.id, []);
-    modelState.set(author.id, null);
+  if (msgContent === resetPrefix || msgContent === configPrefix) {
+    const sb = new String();
+    if (msgContent === resetPrefix) {
+      messagesState.set(author.id, []);
+      modelState.set(author.id, null);
 
-    await message.author.send("✔️ Default model and chat history where cleared.");
-    return;
+      sb.concat("✔️ Default model and chat history where cleared.");
+    }
+
+    sb.concat("\n" + getUserConfigMessage(author));
+    await message.author.send(sb.toString());
   }
 
   try {
     const firstWord = msgContent.split(" ")[0];
 
-    const userDefaults = userModelSelect(author, firstWord);
-    const responseStart = `\`[${userDefaults.modelAlias}]:\``;
+    const userState = userModelSelect(author, firstWord);
+    const responseStart = `\`[${userState.modelAlias}]:\``;
     const prompt = msgContent.replace(firstWord + " ", "");
 
-    const response = await chat(userDefaults.modelName, prompt, author, ollamaConfigs);
+    const response = await chat(userState.modelName, prompt, author, ollamaConfigs);
 
     const lines = textToLines(`${responseStart}${response}`, 1800);
     for (let i = 0; i < lines.length; i++) {
@@ -114,14 +120,14 @@ async function chat(
  * @param lookUpString - The string used to lookup the model state.
  * @returns The user currently selected model.
  */
-function userModelSelect(author: User, lookUpString: string): UserModelState {
-  const userDefaults = modelState.get(author.id) ?? {
+function userModelSelect(author: User, lookUpString: string = prefix): UserModelState {
+  const userState = modelState.get(author.id) ?? {
     modelAlias: defaultModelAlias,
     modelName: defaultModel.name
   };
 
   // Insure users always has defaults value
-  modelState.set(author.id, userDefaults);
+  modelState.set(author.id, userState);
 
   if (lookUpString !== prefix) {
     const newModel = getModelByPrefixOrId(lookUpString);
@@ -176,4 +182,18 @@ function getModelById(id: number) {
   }
 
   return null;
+}
+
+
+function getUserConfigMessage(author: User): string {
+  const messageSte = messagesState.get(author.id) ?? [];
+  const userState = userModelSelect(author);
+
+  const sb = new String("Currently using:\n```md");
+  sb.concat(`\n\t- Model-alias: ${userState.modelAlias}`)
+  sb.concat(`\n\t- Model-name: ${userState.modelName}`)
+  sb.concat(`\n\t- Messages count: ${messageSte.length}`)
+  sb.concat("\n```");
+
+  return sb.toString();
 }
