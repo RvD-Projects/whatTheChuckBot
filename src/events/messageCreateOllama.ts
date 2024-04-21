@@ -20,7 +20,7 @@ fetcher.setOption("timeout", timeout);
 export default new Event("messageCreate", async (message: Message) => {
   if (!message?.author || message.author.bot) return;
   if (message.inGuild() || !message.channel.isDMBased()) return;
-  if (!message.content.toLowerCase().startsWith(prefix)) return;
+  if (!message.content.startsWith(prefix)) return;
 
   await message.channel.sendTyping();
 
@@ -34,16 +34,18 @@ export default new Event("messageCreate", async (message: Message) => {
   const msgContent = message.content;
 
   if (msgContent === resetPrefix || msgContent === configPrefix) {
-    const sb = new String();
+    let sb = "Currently using:\n";
+
     if (msgContent === resetPrefix) {
       messagesState.set(author.id, []);
       modelState.set(author.id, null);
 
-      sb.concat("✔️ Default model and chat history where cleared.");
+      sb = ("✅ Default model and chat history where cleared:\n");
     }
 
-    sb.concat("\n" + getUserConfigMessage(author));
-    await message.author.send(sb.toString());
+    sb += getUserConfigMessage(author);
+    await message.author.send(sb);
+    return;
   }
 
   try {
@@ -189,11 +191,11 @@ function getUserConfigMessage(author: User): string {
   const messageSte = messagesState.get(author.id) ?? [];
   const userState = userModelSelect(author);
 
-  const sb = new String("Currently using:\n```md");
-  sb.concat(`\n\t- Model-alias: ${userState.modelAlias}`)
-  sb.concat(`\n\t- Model-name: ${userState.modelName}`)
-  sb.concat(`\n\t- Messages count: ${messageSte.length}`)
-  sb.concat("\n```");
+  let sb = "```md";
+  sb += `\n- Model: ${userState.modelAlias}`;
+  sb += `\n- Version: ${userState.modelName}`;
+  sb += `\n- Messages: ${messageSte.length}`;
+  sb += "\n```";
 
-  return sb.toString();
+  return sb;
 }
