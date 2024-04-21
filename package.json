@@ -10,10 +10,11 @@
   "scripts": {
     "uglify": "node ./gulp/main.js",
     "watch": "npm run build && tsc -w",
-    "build": "rm -rf dist node_modules && npm i && tsc && npm run copyExtraFiles",
-    "start": "npm run build && npm run sentry:ci && npm run nodeDist",
+    "clean": "rm -rf dist node_modules",
+    "build": "npm i && tsc && npm run copyExtraFiles",
+    "start": "npm run clean && npm run build && npm run nodeDist",
     "nodeDist": "node ./dist/src/index.js",
-    "copyExtraFiles": "cp -rf ./api/certs -t ./dist/api",
+    "copyExtraFiles": "cp -rf ./api/certs -t ./dist/api && npm run sentry:ci",
     "clear-branches": "git branch | xargs git branch -D",
     "sentry:ci": "sentry-cli sourcemaps inject --org rvdprojects --project what-the-chuck ./dist && sentry-cli sourcemaps upload --org rvdprojects --project what-the-chuck ./dist"
   },

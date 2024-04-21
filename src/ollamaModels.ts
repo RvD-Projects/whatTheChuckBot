@@ -1,3 +1,8 @@
+export type UserModelState = {
+  modelAlias: string,
+  modelName: string
+}
+
 export const ollamaModels = {
   "bakllava": {
     name: "bakllava:latest",

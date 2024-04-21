@@ -1,23 +1,26 @@
 //https://github.com/ollama/ollama/blob/main/docs/api.md
-import { User } from "discord.js";
+import { Message, User } from "discord.js";
 import { Event } from "../class/Event";
 import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { getDefaultConfigs } from "../tools/guildsConfigs";
 import { textToLines } from "../tools/myFunctions";
-import { defaultModel, defaultModelAlias, ollamaModels } from "../ollamaModels";
+import { defaultModel, defaultModelAlias, ollamaModels, UserModelState } from "../ollamaModels";
 
-const timeout = 30000;
 const prefix: string = "ai:";
 const resetPrefix: string = "ai:stop";
 const messagesState: Map<string, Array<any>> = new Map();
+const modelState: Map<string, UserModelState> = new Map();
 const aiModels = ollamaModels;
 const fetcher = new HttpFetcher();
+
+const timeout = 60000;
 fetcher.setOption("timeout", timeout);
 
-export default new Event("messageCreate", async (message: ) => {
+export default new Event("messageCreate", async (message: Message) => {
   if (!message?.author || message.author.bot) return;
+  if (message.inGuild() || !message.channel.isDMBased()) return;
   if (!message.content.toLowerCase().startsWith(prefix)) return;
-  if (message.inGuild) return;
+
 
   const ollamaConfigs = getDefaultConfigs()?.ollama;
   if (!ollamaConfigs || !ollamaConfigs?.url) {
@@ -25,25 +28,30 @@ export default new Event("messageCreate", async (message: ) => {
     return;
   }
 
+  const author = message.author;
+  const msgContent = message.content;
+
+  if (msgContent === resetPrefix) {
+    messagesState.set(author.id, []);
+    modelState.set(author.id, null);
+    return;
+  }
+
   try {
-    const author = message.author;
-    const msgContent = message.content;
-
-    if (msgContent === resetPrefix) {
-      messagesState.set(author.id, []);
-      return;
-    }
-
     await message.channel.sendTyping();
     const firstWord = msgContent.split(" ")[0];
-    const { modelFoundName, lookUpAlias } = getModelByPrefix(firstWord);
-    const responseStart = `\`[${lookUpAlias}]:\``;
+
+    const userDefaults = userModelSelect(author, firstWord);
+    const responseStart = `\`[${userDefaults.modelAlias}]:\``;
     const prompt = msgContent.replace(firstWord + " ", "");
-    const response = await chat(modelFoundName, prompt, author, ollamaConfigs);
+
+    const response = await chat(userDefaults.modelName, prompt, author, ollamaConfigs);
+
     const lines = textToLines(`${responseStart}${response}`, 1800);
     for (let i = 0; i < lines.length; i++) {
       author.send(lines[i]);
     }
+
   } catch (error) {
     if (error.type === "request-timeout") {
       error.message = `Request timed out: Waited \`${timeout}ms\` and no response where given.`;
@@ -74,71 +82,84 @@ async function chat(
     content: prompt,
   });
 
-  const options = {
-    model: model ?? "llama2",
-    stream: false,
-    messages: messages,
-  };
+  const options = { model, stream: false, messages: messages, };
 
   const response = await fetcher.post(
     `${configs.url}/chat`,
     JSON.stringify(options)
   );
+
   const data = await response.json();
   const message = data?.message;
+
   const text = message?.content;
   if (!text) {
     return "(void)";
   }
+
   messages.push(message);
   messagesState.set(author.id, messages);
+
   return text;
 }
 
 /**
- * Will check if the prefix contains a model name.
- *
- * @param {string} prefix
- * @return {string} The parsed model name
+ * Retrieves the user model state based on the provided user and lookup string.
+ * If the user model state does not exist, it sets the default model state.
+ * If the lookup string is searchable and a model is found, it updates the user model state.
+ * 
+ * @param author - The user for whom to retrieve the model state.
+ * @param lookUpString - The string used to lookup the model state.
+ * @returns The user currently selected model.
  */
-function getModelByPrefixOrId(prefixOrId: string): {
-  modelFoundName: string;
-  lookUpAlias: string;
-} {
-  const defaults: any = {
-    modelFoundName: defaultModel.name,
-    lookUpAlias: defaultModelAlias,
+function userModelSelect(author: User, lookUpString: string): UserModelState {
+  const userDefaults = modelState.get(author.id) ?? {
+    modelAlias: defaultModelAlias,
+    modelName: defaultModel.name
   };
 
-  if (!prefix.includes(":")) {
-    return defaults;
+  // Insure users always has defaults value
+  modelState.set(author.id, userDefaults);
+
+  if (lookUpString !== prefix) {
+    const newModel = getModelByPrefixOrId(lookUpString);
+    newModel && modelState.set(author.id, newModel);
   }
 
-  const lookupAlias = prefix.split(":")[1]?.split(" ")[0];
-  const lookUpId = Number(lookupAlias);
+  return modelState.get(author.id);
+}
 
-  // Lookup by id instead on alias 'property'
-  if(!isNaN(lookUpId)) {
+/**
+ * Will check if the prefix contains a model name or id.
+ * Try to get the model with a name or id.
+ *
+ * @param {string} prefixOrId
+ * @return {string} The parsed model name
+ */
+function getModelByPrefixOrId(prefixOrId: string): UserModelState {
+
+  const modelAlias = prefixOrId.includes(":") ? prefixOrId.split(":")[1] : null;
+  if (!modelAlias.length) {
+    return null;
+  }
+
+  // Lookup using an id instead of an alias
+  const lookUpId = modelAlias?.length ? Number(modelAlias) : null;
+  if (!isNaN(lookUpId)) {
     const found = getModelById(lookUpId);
-    if(!found) {
-      return defaults;
+    if (!found) {
+      return null;
     }
 
-    defaults.lookUpAlias = found.alias;
-    defaults.modelFoundName = found.model.name;
-  
-    return defaults;
+    return { modelName: found.model.name, modelAlias: found.alias };
   }
 
-  const found = aiModels[lookupAlias];
-  if(!found) {
-    return defaults;
+  const found = aiModels[modelAlias];
+  if (!found) {
+    return null;
   }
-  
-  defaults.lookUpAlias = lookupAlias;
-  defaults.modelFoundName = found.name;
 
-  return defaults;
+  return { modelName: found.name, modelAlias };
 }
 
 function getModelById(id: number) {
@@ -148,8 +169,8 @@ function getModelById(id: number) {
     if (model.id !== id) {
       continue;
     }
-    
-    return {alias, model};
+
+    return { alias, model };
   }
 
   return null;
