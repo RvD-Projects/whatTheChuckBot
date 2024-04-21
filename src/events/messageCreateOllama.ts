@@ -4,7 +4,7 @@ import { Event } from "../class/Event";
 import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { getDefaultConfigs } from "../tools/guildsConfigs";
 import { textToLines } from "../tools/myFunctions";
-import { ollamaModels } from "../ollamaModels";
+import { defaultModel, defaultModelAlias, ollamaModels } from "../ollamaModels";
 
 const timeout = 30000;
 const prefix: string = "ai:";
@@ -14,9 +14,10 @@ const aiModels = ollamaModels;
 const fetcher = new HttpFetcher();
 fetcher.setOption("timeout", timeout);
 
-export default new Event("messageCreate", async (message) => {
+export default new Event("messageCreate", async (message: ) => {
   if (!message?.author || message.author.bot) return;
   if (!message.content.toLowerCase().startsWith(prefix)) return;
+  if (message.inGuild) return;
 
   const ollamaConfigs = getDefaultConfigs()?.ollama;
   if (!ollamaConfigs || !ollamaConfigs?.url) {
@@ -100,16 +101,56 @@ async function chat(
  * @param {string} prefix
  * @return {string} The parsed model name
  */
-function getModelByPrefix(prefix: string): {
+function getModelByPrefixOrId(prefixOrId: string): {
   modelFoundName: string;
   lookUpAlias: string;
 } {
+  const defaults: any = {
+    modelFoundName: defaultModel.name,
+    lookUpAlias: defaultModelAlias,
+  };
+
   if (!prefix.includes(":")) {
-    return { modelFoundName: "llama2", lookUpAlias: null };
+    return defaults;
   }
 
-  const lookUpAlias = prefix.split(":")[1]?.split(" ")[0];
-  const modelFoundName = aiModels[lookUpAlias]?.name ?? "llama2";
+  const lookupAlias = prefix.split(":")[1]?.split(" ")[0];
+  const lookUpId = Number(lookupAlias);
 
-  return { modelFoundName, lookUpAlias };
+  // Lookup by id instead on alias 'property'
+  if(!isNaN(lookUpId)) {
+    const found = getModelById(lookUpId);
+    if(!found) {
+      return defaults;
+    }
+
+    defaults.lookUpAlias = found.alias;
+    defaults.modelFoundName = found.model.name;
+  
+    return defaults;
+  }
+
+  const found = aiModels[lookupAlias];
+  if(!found) {
+    return defaults;
+  }
+  
+  defaults.lookUpAlias = lookupAlias;
+  defaults.modelFoundName = found.name;
+
+  return defaults;
+}
+
+function getModelById(id: number) {
+  for (const alias in aiModels) {
+    const model = aiModels[alias];
+
+    if (model.id !== id) {
+      continue;
+    }
+    
+    return {alias, model};
+  }
+
+  return null;
 }

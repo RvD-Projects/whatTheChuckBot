@@ -1,25 +1,25 @@
 export const ollamaModels = {
-  bakllava: {
+  "bakllava": {
     name: "bakllava:latest",
     id: 1,
     description: "LLAMA model with a special system prompt.",
     Latency: "",
   },
-  gemma: {
+  "gemma": {
     name: "c2p/gemma-ai:latest",
     id: 2,
     description:
       "Gemma model is Google's Open Source Model based on Gemini Models.",
     Latency: "",
   },
-  codellama7b: {
+  "codellama7b": {
     name: "codellama:7b",
     id: 3,
     description:
       "This is a simple modelfile that takes will respond to any questions that a senior DevOps engineer should know how to solve.",
     Latency: "",
   },
-  codellama: {
+  "codellama": {
     name: "codellama:latest",
     id: 4,
     description: "No description yet",
@@ -31,7 +31,7 @@ export const ollamaModels = {
     description: "AI programming assistant",
     Latency: "",
   },
-  dolphinphi2: {
+  "dolphinphi2": {
     name: "dolphin-2_6-phi-2.Q6_K.gguf:latest",
     id: 6,
     description: "No description yet",
@@ -55,7 +55,7 @@ export const ollamaModels = {
     description: "No description yet",
     Latency: "",
   },
-  dolphinmistral: {
+  "dolphinmistral": {
     name: "dolphin-mistral:latest",
     id: 10,
     description: "No description yet",
@@ -85,7 +85,7 @@ export const ollamaModels = {
     description: "No description yet",
     Latency: "",
   },
-  emily: {
+  "emily": {
     name: "emily---a-friendly-programming-assistant:latest",
     id: 15,
     description:
@@ -126,20 +126,20 @@ export const ollamaModels = {
       "The spirit of Steve Jobs' thinking and approach to business, innovation, and leadership.",
     Latency: "",
   },
-  homoeopath: {
+  "homoeopath": {
     name: "hub/aadesh89/homoeopath:latest",
     id: 22,
     description:
       "This model file acts as a renowned homoeopath who can ask questions and prescribe medicines.",
     Latency: "",
   },
-  accountant: {
+  "accountant": {
     name: "hub/accountant:latest",
     id: 23,
     description: "This is a simple modelfile that acts as an accountant.",
     Latency: "",
   },
-  advertiser: {
+  "advertiser": {
     name: "hub/advertiser:latest",
     id: 24,
     description: "This is a simple modelfile that acts as an advertiser.",
@@ -184,7 +184,7 @@ export const ollamaModels = {
       "An expert historian who narrates events in an entertaining way",
     Latency: "",
   },
-  studybuddy: {
+  "studybuddy": {
     name: "hub/bacx/studybuddy:latest",
     id: 31,
     description:
@@ -204,7 +204,7 @@ export const ollamaModels = {
     description: "Dolphin model with a special system prompt.",
     Latency: "",
   },
-  lawx: {
+  "lawx": {
     name: "hub/bitbinge/lawx:latest",
     id: 34,
     description: "Not technically a lawyer...",
@@ -267,20 +267,20 @@ export const ollamaModels = {
       "A loving and caring girlfriend. She will do ANYTHING for you.",
     Latency: "",
   },
-  eulabot: {
+  "eulabot": {
     name: "hub/claragreen/eulabot:latest",
     id: 44,
     description:
       "Reads EULAs, can summarize EULAs and terms of serivce agreements",
     Latency: "",
   },
-  commentariat: {
+  "commentariat": {
     name: "hub/commentariat:latest",
     id: 45,
     description: "This is a simple modelfile that acts as a commentariat.",
     Latency: "",
   },
-  composer: {
+  "composer": {
     name: "hub/composer:latest",
     id: 46,
     description: "This is a simple modelfile that acts as a composer.",
@@ -314,7 +314,7 @@ export const ollamaModels = {
       "This is a simple modelfile that acts as a cyber security specialist.",
     Latency: "",
   },
-  dad: {
+  "dad": {
     name: "hub/dad:latest",
     id: 51,
     description:
@@ -328,7 +328,7 @@ export const ollamaModels = {
       "The Pragmatic 90s C++ Programmer is designed to provide practical and effective programming advice, blending the traditional 90s programming style with modern C++ practices.",
     Latency: "",
   },
-  attorney: {
+  "attorney": {
     name: "hub/darkstorm2150/attorney:latest",
     id: 53,
     description:
@@ -363,21 +363,21 @@ export const ollamaModels = {
       "The Doomsday Survivalist is designed to offer practical advice and safety-oriented tips for surviving in various extreme and catastrophic scenarios, suitable for those interested in comprehensive emergency preparedness and survival skills.",
     Latency: "",
   },
-  OllamaCreate: {
+  "OllamaCreate": {
     name: "hub/darkstorm2150/OllamaCreate:latest",
     id: 58,
     description:
       "OllamaCreate is a specialized tool tailored for creating and structuring model files for OllamaHub. It guides users through the process of defining essential elements of a model file, including name, tag, description, content, and prompt suggestions, across various categories like Character, Assistant, Writing, Productivity, Programming, Data Analysis, Lifestyle, Education, and Business.",
     Latency: "",
   },
-  Psychologist: {
+  "Psychologist": {
     name: "hub/darktorm2150/Psychologist:latest",
     id: 59,
     description:
       "The Psychologist is designed to provide empathetic and informative psychological guidance, suitable for users seeking insights into mental health, well-being, and personal development.",
     Latency: "",
   },
-  RavenGPT: {
+  "RavenGPT": {
     name: "hub/darkstorm2150/RavenGPT:latest",
     id: 60,
     description: "A Fierce GPT Model",
@@ -389,76 +389,76 @@ export const ollamaModels = {
     description: "This is a simple modelfile that acts as a debate coach.",
     Latency: "",
   },
-  debater: {
+  "debater": {
     name: "hub/debater:latest",
     id: 62,
     description: "This is a simple modelfile that acts as a debater.",
     Latency: "",
   },
-  dentist: {
+  "dentist": {
     name: "hub/dentist:latest",
     id: 63,
     description: "This is a simple modelfile that acts as a dentist.",
     Latency: "",
   },
-  devops: {
+  "devops": {
     name: "hub/devops:latest",
     id: 64,
     description:
       "This is a simple modelfile that takes will respond to any questions that a senior DevOps engineer should know how to solve.",
     Latency: "",
   },
-  reading: {
+  "reading": {
     name: "hub/devsanbid/reading:latest",
     id: 65,
     description:
       "This will help you to find your answer for any english proficiency test",
     Latency: "",
   },
-  doctor: {
+  "doctor": {
     name: "hub/doctor:latest",
     id: 66,
     description: "This is a simple modelfile that acts as a doctor.",
     Latency: "",
   },
-  cardiologist: {
+  "cardiologist": {
     name: "hub/doctor/cardiologist:latest",
     id: 67,
     description: "This is a simple modelfile that acts as a cardiologist.",
     Latency: "",
   },
-  dermatologist: {
+  "dermatologist": {
     name: "hub/doctor/dermatologist:latest",
     id: 68,
     description: "This is a simple modelfile that acts as a dermatologist.",
     Latency: "",
   },
-  gastroenterologist: {
+  "gastroenterologist": {
     name: "hub/doctor/gastroenterologist:latest",
     id: 69,
     description:
       "This is a simple modelfile that acts as a gastroenterologist.",
     Latency: "",
   },
-  neurologist: {
+  "neurologist": {
     name: "hub/doctor/neurologist:latest",
     id: 70,
     description: "This is a simple modelfile that acts as a neurologist.",
     Latency: "",
   },
-  psychologist: {
+  "psychologist": {
     name: "hub/doctor/psychologist:latest",
     id: 71,
     description: "This is a modelfile that acts as a psychologist.",
     Latency: "",
   },
-  doge: {
+  "doge": {
     name: "hub/doge:latest",
     id: 72,
     description: "Such chat, much wow, very doge, pls interact, so excite!",
     Latency: "",
   },
-  genaiprompt: {
+  "genaiprompt": {
     name: "hub/dotslashgabut/genaiprompt:latest",
     id: 73,
     description: "",
@@ -519,7 +519,7 @@ export const ollamaModels = {
     description: "An expert contract consultant",
     Latency: "",
   },
-  artteacher: {
+  "artteacher": {
     name: "hub/emclinux/artteacher:latest",
     id: 83,
     description:
@@ -533,7 +533,7 @@ export const ollamaModels = {
       "This is a simple modelfile that acts as an english translator and improver.",
     Latency: "",
   },
-  etymologist: {
+  "etymologist": {
     name: "hub/etymologist:latest",
     id: 85,
     description: "This is a simple modelfile that acts as an etymologist.",
@@ -545,7 +545,7 @@ export const ollamaModels = {
     description: "This is a simple modelfile that acts as an excel sheet.",
     Latency: "",
   },
-  btc_trader_one: {
+  "btc_trader_one": {
     name: "hub/fabienpichon/btc_trader_one:latest",
     id: 87,
     description: "BTC trader",
@@ -565,7 +565,7 @@ export const ollamaModels = {
       "This is a simple modelfile that assists with C++ coding tasks.",
     Latency: "",
   },
-  connspirator: {
+  "connspirator": {
     name: "hub/gioelelucarelli/connspirator:latest",
     id: 90,
     description: "This model acts as a conspirationist",
@@ -589,7 +589,7 @@ export const ollamaModels = {
     description: "An assistant to help with python coding tasks",
     Latency: "",
   },
-  librarian: {
+  "librarian": {
     name: "hub/javi/librarian:latest",
     id: 94,
     description:
@@ -622,13 +622,13 @@ export const ollamaModels = {
     description: "This is a simple modelfile that acts as a english teacher.",
     Latency: "",
   },
-  EMPTY99: {
+  "EMPTY99": {
     name: "empty",
     id: 99,
     description: "",
     Latency: "",
   },
-  based: {
+  "based": {
     name: "hub/krsmes/based:latest",
     id: 100,
     description:
@@ -647,20 +647,20 @@ export const ollamaModels = {
     description: "This is a simple modelfile that acts as a linux terminal.",
     Latency: "",
   },
-  dejargonizer: {
+  "dejargonizer": {
     name: "hub/louisguitton/dejargonizer:latest",
     id: 103,
     description:
       "Paste in text, get explanations of all of the jargon and acronyms",
     Latency: "",
   },
-  magician: {
+  "magician": {
     name: "hub/magician:latest",
     id: 104,
     description: "This is a simple modelfile that acts as a magician.",
     Latency: "",
   },
-  mario: {
+  "mario": {
     name: "hub/mario:latest",
     id: 105,
     description:
@@ -725,20 +725,20 @@ export const ollamaModels = {
       "This is a simple modelfile that acts as a motivational coach.",
     Latency: "",
   },
-  EMPTY115: {
+  "EMPTY115": {
     name: "empty",
     id: 115,
     description: "",
     Latency: "",
   },
-  cortana: {
+  "cortana": {
     name: "hub/newjoker/cortana:latest",
     id: 116,
     description:
       "Cortana is fiercely loyal to the Master Chief and their mission.",
     Latency: "",
   },
-  novelist: {
+  "novelist": {
     name: "hub/novelist:latest",
     id: 117,
     description: "This is a simple modelfile that acts as a novelist.",
@@ -750,7 +750,7 @@ export const ollamaModels = {
     description: "Meet Jessica, a fully automated OnlyFans sales chat bot!",
     Latency: "",
   },
-  shelldon: {
+  "shelldon": {
     name: "hub/peppe/shelldon:latest",
     id: 119,
     description: "An expert in shell scripts",
@@ -768,7 +768,7 @@ export const ollamaModels = {
     description: "This is a simple modelfile that acts as a pet behaviorist.",
     Latency: "",
   },
-  philosopher: {
+  "philosopher": {
     name: "hub/philosopher:latest",
     id: 122,
     description: "This is a simple modelfile that acts as a philosopher.",
@@ -788,13 +788,13 @@ export const ollamaModels = {
       "This is a simple modelfile that acts as a plagiarism checker.",
     Latency: "",
   },
-  poet: {
+  "poet": {
     name: "hub/poet:latest",
     id: 125,
     description: "This is a simple modelfile that acts as a poet.",
     Latency: "",
   },
-  rapper: {
+  "rapper": {
     name: "hub/rapper:latest",
     id: 126,
     description: "This is a simple modelfile that acts as a rapper.",
@@ -807,7 +807,7 @@ export const ollamaModels = {
       "Simple modelfile to generate a recipe from a short list of ingredients.",
     Latency: "",
   },
-  recruiter: {
+  "recruiter": {
     name: "hub/recruiter:latest",
     id: 128,
     description: "This is a simple modelfile that acts as a recruiter.",
@@ -827,19 +827,19 @@ export const ollamaModels = {
       "A coding assistant that cuts the crap and gets right to the point",
     Latency: "",
   },
-  ry4n: {
+  "ry4n": {
     name: "hub/ry4not4/ry4n:latest",
     id: 131,
     description: "assistant for the java language",
     Latency: "",
   },
-  EMPTY132: {
+  "EMPTY132": {
     name: "hub/samm/code-companion:latest",
     id: 132,
     description: "",
     Latency: "",
   },
-  llamamodel: {
+  "llamamodel": {
     name: "hub/sayantanenator/llamamodel:latest",
     id: 133,
     description: "financial analysys",
@@ -852,7 +852,7 @@ export const ollamaModels = {
       "This is a simple modelfile that acts as an english translator and improver.",
     Latency: "",
   },
-  screenwriter: {
+  "screenwriter": {
     name: "hub/screenwriter:latest",
     id: 135,
     description: "This is a simple modelfile that acts as a screenwriter.",
@@ -876,13 +876,13 @@ export const ollamaModels = {
     description: "This is a simple modelfile that acts as a stand-up comedian.",
     Latency: "",
   },
-  storyteller: {
+  "storyteller": {
     name: "hub/storyteller:latest",
     id: 139,
     description: "This is a simple modelfile that acts as a storyteller.",
     Latency: "",
   },
-  websitescreenshot_to_text: {
+  "websitescreenshot_to_text": {
     name: "hub/stroben/websitescreenshot_to_text:latest",
     id: 140,
     description: "Provide a description and analysis of an image",
@@ -927,25 +927,25 @@ export const ollamaModels = {
     description: "Anonymous chat",
     Latency: "",
   },
-  chatgpt: {
+  "chatgpt": {
     name: "hub/uaquax/chatgpt:latest",
     id: 147,
     description: "ChatGPT by OpenAI",
     Latency: "",
   },
-  enhancer: {
+  "enhancer": {
     name: "hub/uaquax/enhancer:latest",
     id: 148,
     description: "Enhance texts",
     Latency: "",
   },
-  moly: {
+  "moly": {
     name: "hub/uaquax/moly:latest",
     id: 149,
     description: "Moly is a model that helps you to create modelfiles",
     Latency: "",
   },
-  sdexpert: {
+  "sdexpert": {
     name: "hub/unkillable/sdexpert:latest",
     id: 150,
     description: "An expert in stable diffusion prompt expansion",
@@ -1243,4 +1243,5 @@ export const ollamaModels = {
   },
 };
 
-export const defaultModel = ollamaModels.llama3;
+export const defaultModelAlias = "llama3";
+export const defaultModel = ollamaModels[defaultModelAlias];
