@@ -21,6 +21,7 @@ export default new Event("messageCreate", async (message: Message) => {
   if (message.inGuild() || !message.channel.isDMBased()) return;
   if (!message.content.toLowerCase().startsWith(prefix)) return;
 
+  await message.channel.sendTyping();
 
   const ollamaConfigs = getDefaultConfigs()?.ollama;
   if (!ollamaConfigs || !ollamaConfigs?.url) {
@@ -34,11 +35,12 @@ export default new Event("messageCreate", async (message: Message) => {
   if (msgContent === resetPrefix) {
     messagesState.set(author.id, []);
     modelState.set(author.id, null);
+
+    await message.author.send("✔️ Default model and chat history where cleared.");
     return;
   }
 
   try {
-    await message.channel.sendTyping();
     const firstWord = msgContent.split(" ")[0];
 
     const userDefaults = userModelSelect(author, firstWord);
