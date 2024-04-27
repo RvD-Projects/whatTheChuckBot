@@ -217,7 +217,7 @@ export const guildsConfigs = [
         goodbye: {
             channelId: "1233906597743427684",
             getContent: (params: any) => {
-                return `🖥️ 🤖  Goodbye <@${params.member.id}>! On va s'ennuyer, peut-être pas tout de suite mais plus tard j'en suis sur!!! ⚡ 🖥️\n\n`;
+                return `🖥️ 🤖  Goodbye <@${params.member.id}>! On va s'ennuyer, peut-être pas tout de suite, mais plus tard j'en suis sur!!! ⚡ 🖥️\n\n`;
             }
         }
     },
