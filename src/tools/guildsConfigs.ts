@@ -205,6 +205,22 @@ export const guildsConfigs = [
             getContent: (params: any) => `🤖  Dite au revoir à <@${params.member.id}> ! 😢👾`
         }
     },
+    {
+        // RevolutionCraft
+        guildId: "1233759327110565968",
+        welcome: {
+            channelId: "1233759327614013451",
+            getContent: (params: any) => {
+                return `🖥️ 🤖  Greetings <@${params.member.id}> ! ⚡ Bienvenue sur RevolutionCraft. Pour nous rejoindre, la IP est la suivante: "server-new.minecraft.tumeniaises.ca:25580" \n\n Pour toute question rejoindre WeConnected en dm --> <@258071819108614144> 👾  🖥️`;
+            }
+        },
+        goodbye: {
+            channelId: "1233906597743427684",
+            getContent: (params: any) => {
+                return `🖥️ 🤖  Goodbye <@${params.member.id}>! On va s'ennuyer, peut-être pas tout de suite mais plus tard j'en suis sur!!! ⚡ 🖥️\n\n`;
+            }
+        }
+    },
 ];
 
 export function getDefaultConfigs() {
