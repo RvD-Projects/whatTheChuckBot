@@ -35,7 +35,7 @@ export default new Event("messageCreate", async (message: Message) => {
   const msgContent = message.content;
 
   if (msgContent === listPrefix) {
-    let sb = "Here's the models list:\n" + getModelsListJson();
+    let sb = "Here's the models list:\n" + getModelsListJson().join("\n");
 
     const lines = textToLines(sb, 1800);
     for (let i = 0; i < lines.length; i++) {
@@ -223,7 +223,7 @@ function getModelsListJson(): string[] {
       description: model.description,
     };
 
-    outputs.push(JSON.stringify(dto));
+    outputs.push(JSON.stringify(dto, null , 2));
   }
 
   return outputs;
