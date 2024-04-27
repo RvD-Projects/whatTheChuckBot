@@ -52,7 +52,7 @@ export default new Event("messageCreate", async (message: Message) => {
       messagesState.set(author.id, []);
       modelState.set(author.id, null);
 
-      sb = ("✅ Default model and chat history where cleared:\n");
+      sb = ("✅ Default model and chat history were cleared:\n");
     }
 
     sb += getUserConfigMessage(author);
