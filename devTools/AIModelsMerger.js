@@ -1,4 +1,4 @@
-const oldModels = {};
+const oldModels = {}
 
 const newModels = {};
 
@@ -19,3 +19,4 @@ Object.keys(oldModels).sort().forEach(function (v, i) {
 
 const fileOutput = JSON.stringify(news, null, 2);
 console.log(fileOutput);
+debugger
