@@ -219,6 +219,7 @@ function getModelsListJson(): string[] {
     const model = aiModels[alias];
     const dto = {
       id: model.id,
+      alias: alias,
       name: model.name,
       description: model.description,
     };
