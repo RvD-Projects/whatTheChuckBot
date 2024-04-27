@@ -35,13 +35,13 @@ export default new Event("messageCreate", async (message: Message) => {
   const msgContent = message.content;
 
   if (msgContent === listPrefix) {
-    let sb = "Here's the models list:\n" + getModelsListMessage();
-    
+    let sb = "Here's the models list:\n" + getModelsListJson();
+
     const lines = textToLines(sb, 1800);
     for (let i = 0; i < lines.length; i++) {
       author.send(lines[i]);
     }
-    
+
     return;
   }
 
@@ -212,22 +212,19 @@ function getUserConfigMessage(author: User): string {
   return sb;
 }
 
-function getModelsListMessage(): string {
-  let sb = "```json\n";
+function getModelsListJson(): string[] {
+  const outputs = [];
 
-  const dto = [];
   for (const alias in aiModels) {
     const model = aiModels[alias];
-
-    dto.push({
+    const dto = {
       id: model.id,
       name: model.name,
       description: model.description,
-    });
+    };
+
+    outputs.push(JSON.stringify(dto));
   }
 
-  sb += JSON.stringify(dto, null, 2);
-  sb += "\n```";
-
-  return sb;
+  return outputs;
 }
