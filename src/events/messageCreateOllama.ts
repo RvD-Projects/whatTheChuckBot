@@ -9,6 +9,7 @@ import { defaultModel, defaultModelAlias, ollamaModels, UserModelState } from ".
 const prefix: string = "ai:";
 const resetPrefix: string = "ai:stop";
 const configPrefix: string = "ai:conf";
+const listPrefix: string = "ai:list";
 const messagesState: Map<string, Array<any>> = new Map();
 const modelState: Map<string, UserModelState> = new Map();
 const aiModels = ollamaModels;
@@ -32,6 +33,14 @@ export default new Event("messageCreate", async (message: Message) => {
 
   const author = message.author;
   const msgContent = message.content;
+
+  if (msgContent === listPrefix) {
+    let sb = "Here's the models list:\n";
+
+    sb += getModelsListMessage();
+    await message.author.send(sb);
+    return;
+  }
 
   if (msgContent === resetPrefix || msgContent === configPrefix) {
     let sb = "Currently using:\n";
@@ -188,13 +197,33 @@ function getModelById(id: number) {
 
 
 function getUserConfigMessage(author: User): string {
-  const messageSte = messagesState.get(author.id) ?? [];
+  const messageState = messagesState.get(author.id) ?? [];
   const userState = userModelSelect(author);
 
   let sb = "```md";
   sb += `\n- Model: ${userState.modelAlias}`;
   sb += `\n- Version: ${userState.modelName}`;
-  sb += `\n- Messages: ${messageSte.length}`;
+  sb += `\n- Messages: ${messageState.length}`;
+  sb += "\n```";
+
+  return sb;
+}
+
+function getModelsListMessage(): string {
+  let sb = "```json\n";
+
+  const dto = [];
+  for (const alias in aiModels) {
+    const model = aiModels[alias];
+
+    dto.push({
+      id: model.id,
+      name: model.name,
+      description: model.description,
+    });
+  }
+
+  sb += JSON.stringify(dto, null, 2);
   sb += "\n```";
 
   return sb;
