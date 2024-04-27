@@ -4,82 +4,105 @@ import { Event } from "../class/Event";
 import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { getDefaultConfigs } from "../tools/guildsConfigs";
 import { textToLines } from "../tools/myFunctions";
-import { defaultModel, defaultModelAlias, ollamaModels, UserModelState } from "../ollamaModels";
+import { Ollama, OllamaModel } from "../ollamaModels";
+
+export type ChatMessage = {
+  role: string,
+  content?: string,
+  [rest: string]: any;
+};
+
+export type UserState = {
+  model: OllamaModel
+  messages: ChatMessage[]
+};
+
+const defaultUserState = {
+  model: Ollama.DefaultModel,
+  messages: []
+};
+
+const userState: Map<string, UserState> = new Map();
 
 const prefix: string = "ai:";
 const resetPrefix: string = "ai:stop";
 const configPrefix: string = "ai:conf";
 const listPrefix: string = "ai:list";
-const messagesState: Map<string, Array<any>> = new Map();
-const modelState: Map<string, UserModelState> = new Map();
-const aiModels = ollamaModels;
 const fetcher = new HttpFetcher();
 
-const timeout = 60000;
-fetcher.setOption("timeout", timeout);
+const fetchTimeout = 60000;
+fetcher.setOption("timeout", fetchTimeout);
 
 export default new Event("messageCreate", async (message: Message) => {
   if (!message?.author || message.author.bot) return;
   if (message.inGuild() || !message.channel.isDMBased()) return;
   if (!message.content.startsWith(prefix)) return;
 
-  await message.channel.sendTyping();
-
+  const author = message.author;
   const ollamaConfigs = getDefaultConfigs()?.ollama;
   if (!ollamaConfigs || !ollamaConfigs?.url) {
-    message.channel.send('❌An error occurred:\n```No configs where found```"');
+    author.send('⚠️ System: An error occurred:\n```This feature is not available to you.```"');
     return;
   }
 
-  const author = message.author;
+  await message.channel.sendTyping();
+  const typingInterval = setInterval(() => message.channel.sendTyping(), 5000);
+
+  !userState.get(author.id) && userState.set(author.id, { ...defaultUserState });
+  let state = userState.get(author.id);
+
   const msgContent = message.content;
 
+  if (msgContent === resetPrefix || msgContent === configPrefix) {
+    let sb = "Currently using:\n";
+
+    if (msgContent === resetPrefix) {
+      sb = ("✅ Default model and chat history were cleared:\n");
+      state.model = defaultUserState.model;
+      state.messages = [];
+    }
+    
+    sb += getUserConfigMessage(state);
+    clearInterval(typingInterval);
+
+    return await message.author.send(sb);
+  }
+
   if (msgContent === listPrefix) {
-    let sb = "Here's the models list:\n" + getModelsListJson().join("\n");
+    let sb = "Here's the models list:\n" + getModelsListJson().join(",\n");
 
     const lines = textToLines(sb, 1800);
     for (let i = 0; i < lines.length; i++) {
       author.send(lines[i]);
     }
 
-    return;
-  }
-
-  if (msgContent === resetPrefix || msgContent === configPrefix) {
-    let sb = "Currently using:\n";
-
-    if (msgContent === resetPrefix) {
-      messagesState.set(author.id, []);
-      modelState.set(author.id, null);
-
-      sb = ("✅ Default model and chat history were cleared:\n");
-    }
-
-    sb += getUserConfigMessage(author);
-    await message.author.send(sb);
-    return;
+    return clearInterval(typingInterval);
   }
 
   try {
     const firstWord = msgContent.split(" ")[0];
 
-    const userState = userModelSelect(author, firstWord);
-    const responseStart = `\`[${userState.modelAlias}]:\``;
+    state = userModelSelect(state, author, firstWord);
+    const userModel = state.model;
+
+    const responseStart = `\`[${userModel.alias}]:\``;
     const prompt = msgContent.replace(firstWord + " ", "");
 
-    const response = await chat(userState.modelName, prompt, author, ollamaConfigs);
+    const chatResponse: ChatMessage = await chat(state, userModel.name, prompt, author, ollamaConfigs);
+    const lines = textToLines(`${responseStart}${chatResponse.content}`, 1800);
 
-    const lines = textToLines(`${responseStart}${response}`, 1800);
     for (let i = 0; i < lines.length; i++) {
       author.send(lines[i]);
     }
 
   } catch (error) {
     if (error.type === "request-timeout") {
-      error.message = `Request timed out: Waited \`${timeout}ms\` and no response where given.`;
+      error.message = `Request timed out: Waited \`${fetchTimeout}ms\` and no response where given.`;
     }
-    await message.author.send("❌Query error:\n" + error.message);
+    await message.author.send("⚠️ System: Query error:\n" + error.message);
   }
+
+  clearInterval(typingInterval);
 });
 
 /**
@@ -90,21 +113,21 @@ export default new Event("messageCreate", async (message: Message) => {
  * @param {string} prompt
  * @param {User} author
  * @param {*} configs
- * @return {Promise<string>}
+ * @return {Promise<ChatMessage>}
  */
 async function chat(
+  state: UserState,
   model: string,
   prompt: string,
   author: User,
   configs: any
-): Promise<string> {
-  const messages = messagesState.get(author.id) ?? [];
-  messages.push({
+): Promise<ChatMessage> {
+  state.messages.push({
     role: "user",
-    content: prompt,
+    content: prompt
   });
 
-  const options = { model, stream: false, messages: messages, };
+  const options = { model, stream: false, messages: state.messages };
 
   const response = await fetcher.post(
     `${configs.url}/chat`,
@@ -112,17 +135,19 @@ async function chat(
   );
 
   const data = await response.json();
-  const message = data?.message;
+  let chatMessage: ChatMessage = data?.message;
 
-  const text = message?.content;
-  if (!text) {
-    return "(void)";
+  if (!chatMessage?.content) {
+    chatMessage = {
+      role: "assistant",
+      content: "⚠️ System: I'm sorry, I was not able to help you with that."
+    };
   }
 
-  messages.push(message);
-  messagesState.set(author.id, messages);
+  state.messages.push(chatMessage);
+  userState.set(author.id, state);
 
-  return text;
+  return chatMessage;
 }
 
 /**
@@ -134,21 +159,19 @@ async function chat(
  * @param lookUpString - The string used to lookup the model state.
  * @returns The user currently selected model.
  */
-function userModelSelect(author: User, lookUpString: string = prefix): UserModelState {
-  const userState = modelState.get(author.id) ?? {
-    modelAlias: defaultModelAlias,
-    modelName: defaultModel.name
-  };
-
-  // Insure users always has defaults value
-  modelState.set(author.id, userState);
-
-  if (lookUpString !== prefix) {
-    const newModel = getModelByPrefixOrId(lookUpString);
-    newModel && modelState.set(author.id, newModel);
+function userModelSelect(state: UserState, author: User, lookUpString: string = prefix): UserState {
+  // No need to update state if its "ai:"  -> continue with current model
+  if (lookUpString === prefix) {
+    return state;
   }
 
-  return modelState.get(author.id);
+  const newModel = getModelByPrefixOrId(lookUpString);
+  if (!newModel) return state;
+
+  state.model = newModel;
+  userState.set(author.id, state);
+
+  return state;
 }
 
 /**
@@ -158,8 +181,7 @@ function userModelSelect(author: User, lookUpString: string = prefix): UserModel
  * @param {string} prefixOrId
  * @return {string} The parsed model name
  */
-function getModelByPrefixOrId(prefixOrId: string): UserModelState {
-
+function getModelByPrefixOrId(prefixOrId: string): OllamaModel {
   const modelAlias = prefixOrId.includes(":") ? prefixOrId.split(":")[1] : null;
   if (!modelAlias.length) {
     return null;
@@ -168,45 +190,19 @@ function getModelByPrefixOrId(prefixOrId: string): UserModelState {
   // Lookup using an id instead of an alias
   const lookUpId = modelAlias?.length ? Number(modelAlias) : null;
   if (!isNaN(lookUpId)) {
-    const found = getModelById(lookUpId);
-    if (!found) {
-      return null;
-    }
-
-    return { modelName: found.model.name, modelAlias: found.alias };
+    return Ollama.Models.find(m => m.id === lookUpId);
   }
 
-  const found = aiModels[modelAlias];
-  if (!found) {
-    return null;
-  }
-
-  return { modelName: found.name, modelAlias };
+  return Ollama.Models.find(m => m.alias === modelAlias);
 }
 
-function getModelById(id: number) {
-  for (const alias in aiModels) {
-    const model = aiModels[alias];
-
-    if (model.id !== id) {
-      continue;
-    }
-
-    return { alias, model };
-  }
-
-  return null;
-}
-
-
-function getUserConfigMessage(author: User): string {
-  const messageState = messagesState.get(author.id) ?? [];
-  const userState = userModelSelect(author);
-
+function getUserConfigMessage(state: UserState): string {
   let sb = "```md";
-  sb += `\n- Model: ${userState.modelAlias}`;
-  sb += `\n- Version: ${userState.modelName}`;
-  sb += `\n- Messages: ${messageState.length}`;
+  sb += `\n- Id: ${state.model.id}`;
+  sb += `\n- Alias: ${state.model.alias}`;
+  sb += `\n- Name: ${state.model.name}`;
+  sb += `\n- Description: ${state.model.description}`;
+  sb += `\n- Messages: ${state.messages.length}`;
   sb += "\n```";
 
   return sb;
@@ -214,17 +210,8 @@ function getUserConfigMessage(author: User): string {
 
 function getModelsListJson(): string[] {
   const outputs = [];
-
-  for (const alias in aiModels) {
-    const model = aiModels[alias];
-    const dto = {
-      id: model.id,
-      alias: alias,
-      name: model.name,
-      description: model.description,
-    };
-
-    outputs.push(JSON.stringify(dto, null , 2));
+  for (const model of Ollama.Models) {
+    outputs.push(JSON.stringify(model, null, 2));
   }
 
   return outputs;
