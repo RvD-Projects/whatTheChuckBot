@@ -4,7 +4,6 @@ export type UserModelState = {
 }
 
 export const ollamaModels = {
-{
     "accountant": {
         id: 15,
         name: "hub/accountant:latest",
@@ -700,7 +699,6 @@ export const ollamaModels = {
         name: "hub/zurkon_bot:latest",
         description: "Zurkon Bot, your virtual assistant."
     },
-
 };
 
 export const defaultModelAlias = "llama3";
