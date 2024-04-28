@@ -5,7 +5,7 @@ import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { getDefaultConfigs } from "../tools/guildsConfigs";
 import { textToLines } from "../tools/myFunctions";
 import { Ollama, OllamaModel } from "../ollamaModels";
-import { OllamaAuth } from "../../data/Ollama/auth.js"
+import { OllamaAuth } from "../data/Ollama/auth";
 
 export type ChatMessage = {
   role: string,
