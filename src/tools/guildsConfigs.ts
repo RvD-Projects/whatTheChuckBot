@@ -186,26 +186,6 @@ export const guildsConfigs = [
         }
     },
     {
-        // Pankunai
-        guildId: "1211321545109012561",
-        welcome: {
-            channelId: "1211321545226588209",
-            card: {
-                getTitle: () => "Bienvenue !!!",
-                getMsg: (params: any) => "Merci de nous avoir rejoints !"
-            },
-            getContent: (params: any) => `🤖  Bienvenue <@${params.member.id}> ! ⚡👾`
-        },
-        goodbye: {
-            channelId: "1229532380981760131",
-            card: {
-                getTitle: () => "Bye bye",
-                getMsg: () => "À la prochaine..."
-            },
-            getContent: (params: any) => `🤖  Dite au revoir à <@${params.member.id}> ! 😢👾`
-        }
-    },
-    {
         // RevolutionCraft
         guildId: "1233759327110565968",
         welcome: {
