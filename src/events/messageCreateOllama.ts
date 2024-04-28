@@ -5,6 +5,7 @@ import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { getDefaultConfigs } from "../tools/guildsConfigs";
 import { textToLines } from "../tools/myFunctions";
 import { Ollama, OllamaModel } from "../ollamaModels";
+import { OllamaAuth } from "../../data/Ollama/auth.js"
 
 export type ChatMessage = {
   role: string,
@@ -39,6 +40,8 @@ export default new Event("messageCreate", async (message: Message) => {
   if (!message.content.startsWith(prefix)) return;
 
   const author = message.author;
+  if(!OllamaAuth.includes(author.id)) return;
+
   const ollamaConfigs = getDefaultConfigs()?.ollama;
   if (!ollamaConfigs || !ollamaConfigs?.url) {
     author.send('⚠️ System: An error occurred:\n```This feature is not available to you.```"');
