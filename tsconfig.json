@@ -1,6 +1,8 @@
 {
     "compilerOptions": {
-        "lib": ["ES2022"],
+        "lib": [
+            "ES2022"
+        ],
         "module": "commonjs",
         "moduleResolution": "node",
         "target": "ES2022",
@@ -18,6 +20,16 @@
         "importHelpers": true,
         "sourceRoot": "/"
     },
-    "include": ["src", "api", "services", "environments.d.ts"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+    "include": [
+        "src",
+        "api",
+        "services",
+        "plugins",
+        "environments.d.ts",
+        "plugins"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
 }

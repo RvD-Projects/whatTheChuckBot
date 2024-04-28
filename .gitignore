@@ -12,6 +12,6 @@ package-lock.json
 # Sentry Auth Token
 .sentryclirc
 
-./data
+/data
 api/certs/
-src/plugins/ollama/config/auth.ts
+plugins/Ollama/config/auth.ts

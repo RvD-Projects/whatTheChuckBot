@@ -4,26 +4,8 @@ import { Event } from "../class/Event";
 import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { getDefaultConfigs } from "../tools/guildsConfigs";
 import { textToLines } from "../tools/myFunctions";
-import { Ollama, OllamaModel } from "../ollamaModels";
-import { OllamaAuth } from "../data/Ollama/auth";
-
-export type ChatMessage = {
-  role: string,
-  content?: string,
-  [rest: string]: any;
-};
-
-export type UserState = {
-  model: OllamaModel
-  messages: ChatMessage[]
-};
-
-const defaultUserState = {
-  model: Ollama.DefaultModel,
-  messages: []
-};
-
-const userState: Map<string, UserState> = new Map();
+import { OllamaAuth } from "../../plugins/Ollama/config/auth";
+import { ChatMessage, OllamaPlugin, UserState } from "../../plugins/Ollama/OllamaPlugin";
 
 const prefix: string = "ai:";
 const resetPrefix: string = "ai:stop";
@@ -34,13 +16,20 @@ const fetcher = new HttpFetcher();
 const fetchTimeout = 60000;
 fetcher.setOption("timeout", fetchTimeout);
 
+const UsersState: Map<string, UserState> = new Map();
+
+const DefaultUserState = {
+  model: OllamaPlugin.DefaultModel,
+  messages: []
+};
+
 export default new Event("messageCreate", async (message: Message) => {
   if (!message?.author || message.author.bot) return;
   if (message.inGuild() || !message.channel.isDMBased()) return;
   if (!message.content.startsWith(prefix)) return;
 
   const author = message.author;
-  if(!OllamaAuth.includes(author.id)) return;
+  if (!OllamaAuth.includes(author.id)) return;
 
   const ollamaConfigs = getDefaultConfigs()?.ollama;
   if (!ollamaConfigs || !ollamaConfigs?.url) {
@@ -51,8 +40,8 @@ export default new Event("messageCreate", async (message: Message) => {
   await message.channel.sendTyping();
   const typingInterval = setInterval(() => message.channel.sendTyping(), 5000);
 
-  !userState.get(author.id) && userState.set(author.id, { ...defaultUserState });
-  let state = userState.get(author.id);
+  !UsersState.get(author.id) && UsersState.set(author.id, { ...DefaultUserState });
+  let state = UsersState.get(author.id);
 
   const msgContent = message.content;
 
@@ -61,18 +50,18 @@ export default new Event("messageCreate", async (message: Message) => {
 
     if (msgContent === resetPrefix) {
       sb = ("✅ Default model and chat history were cleared:\n");
-      state.model = defaultUserState.model;
+      state.model = DefaultUserState.model;
       state.messages = [];
     }
-    
-    sb += getUserConfigMessage(state);
+
+    sb += OllamaPlugin.getUserConfigMessage(state);
     clearInterval(typingInterval);
 
     return await message.author.send(sb);
   }
 
   if (msgContent === listPrefix) {
-    let sb = "Here's the models list:\n" + getModelsListJson().join(",\n");
+    let sb = "Here's the models list:\n" + OllamaPlugin.getModelsListJson().join(",\n");
 
     const lines = textToLines(sb, 1800);
     for (let i = 0; i < lines.length; i++) {
@@ -148,7 +137,7 @@ async function chat(
   }
 
   state.messages.push(chatMessage);
-  userState.set(author.id, state);
+  UsersState.set(author.id, state);
 
   return chatMessage;
 }
@@ -168,54 +157,11 @@ function userModelSelect(state: UserState, author: User, lookUpString: string = 
     return state;
   }
 
-  const newModel = getModelByPrefixOrId(lookUpString);
+  const newModel = OllamaPlugin.getModelByPrefixOrId(lookUpString);
   if (!newModel) return state;
 
   state.model = newModel;
-  userState.set(author.id, state);
+  UsersState.set(author.id, state);
 
   return state;
-}
-
-/**
- * Will check if the prefix contains a model name or id.
- * Try to get the model with a name or id.
- *
- * @param {string} prefixOrId
- * @return {string} The parsed model name
- */
-function getModelByPrefixOrId(prefixOrId: string): OllamaModel {
-  const modelAlias = prefixOrId.includes(":") ? prefixOrId.split(":")[1] : null;
-  if (!modelAlias.length) {
-    return null;
-  }
-
-  // Lookup using an id instead of an alias
-  const lookUpId = modelAlias?.length ? Number(modelAlias) : null;
-  if (!isNaN(lookUpId)) {
-    return Ollama.Models.find(m => m.id === lookUpId);
-  }
-
-  return Ollama.Models.find(m => m.alias === modelAlias);
-}
-
-function getUserConfigMessage(state: UserState): string {
-  let sb = "```md";
-  sb += `\n- Id: ${state.model.id}`;
-  sb += `\n- Alias: ${state.model.alias}`;
-  sb += `\n- Name: ${state.model.name}`;
-  sb += `\n- Description: ${state.model.description}`;
-  sb += `\n- Messages: ${state.messages.length}`;
-  sb += "\n```";
-
-  return sb;
-}
-
-function getModelsListJson(): string[] {
-  const outputs = [];
-  for (const model of Ollama.Models) {
-    outputs.push(JSON.stringify(model, null, 2));
-  }
-
-  return outputs;
 }

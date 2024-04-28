@@ -1,13 +1,23 @@
-export type OllamaModel = {
+export type AIModel = {
     id: number,
     alias: string,
     name: string,
     description: string
 }
 
+export type ChatMessage = {
+    role: string,
+    content?: string,
+    [rest: string]: any;
+};
 
-export class Ollama {
-    static Models: OllamaModel[] = [
+export type UserState = {
+    model: AIModel
+    messages: ChatMessage[]
+};
+
+export class OllamaPlugin {
+    static Models: AIModel[] = [
         {
             id: 1,
             alias: "bakllava",
@@ -874,5 +884,48 @@ export class Ollama {
         }
     ];
 
-    static DefaultModel = Ollama.Models.find(m => m.alias === "llama3");
+    static DefaultModel = OllamaPlugin.Models.find(m => m.alias === "llama3");
+
+    /**
+     * Will check if the prefix contains a model name or id.
+     * Try to get the model with a name or id.
+     *
+     * @param {string} prefixOrId
+     * @return {string} The parsed model name
+     */
+    static getModelByPrefixOrId(prefixOrId: string): AIModel {
+        const modelAlias = prefixOrId.includes(":") ? prefixOrId.split(":")[1] : null;
+        if (!modelAlias.length) {
+            return null;
+        }
+
+        // Lookup using an id instead of an alias
+        const lookUpId = modelAlias?.length ? Number(modelAlias) : null;
+        if (!isNaN(lookUpId)) {
+            return OllamaPlugin.Models.find(m => m.id === lookUpId);
+        }
+
+        return OllamaPlugin.Models.find(m => m.alias === modelAlias);
+    }
+
+    static getUserConfigMessage(state: UserState): string {
+        let sb = "```md";
+        sb += `\n- Id: ${state.model.id}`;
+        sb += `\n- Alias: ${state.model.alias}`;
+        sb += `\n- Name: ${state.model.name}`;
+        sb += `\n- Description: ${state.model.description}`;
+        sb += `\n- Messages: ${state.messages.length}`;
+        sb += "\n```";
+
+        return sb;
+    }
+
+    static getModelsListJson(): string[] {
+        const outputs = [];
+        for (const model of OllamaPlugin.Models) {
+            outputs.push(JSON.stringify(model, null, 2));
+        }
+
+        return outputs;
+    }
 }
