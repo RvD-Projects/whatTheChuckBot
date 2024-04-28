@@ -91,7 +91,7 @@ export const guildsConfigs = [
             }
         },
         goodbye: {
-            channelId: "1086738313689440276",
+            channelId: "1234280957192835092",
             getContent: (params: any) => {
                 return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
             }
@@ -107,7 +107,7 @@ export const guildsConfigs = [
             }
         },
         goodbye: {
-            channelId: "1166585676297412658",
+            channelId: "1234281655393452093",
             card: {
                 getTitle: () => "Bye bye",
                 getMsg: () => "We'll miss him / her!"
@@ -116,52 +116,6 @@ export const guildsConfigs = [
                 return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
             }
         },
-        cs2: {
-            dockerAccess: ["trusted player"],
-            rconChannels: {
-                "1185404438412808313": {
-                    port: 27016,
-                    ip: "rvdprojects.synology.me",
-                    password: env["RCON_PASS_192_168_1_128_27016"],
-                    region: "US_EAST",
-                },
-                "1203080698710196324": {
-                    port: 27016,
-                    ip: "rvdprojects.synology.me",
-                    password: env["RCON_PASS_192_168_1_128_27016"],
-                    region: "US_EAST",
-                    cmdWhitelist: ['map', 'exec', 'sv_gravity', 'host_workshop_map', 'bot_kick']
-                },
-                "1202829534144237619": {
-                    port: 27017,
-                    ip: "rvdprojects.synology.me",
-                    password: env["RCON_PASS_192_168_1_128_27016"],
-                    region: "US_EAST",
-                },
-                "1203080769019584562": {
-                    port: 27017,
-                    ip: "rvdprojects.synology.me",
-                    password: env["RCON_PASS_192_168_1_128_27016"],
-                    region: "US_EAST",
-                    cmdWhitelist: ['map', 'exec', 'sv_gravity', 'host_workshop_map', 'bot_kick']
-                }
-            },
-            chatChannels: {
-                "1185992702928621630": {
-                    port: 27016,
-                    ip: "rvdprojects.synology.me",
-                    password: env["RCON_PASS_192_168_1_128_27016"],
-                    region: "US_EAST",
-                }
-            }
-        },
-    },
-    //RC-505
-    {
-        guildId: "1197480594284756993",
-        goodbye: {
-            channelId: "1197687123373990038",
-        }
     },
     {
         // StillNoCake
