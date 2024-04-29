@@ -28,7 +28,7 @@ export default new Event("messageCreate", async (message: Message) => {
   if (!message?.author || message.author.bot) return;
   if (message.inGuild() || !message.channel.isDMBased()) return;
 
-  const startRange = message.content.substring(0,3);
+  const startRange = message.content.substring(0,3).toLowerCase();
   if (!startRange.startsWith(prefix)) return;
 
   const author = message.author;
