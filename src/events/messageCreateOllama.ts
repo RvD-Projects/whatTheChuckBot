@@ -8,7 +8,8 @@ import { OllamaAuth } from "../../plugins/Ollama/config/auth";
 import { ChatMessage, OllamaPlugin, UserState } from "../../plugins/Ollama/OllamaPlugin";
 
 const prefix: string = "ai:";
-const resetPrefix: string = "ai:stop";
+const stopPrefix: string = "ai:stop";
+const resetPrefix: string = "ai:reset";
 const configPrefix: string = "ai:conf";
 const listPrefix: string = "ai:list";
 const fetcher = new HttpFetcher();
@@ -26,7 +27,9 @@ const DefaultUserState = {
 export default new Event("messageCreate", async (message: Message) => {
   if (!message?.author || message.author.bot) return;
   if (message.inGuild() || !message.channel.isDMBased()) return;
-  if (!message.content.startsWith(prefix)) return;
+
+  const startRange = message.content.substring(0,3);
+  if (!startRange.startsWith(prefix)) return;
 
   const author = message.author;
   if (!OllamaAuth.includes(author.id)) return;
@@ -45,12 +48,16 @@ export default new Event("messageCreate", async (message: Message) => {
 
   const msgContent = message.content;
 
-  if (msgContent === resetPrefix || msgContent === configPrefix) {
+  if (msgContent === resetPrefix || msgContent === stopPrefix || msgContent === configPrefix) {
     let sb = "Currently using:\n";
 
     if (msgContent === resetPrefix) {
-      sb = ("✅ Default model and chat history were cleared:\n");
+      sb = ("✅ Chat history and default model was reset:\n");
       state.model = DefaultUserState.model;
+      state.messages = [];
+    }
+    else if(msgContent === stopPrefix) {
+      sb = ("✅ Chat history was cleared:\n");
       state.messages = [];
     }
 
