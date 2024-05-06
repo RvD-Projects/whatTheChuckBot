@@ -920,12 +920,7 @@ export class OllamaPlugin {
         return sb;
     }
 
-    static getModelsListJson(): string[] {
-        const outputs = [];
-        for (const model of OllamaPlugin.Models) {
-            outputs.push(JSON.stringify(model, null, 2));
-        }
-
-        return outputs;
+    static getModelsListJson(): string {
+        return JSON.stringify(OllamaPlugin.Models, null, 2);
     }
 }

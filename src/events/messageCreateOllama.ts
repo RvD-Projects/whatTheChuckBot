@@ -3,7 +3,7 @@ import { Message, User } from "discord.js";
 import { Event } from "../class/Event";
 import { HttpFetcher } from "../tools/class/HttpFetcher";
 import { getDefaultConfigs } from "../tools/guildsConfigs";
-import { textToLines } from "../tools/myFunctions";
+import { textToAttachment, textToLines } from "../tools/myFunctions";
 import { OllamaAuth } from "../../plugins/Ollama/config/auth";
 import { ChatMessage, OllamaPlugin, UserState } from "../../plugins/Ollama/OllamaPlugin";
 
@@ -28,7 +28,7 @@ export default new Event("messageCreate", async (message: Message) => {
   if (!message?.author || message.author.bot) return;
   if (message.inGuild() || !message.channel.isDMBased()) return;
 
-  const startRange = message.content.substring(0,3).toLowerCase();
+  const startRange = message.content.substring(0, 3).toLowerCase();
   if (!startRange.startsWith(prefix)) return;
 
   const author = message.author;
@@ -56,7 +56,7 @@ export default new Event("messageCreate", async (message: Message) => {
       state.model = DefaultUserState.model;
       state.messages = [];
     }
-    else if(msgContent === stopPrefix) {
+    else if (msgContent === stopPrefix) {
       sb = ("✅ Chat history was cleared:\n");
       state.messages = [];
     }
@@ -68,12 +68,18 @@ export default new Event("messageCreate", async (message: Message) => {
   }
 
   if (msgContent === listPrefix) {
-    let sb = "Here's the models list:\n" + OllamaPlugin.getModelsListJson().join(",\n");
+    let sb = "Here's the models list:";
 
-    const lines = textToLines(sb, 1800);
-    for (let i = 0; i < lines.length; i++) {
-      author.send(lines[i]);
-    }
+    const listJson = OllamaPlugin.getModelsListJson();
+    const attachment = textToAttachment(listJson, "list.json");
+
+    author.send({
+      content: sb,
+      files: [{
+        attachment,
+        name: "list.json"
+      }]
+    })
 
     return clearInterval(typingInterval);
   }
