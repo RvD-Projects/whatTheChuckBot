@@ -18,14 +18,30 @@ export class YoutubeFetcher extends HttpFetcher {
         return date.toLocaleDateString() + " " + date.toLocaleTimeString() + " | " + url
     }
 
-    async readFileCallback(err: any, data: string, guildChannel: GuildTextBasedChannel, params: any) {
+    static async writeFileCallBack(guildChannel: GuildTextBasedChannel, params: any) {
+        const {
+            newJsonEntry,
+            subscription,
+            channel
+        } = params;
+
+        try {
+            let message = `*Hey you <@&${channel.mentionRoleId}>*\n`;
+            message += `**${subscription.name}** released a new video recently! Feel free to watch it on YT:\n`;
+            message += newJsonEntry.url;
+
+            guildChannel.send(message);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    static async readFileCallback(err: any, data: string, guildChannel: GuildTextBasedChannel, params: any) {
         if (err) { console.log(err); return; }
 
         const {
             filePath,
             newJsonEntry,
-            subscription,
-            channel
         } = params;
 
         try {
@@ -37,21 +53,15 @@ export class YoutubeFetcher extends HttpFetcher {
                 return;
             }
 
+            async function writeFileCallBack(err: any, data: string) {
+                await YoutubeFetcher.writeFileCallBack(guildChannel, params);
+            }
+
             fileObj.scraps.reverse().slice(0, 2).reverse();
             fileObj.scraps.push(newJsonEntry);
 
             const fileText = JSON.stringify(fileObj);
-            await fs.writeFile(filePath, fileText);
-
-            try {
-                let message = `*Hey you <@&${channel.mentionRoleId}>*\n`;
-                message += `**${subscription.name}** released a new video recently! Feel free to watch it on YT:\n`;
-                message += newJsonEntry.url;
-
-                guildChannel.send(message);
-            } catch (error) {
-                console.error(error);
-            }
+            await fs.writeFile(filePath, fileText, writeFileCallBack);
 
         } catch (error) {
             console.error("Error: readFileCallback()", error);
@@ -68,9 +78,11 @@ export class YoutubeFetcher extends HttpFetcher {
             console.log(err);
         });
 
-        await fs.readFile(filePath, 'utf8', async (err: any, data: string) =>
-            await this.readFileCallback(err, data, guildChannel, params)
-        );
+        async function readCallback(err: any, data: string) {
+            await YoutubeFetcher.readFileCallback(err, data, guildChannel, params);
+        }
+
+        await fs.readFile(filePath, 'utf8', readCallback);
     }
 
     async getVideos() {
