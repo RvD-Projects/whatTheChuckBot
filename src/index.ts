@@ -1,15 +1,21 @@
 import 'dotenv/config'
-import SentryHelper from "./class/SentryHelper";
+import SentryHelper from "./helpers/SentryHelper";
 import OpenAI from 'openai';
 
-import { ExtendedClient } from "./class/Client";
-import { CardHelper } from "./tools/class/CardHelper";
-import { ThemeHelper } from "./tools/class/ThemeHelper";
-import { YoutubeFetcher } from "./tools/class/YoutubeFetcher";
+import { AppClient } from "./class/AppClient";
+import { CardHelper } from "./helpers/CardHelper";
+import { ThemeHelper } from "./helpers/ThemeHelper";
+import { YoutubeFetcher } from "./class/YoutubeFetcher";
 import { initExpressServer } from '../api';
 
+export const PATHS = {
+    root: "../",
+    shells: "../shells/",
+    bashes: "../shells/bash/",
+}
+
 export const sentryHelper = new SentryHelper().init();
-export const client = new ExtendedClient;
+export const client = new AppClient;
 
 export const openAI = new OpenAI();
 export const theme = new ThemeHelper;

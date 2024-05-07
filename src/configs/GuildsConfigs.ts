@@ -151,12 +151,7 @@ export const guildsConfigs = [
             getContent: (params: any) => `🤖  Bienvenue <@${params.member.id}> ! ⚡👾`
         },
         goodbye: {
-            channelId: "1229532380981760131",
-            card: {
-                getTitle: () => "Bye bye",
-                getMsg: () => "À la prochaine..."
-            },
-            getContent: (params: any) => `🤖  Dite au revoir à <@${params.member.id}> ! 😢👾`
+            channelId: "000000000000000"
         }
     },
     {
@@ -166,7 +161,7 @@ export const guildsConfigs = [
             card: {
                 getTitle: () => "Bienvenue !!",
                 getMsg: (params: any) => "Trop content de t'accueillir!"
-            },            
+            },
             channelId: "1233759327614013451",
             getContent: (params: any) => {
                 return `🖥️ 🤖  Salutation <@${params.member.id}> ! ⚡ Bienvenue sur RevolutionCraft. Pour nous rejoindre, la IP est la suivante: "server-new.minecraft.tumeniaises.ca:25580" \n\n Pour toute question rejoindre WeConnected en dm --> <@258071819108614144> 👾  🖥️`;

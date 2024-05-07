@@ -1,7 +1,7 @@
 import { TextBasedChannel } from 'discord.js';
 import { HttpFetcher } from './HttpFetcher';
-import { client } from '../..';
-import subscriptions from '../../subscriptions';
+import { client } from '..';
+import subscriptions from '../configs/Subscriptions';
 import { env } from 'node:process';
 var fs = require('fs');
 var fsExtra = require('fs-extra');

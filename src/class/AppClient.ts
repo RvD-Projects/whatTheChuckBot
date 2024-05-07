@@ -24,11 +24,11 @@ import { resolve } from "path";
 import { Event } from "./Event";
 import { readdir, stat } from "node:fs/promises";
 import { CommandType } from "../typings/Command";
-import { AppLogger } from "../tools/class/AppLogger";
-import { RegisterCommandsOptions } from "../typings/client";
+import { AppLogger } from "./Loggers/AppLogger";
+import { RegisterCommandsOptions } from "../typings/Client";
 
 
-export class ExtendedClient extends Client {
+export class AppClient extends Client {
     commands: Collection<string, CommandType> = new Collection();
     clientsLoggers: Collection<string, AppLogger> = new Collection();
     devLogger: AppLogger = new AppLogger('dev', process.env.botToken);
@@ -66,13 +66,17 @@ export class ExtendedClient extends Client {
     async registerModules() {
 
         // Register Event Listeners from events _dir
-        await this.registerEventListerFromDir(`${__dirname}/../events/`);
+        await this.registerEventListenerFromDir(`${__dirname}/../events/`);
 
         // Commands
-        const { publics, privates } = await this.getSlashCommandsFromDir(`${__dirname}/../commands/`);
+        const coreCommands = await this.getSlashCommandsFromDir(`${__dirname}/../commands/`);
+        const pluginsCommands = await this.registerPlugins();
+
+        const publics = [...coreCommands.publics, ...pluginsCommands.publics];
+        const privates = [...coreCommands.privates, ...pluginsCommands.privates];
 
         this.on("ready", () => {
-            this.registerCommands({commands: publics});
+            this.registerCommands({ commands: publics });
             const ids = process.env.guildIds.split(',');
             ids.forEach(id => {
                 this.registerCommands({
@@ -81,6 +85,35 @@ export class ExtendedClient extends Client {
                 });
             });
         });
+    }
+
+    async registerPlugins() {
+        const publics = [];
+        const privates = [];
+
+        // Get all plugins directories
+        const pluginBasePath = `${__dirname}/../../plugins/`;
+        const pluginsDirectories = await this.getDirectories(pluginBasePath)
+            .then(dirs => { console.warn(dirs); return dirs })
+            .catch(e => console.error(e));
+
+        if (!pluginsDirectories) {
+            return { publics, privates };
+        }
+
+        // Register event listeners and get commands definitions
+        for (let i = 0; i < pluginsDirectories.length; i++) {
+            const pluginDir = pluginsDirectories[i];
+
+            await this.registerEventListenerFromDir(`${pluginDir}/events`);
+            const { publics: plu, privates: pri } = await this.getSlashCommandsFromDir(`${pluginDir}/commands`);
+            publics.push(plu);
+            privates.push(pri);
+
+            console.info("LOADED-PLUGIN", pluginDir);
+        }
+
+        return { publics, privates };
     }
 
     async registerBaseListener() {
@@ -148,7 +181,8 @@ export class ExtendedClient extends Client {
             .then(files => { console.warn(files); return files })
             .catch(e => console.error(e));
 
-        await commandFiles?.forEach(async (filePath: string) => {
+        for (let i = 0; i < commandFiles?.length; i++) {
+            const filePath = commandFiles[i];
 
             const regex = /^[^.]+\.js$|^[^.]+\.ts$/gm;
             let match = regex.exec(filePath);
@@ -163,19 +197,21 @@ export class ExtendedClient extends Client {
             command.public
                 ? publics.push(command)
                 : privates.push(command);
-        });
+        }
 
         return { publics, privates };
     }
 
-    async registerEventListerFromDir(dirPath: PathLike) {
+    async registerEventListenerFromDir(dirPath: PathLike) {
 
         // Get all files from events _dir
         const eventFiles = await this.getFiles(dirPath)
             .then(files => { console.warn(files); return files })
             .catch(e => console.error(e));
 
-        await eventFiles.forEach(async (filePath) => {
+        for (let i = 0; i < eventFiles?.length; i++) {
+            const filePath = eventFiles[i];
+
             const regex = /^[^.]+\.js$|^[^.]+\.ts$/gm;
             let match = regex.exec(filePath);
             if (!match) return;
@@ -186,7 +222,7 @@ export class ExtendedClient extends Client {
 
             console.log("registering", filePath);
             this.on(event.event, event.run);
-        });
+        }
     }
 
     async getCommandsHelp(): Promise<string> {
@@ -224,11 +260,39 @@ export class ExtendedClient extends Client {
     async getFiles(dir) {
         const subDirs = await readdir(dir);
 
-        const files = await Promise.all(subDirs.map(async (subDir) => {
-            const res = resolve(dir, subDir);
-            return (await stat(res)).isDirectory() ? this.getFiles(res) : res;
-        }));
+        const files = [];
+        for (let i = 0; i < subDirs.length; i++) {
+            try {
+                const subDir = subDirs[i];
+                const res = resolve(dir, subDir);
+                const stats = await stat(res);
+
+                files.push(stats.isDirectory() ? await this.getFiles(res) : res);
+            } catch (error) {
+                continue;
+            }
+        }
+
         return await files.reduce((a, f) => a.concat(f), []);
+    }
+
+    async getDirectories(dir) {
+        const subDirs = await readdir(dir);
+
+        const dirs = [];
+        for (let i = 0; i < subDirs.length; i++) {
+            try {
+                const subDir = subDirs[i];
+                const res = resolve(dir, subDir);
+                const stats = await stat(res);
+
+                stats.isDirectory() && dirs.push(res);
+            } catch (error) {
+                continue;
+            }
+        }
+
+        return dirs;
     }
 
     async findGuildChannel(name: string, type: "GUILD_CATEGORY" | "GUILD_NEWS" | "GUILD_STAGE_VOICE" | "GUILD_STORE" | "GUILD_TEXT" | ThreadChannelType | "GUILD_VOICE") {

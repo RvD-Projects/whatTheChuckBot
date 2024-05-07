@@ -1,5 +1,5 @@
-import { openAI } from "..";
-import { Event } from "../class/Event";
+import { openAI } from "../../../src";
+import { Event } from "../../../src/class/Event";
 
 const conversationState: Map<string, string> = new Map()
 const prefix: string = '!oai';

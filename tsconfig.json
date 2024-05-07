@@ -13,7 +13,6 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "resolveJsonModule": true,

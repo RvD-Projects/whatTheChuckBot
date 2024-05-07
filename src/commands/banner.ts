@@ -1,8 +1,8 @@
 import { ApplicationCommandOptionType, ChannelType, GuildMember, PartialGuildMember } from "discord.js";
 import { newCard } from "..";
 import { Command } from "../class/Command";
-import { DiscordManager } from "../class/DiscordManager";
-import { getGuildConfigsById } from "../tools/guildsConfigs";
+import { DiscordManager } from "../class/Managers/DiscordManager";
+import { getGuildConfigsById } from "../configs/GuildsConfigs";
 
 export default new Command({
     name: "banner",
