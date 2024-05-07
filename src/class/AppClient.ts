@@ -75,15 +75,20 @@ export class AppClient extends Client {
         const publics = [...coreCommands.publics, ...pluginsCommands.publics];
         const privates = [...coreCommands.privates, ...pluginsCommands.privates];
 
-        this.on("ready", () => {
-            this.registerCommands({ commands: publics });
-            const ids = process.env.guildIds.split(',');
-            ids.forEach(id => {
-                this.registerCommands({
-                    commands: privates,
-                    guildId: id
-                });
-            });
+        this.on("ready", async () => {
+            try {
+                await this.registerCommands({ commands: publics });
+                const guildIds = process.env.guildIds.split(',');
+
+                for (let i = 0; i < guildIds.length; i++) {
+                    await this.registerCommands({
+                        commands: privates,
+                        guildId: guildIds[i]
+                    });
+                }
+            } catch (error) {
+                console.error("On ready error:", error)
+            }
         });
     }
 
@@ -93,24 +98,22 @@ export class AppClient extends Client {
 
         // Get all plugins directories
         const pluginBasePath = `${__dirname}/../../plugins/`;
-        const pluginsDirectories = await this.getDirectories(pluginBasePath)
-            .then(dirs => { console.warn(dirs); return dirs })
-            .catch(e => console.error(e));
+        const pluginsDirectories = await this.getDirectories(pluginBasePath);
 
-        if (!pluginsDirectories) {
+        if (!pluginsDirectories?.length) {
+            console.warn("No plugins found:", pluginBasePath);
             return { publics, privates };
         }
 
         // Register event listeners and get commands definitions
         for (let i = 0; i < pluginsDirectories.length; i++) {
             const pluginDir = pluginsDirectories[i];
+            console.info("\nLoading plugin:", pluginDir);
 
-            await this.registerEventListenerFromDir(`${pluginDir}/events`);
-            const { publics: plu, privates: pri } = await this.getSlashCommandsFromDir(`${pluginDir}/commands`);
+            await this.registerEventListenerFromDir(`${pluginDir}\\events`);
+            const { publics: plu, privates: pri } = await this.getSlashCommandsFromDir(`${pluginDir}\\commands`);
             publics.push(plu);
             privates.push(pri);
-
-            console.info("LOADED-PLUGIN", pluginDir);
         }
 
         return { publics, privates };
@@ -144,12 +147,12 @@ export class AppClient extends Client {
     async registerCommands({ commands, guildId }: RegisterCommandsOptions) {
         if (guildId) {
             this.guilds.cache.get(guildId)?.commands.set(commands);
-            this.emit('warn', `Registering ${commands.length} commands to ${guildId}`);
+            console.info(`\nRegistered ${commands.length} commands to ${guildId}`);
             return;
         }
 
         this.application?.commands.set(commands);
-        this.emit('warn', `Registering ${commands.length} global commands`);
+        console.info(`Registered ${commands.length} global commands\n`);
     }
 
     addClientLogger(id: string) {
@@ -177,11 +180,14 @@ export class AppClient extends Client {
         const privates: CommandType[] = [];
 
         // Get all files from commands _dir
-        const commandFiles = await this.getFiles(dirPath)
-            .then(files => { console.warn(files); return files })
-            .catch(e => console.error(e));
+        const commandFiles = await this.getFiles(dirPath);
 
-        for (let i = 0; i < commandFiles?.length; i++) {
+        if (!commandFiles?.length) {
+            console.warn("No commands found:", dirPath);
+            return { publics, privates };
+        }
+
+        for (let i = 0; i < commandFiles.length; i++) {
             const filePath = commandFiles[i];
 
             const regex = /^[^.]+\.js$|^[^.]+\.ts$/gm;
@@ -206,8 +212,11 @@ export class AppClient extends Client {
 
         // Get all files from events _dir
         const eventFiles = await this.getFiles(dirPath)
-            .then(files => { console.warn(files); return files })
-            .catch(e => console.error(e));
+
+        if (!eventFiles?.length) {
+            console.warn("No events found:", dirPath);
+            return;
+        }
 
         for (let i = 0; i < eventFiles?.length; i++) {
             const filePath = eventFiles[i];
@@ -220,8 +229,8 @@ export class AppClient extends Client {
                 filePath
             );
 
-            console.log("registering", filePath);
             this.on(event.event, event.run);
+            console.log("\nRegistered", filePath);
         }
     }
 

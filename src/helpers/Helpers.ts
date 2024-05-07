@@ -35,6 +35,14 @@ export function sleep(milliseconds) {
   return true;
 }
 
+export function tryParseJson(json: string) {
+  try {
+    return JSON.parse(json);
+  } catch (error) {
+    return null;
+  }
+}
+
 /**
  * Transforme un string vers un tableau de string
  * @param inputString Le texte a diviser

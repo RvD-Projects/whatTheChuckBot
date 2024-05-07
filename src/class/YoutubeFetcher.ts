@@ -1,50 +1,39 @@
-import { TextBasedChannel } from 'discord.js';
+import { GuildTextBasedChannel } from 'discord.js';
 import { HttpFetcher } from './HttpFetcher';
 import { client } from '..';
 import subscriptions from '../configs/Subscriptions';
 import { env } from 'node:process';
+import { tryParseJson } from '../helpers/Helpers';
 var fs = require('fs');
 var fsExtra = require('fs-extra');
 
+
+export type YtScrap = { url: string, date: string };
 
 export class YoutubeFetcher extends HttpFetcher {
     linkParam = "watch?v=";
     baseUrl = "https://youtube.com/"
 
-    getUrlTextLine(date, url) {
+    getUrlTextLine(date: Date, url: string) {
         return date.toLocaleDateString() + " " + date.toLocaleTimeString() + " | " + url
     }
 
-    async checkFileWriteAndPost(newJsonEntry: any, filePath: string, server: any, channel: any, ytName: string) {
-        fsExtra.ensureFileSync(filePath, err => {
-            console.log(err);
-        });
+    async readFileCallback(err: any, data: string, guildChannel: GuildTextBasedChannel, params: any) {
+        if (err) { console.log(err); return; }
 
-        await fs.readFile(filePath, 'utf8', async function readFileCallback(err, data) {
-            if (err) {
-                console.log(err);
-                return;
-            }
+        const {
+            filePath,
+            newJsonEntry,
+            subscription,
+            channel
+        } = params;
 
-            let fileObj: any = {};
-            try {
-                fileObj = JSON.parse(data) ?? {};
-            } catch (error) {
-                fileObj = {};
-            }
-
+        try {
+            const fileObj: { scraps: YtScrap[] } = tryParseJson(data) ?? {};
             fileObj.scraps = fileObj.scraps ?? [];
-            const alreadyInFile = fileObj.scraps.filter(e => {
-                return e.url === newJsonEntry.url;
-            });
 
-            if (alreadyInFile?.length) {
-                console.log(`Url: ${newJsonEntry.url} was already put in the files at: ${alreadyInFile[0].date}`);
-                return;
-            }
-
-            if (newJsonEntry.url.includes(" ")) {
-                console.log(`Url: ${newJsonEntry.url} was malformated...`);
+            // alreadyInFile
+            if (fileObj.scraps.some(entry => entry.url === newJsonEntry.url)) {
                 return;
             }
 
@@ -52,38 +41,56 @@ export class YoutubeFetcher extends HttpFetcher {
             fileObj.scraps.push(newJsonEntry);
 
             const fileText = JSON.stringify(fileObj);
-            await fs.writeFile(filePath, fileText, async () => {
-                try {
-                    const guild = await client.guilds.fetch(server.id);
-                    const txtChannel = await guild?.channels.fetch(channel.id) as TextBasedChannel;
+            await fs.writeFile(filePath, fileText);
 
-                    if (!txtChannel?.isTextBased ?? false) {
-                        return;
-                    }
+            try {
+                let message = `*Hey you <@&${channel.mentionRoleId}>*\n`;
+                message += `**${subscription.name}** released a new video recently! Feel free to watch it on YT:\n`;
+                message += newJsonEntry.url;
 
-                    let message = `*Hey you <@&${channel.mentionRoleId}>*\n`;
-                    message += `**${ytName}** released a new video recently! Feel free to watch it on YT:\n`;
-                    message += newJsonEntry.url;
+                guildChannel.send(message);
+            } catch (error) {
+                console.error(error);
+            }
 
-                    txtChannel.send(message);
-                } catch (error) {
-                    console.error(error);
-                }
-            });
-        });
+        } catch (error) {
+            console.error("Error: readFileCallback()", error);
+        }
     }
 
+    async checkFileWriteAndPost(params: any, guildChannel: GuildTextBasedChannel) {
+        const {
+            filePath,
+            newJsonEntry,
+        } = params;
+
+        fsExtra.ensureFileSync(filePath, (err: any) => {
+            console.log(err);
+        });
+
+        await fs.readFile(filePath, 'utf8', async (err: any, data: string) =>
+            await this.readFileCallback(err, data, guildChannel, params)
+        );
+    }
 
     async getVideos() {
-        subscriptions.servers?.forEach(server => {
-            if (server.devOnly && env.environment == "prod") {
-                return;
+        for (let i = 0; i < subscriptions?.servers.length; i++) {
+            const server = subscriptions?.servers[i];
+            const guild = await client.guilds.fetch(server.id);
+
+            if (!guild || server.devOnly && env.environment === "prod") {
+                continue;
             }
 
             server.channels?.forEach(async channel => {
-                channel.subs?.forEach(async sub => {
+                const guildChannel = await guild?.channels.fetch(channel.id) as GuildTextBasedChannel;
+                if (!guildChannel?.isTextBased?.()) {
+                    return;
+                }
+
+                channel.subs?.forEach(async subscription => {
                     try {
-                        const resp = await this.get(sub.url);
+                        const resp = await this.get(subscription.url);
                         const text = await resp.text();
                         const date = new Date();
 
@@ -93,9 +100,20 @@ export class YoutubeFetcher extends HttpFetcher {
                         const url = this.baseUrl + this.linkParam + firstVideoTag;
                         const line = this.getUrlTextLine(date, url);
 
-                        const newEntry = { date: line.split(" | ")[0], url };
-                        const filePath = `./data/youtube/${server.name}/${sub.name}.json`;
-                        await this.checkFileWriteAndPost(newEntry, filePath, server, channel, sub.name);
+                        const newJsonEntry = { date: line.split(" | ")[0], url };
+                        const filePath = `./data/youtube/${server.name}/${subscription.name}.json`;
+
+                        if (newJsonEntry.url.includes(" ")) {
+                            console.log(`Url: ${newJsonEntry.url} was malformed...`);
+                            return;
+                        }
+
+                        await this.checkFileWriteAndPost({
+                            filePath,
+                            newJsonEntry,
+                            subscription,
+                            channel
+                        }, guildChannel);
 
                     } catch (error) {
                         console.error(error);
@@ -103,7 +121,6 @@ export class YoutubeFetcher extends HttpFetcher {
                 });
 
             });
-
-        })
+        }
     }
 }

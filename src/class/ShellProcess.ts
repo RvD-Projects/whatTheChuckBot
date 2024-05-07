@@ -2,13 +2,17 @@ import { exec, execFile, fork, spawn } from "child_process";
 import path, { resolve } from "path/posix";
 
 export default class ShellProcess {
-
     public static shellExec(command: string, args: string[]) {
-        const execProcess = spawn(command, args);
-        console.log('shellExec', command, args);
-        console.log('shellExec File:', execProcess.spawnfile);
+        try {
+            const execProcess = spawn(command, args);
+            console.log('shellExec', command, args);
+            console.log('shellExec File:', execProcess.spawnfile);
 
-        return execProcess;
+            return execProcess;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     }
 }
 
