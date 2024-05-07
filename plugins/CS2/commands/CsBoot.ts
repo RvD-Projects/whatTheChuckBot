@@ -29,24 +29,27 @@ export default new Command({
 
         const serverFlag = args.getInteger("server", false) ?? "0";
         const commandFlag = args.getInteger("command", false) ?? "0";
-        const execProcess = ShellProcess.shellExec(
-            PATHS.bashes.concat("ManageCsDocker.sh"),
-            [`${serverFlag}`, `${commandFlag}`]
-        );
-
         await interaction.reply({ content: "✅ Job was launched, wait for results... 🧙", ephemeral: true });
 
-        execProcess.on('close', async (code: number, args: any[]) => {
-            console.log(`shellExec on close code: ${code} args: ${args}`);
-            const reply = code == 0
-                ? "✅ Job's terminated successfully! 🧙"
-                : "❌ Job's terminated with error! 🧙";
+        try {
+            const call = PATHS.bashes.concat("ManageCsDocker.sh");
+            const execProcess = ShellProcess.shellExec(call,[`${serverFlag}`, `${commandFlag}`]);
 
-            setTimeout(async () => {
-                clearInterval(interval);
-                await interaction.editReply({ content: reply });
-            }, 3000)
-        });
+            execProcess.on('close', async (code: number, args: any[]) => {
+                console.log(`shellExec on close code: ${code} args: ${args}`);
+                const reply = code == 0
+                    ? "✅ Job's terminated successfully! 🧙"
+                    : "❌ Job's terminated with error! 🧙";
+
+                setTimeout(async () => {
+                    clearInterval(interval);
+                    await interaction.editReply({ content: reply });
+                }, 3000)
+            });
+
+        } catch (error) {
+            console.error(error)
+        }
 
         let i: number = 0, j: number = 0;
         let interval = setInterval(async () => {

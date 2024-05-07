@@ -7,12 +7,15 @@ import { CardHelper } from "./helpers/CardHelper";
 import { ThemeHelper } from "./helpers/ThemeHelper";
 import { YoutubeFetcher } from "./class/YoutubeFetcher";
 import { initExpressServer } from '../api';
+import { dirname } from 'path';
+
+const rootDir = dirname(__dirname + "../");
 
 export const PATHS = {
-    root: "../",
-    shells: "../shells/",
-    bashes: "../shells/bash/",
-}
+    root: `${rootDir}/`,
+    shells: `${rootDir}/shells/`,
+    bashes: `${rootDir}/shells/bash/`,
+};
 
 export const sentryHelper = new SentryHelper().init();
 export const client = new AppClient;
