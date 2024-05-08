@@ -33,7 +33,7 @@ export default new Command({
 
         try {
             const call = PATHS.bashes.concat("ManageCsDocker.sh");
-            const execProcess = ShellProcess.shellExec(call,[`${serverFlag}`, `${commandFlag}`]);
+            const execProcess = ShellProcess.shellExec(call, [`${serverFlag}`, `${commandFlag}`]);
 
             execProcess.on('close', async (code: number, args: any[]) => {
                 console.log(`shellExec on close code: ${code} args: ${args}`);

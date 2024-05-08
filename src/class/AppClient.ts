@@ -26,6 +26,7 @@ import { readdir, stat } from "node:fs/promises";
 import { CommandType } from "../typings/Command";
 import { AppLogger } from "./Loggers/AppLogger";
 import { RegisterCommandsOptions } from "../typings/Client";
+import { getDirectories, getFiles } from "../helpers/Helpers";
 
 
 export class AppClient extends Client {
@@ -98,7 +99,7 @@ export class AppClient extends Client {
 
         // Get all plugins directories
         const pluginBasePath = `${__dirname}/../../plugins/`;
-        const pluginsDirectories = await this.getDirectories(pluginBasePath);
+        const pluginsDirectories = await getDirectories(pluginBasePath);
 
         if (!pluginsDirectories?.length) {
             console.warn("No plugins found:", pluginBasePath);
@@ -180,7 +181,7 @@ export class AppClient extends Client {
         const privates: CommandType[] = [];
 
         // Get all files from commands _dir
-        const commandFiles = await this.getFiles(dirPath);
+        const commandFiles = await getFiles(dirPath);
 
         if (!commandFiles?.length) {
             console.warn("No commands found:", dirPath);
@@ -211,7 +212,7 @@ export class AppClient extends Client {
     async registerEventListenerFromDir(dirPath: PathLike) {
 
         // Get all files from events _dir
-        const eventFiles = await this.getFiles(dirPath)
+        const eventFiles = await getFiles(dirPath)
 
         if (!eventFiles?.length) {
             console.warn("No events found:", dirPath);
@@ -264,44 +265,6 @@ export class AppClient extends Client {
 
     async importFile(filePath: string) {
         return (await import(filePath))?.default;
-    }
-
-    async getFiles(dir) {
-        const subDirs = await readdir(dir);
-
-        const files = [];
-        for (let i = 0; i < subDirs.length; i++) {
-            try {
-                const subDir = subDirs[i];
-                const res = resolve(dir, subDir);
-                const stats = await stat(res);
-
-                files.push(stats.isDirectory() ? await this.getFiles(res) : res);
-            } catch (error) {
-                continue;
-            }
-        }
-
-        return await files.reduce((a, f) => a.concat(f), []);
-    }
-
-    async getDirectories(dir) {
-        const subDirs = await readdir(dir);
-
-        const dirs = [];
-        for (let i = 0; i < subDirs.length; i++) {
-            try {
-                const subDir = subDirs[i];
-                const res = resolve(dir, subDir);
-                const stats = await stat(res);
-
-                stats.isDirectory() && dirs.push(res);
-            } catch (error) {
-                continue;
-            }
-        }
-
-        return dirs;
     }
 
     async findGuildChannel(name: string, type: "GUILD_CATEGORY" | "GUILD_NEWS" | "GUILD_STAGE_VOICE" | "GUILD_STORE" | "GUILD_TEXT" | ThreadChannelType | "GUILD_VOICE") {

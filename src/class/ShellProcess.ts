@@ -1,8 +1,7 @@
-import { exec, execFile, fork, spawn } from "child_process";
-import path, { resolve } from "path/posix";
+import { spawn } from "child_process";
 
 export default class ShellProcess {
-    public static shellExec(command: string, args: string[]) {
+    public static shellExec(command: string, args: string[] = []) {
         try {
             const execProcess = spawn(command, args);
             console.log('shellExec', command, args);
@@ -16,9 +15,8 @@ export default class ShellProcess {
     }
 }
 
-
 //  // Events examples
-//  execProcess.on('spawn', () => {
+// execProcess.on('spawn', () => {
 //     console.log('shellExec on spawn');
 // });
 // execProcess.stdout.on('data', (data) => {
