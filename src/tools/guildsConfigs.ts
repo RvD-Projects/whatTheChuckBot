@@ -169,7 +169,7 @@ export const guildsConfigs = [
             },            
             channelId: "1233759327614013451",
             getContent: (params: any) => {
-                return `🖥️ 🤖  Salutation <@${params.member.id}> ! ⚡ Bienvenue sur RevolutionCraft. Notre I.P. est: revocraft.org  🖥️! \n\n Pour toutes questions, rejoindre <@258071819108614144> ou <@691686714976239726> 👾👾 🖥️`;
+                return `🖥️ 🤖  Salutation <@${params.member.id}> ! ⚡ Bienvenue sur RevolutionCraft. Notre I.P. est: revocraft.org  🖥️! \n\n Pour toutes questions, rejoindre <@258071819108614144> ou <@691686714976239726> en dm par ping! 👾👾 🖥️`;
             }
         },
         goodbye: {
