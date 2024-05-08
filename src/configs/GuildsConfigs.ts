@@ -164,7 +164,7 @@ export const guildsConfigs = [
             },
             channelId: "1233759327614013451",
             getContent: (params: any) => {
-                return `🖥️ 🤖  Salutation <@${params.member.id}> ! ⚡ Bienvenue sur RevolutionCraft. Pour nous rejoindre, la IP est la suivante: "server-new.minecraft.tumeniaises.ca:25580" \n\n Pour toute question rejoindre WeConnected en dm --> <@258071819108614144> 👾  🖥️`;
+                return `🖥️ 🤖  Salutation <@${params.member.id}> ! ⚡ Bienvenue sur RevolutionCraft. Notre I.P. est: revocraft.org  🖥️! \n\n Pour toutes questions, rejoindre <@258071819108614144> ou <@691686714976239726> en dm par ping! 👾👾 🖥️`;
             }
         },
         goodbye: {
@@ -172,6 +172,46 @@ export const guildsConfigs = [
             getContent: (params: any) => {
                 return `🖥️ 🤖  Goodbye <@${params.member.id}>! On va s'ennuyer, peut-être pas tout de suite, mais plus tard j'en suis sur!!! ⚡ 🖥️\n\n`;
             }
+        }
+    },
+    {
+        //FC / FreakingClowning
+        guildId: "984305093010673684",
+        welcome: {
+            channelId: 984330000893345802,
+            card: {
+                getTitle: () => "Welcome !!!",
+                getMsg: (params: any) => "We are glad to have you here!"
+            },
+            getContent: (params: any) => `🤖  Greetings <@${params.member.id}> ! ⚡👾`
+        },
+        goodbye: {
+            channelId: "1237543989360463972",
+            card: {
+                getTitle: () => "Bye bye",
+                getMsg: () => "We'll miss him / her!"
+            },
+            getContent: (params: any) => `🤖  Say goodbye to <@${params.member.id}> ! 😢👾`
+        }
+    },
+    {
+        //CtrlAiDel
+        guildId: "1200447572322549850",
+        welcome: {
+            channelId: "1200447573685706945",
+            card: {
+                getTitle: () => "Welcome !!!",
+                getMsg: (params: any) => "We are glad to have you here!"
+            },
+            getContent: (params: any) => `🤖  Greetings <@${params.member.id}> ! ⚡👾`
+        },
+        goodbye: {
+            channelId: "1237581020144992337",
+            card: {
+                getTitle: () => "Bye bye",
+                getMsg: () => "We'll miss him / her!"
+            },
+            getContent: (params: any) => `🤖  Say goodbye to <@${params.member.id}> ! 😢👾`
         }
     },
 ];
