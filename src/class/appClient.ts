@@ -110,9 +110,9 @@ export class AppClient extends Client {
             console.info("\nLoading plugin:", pluginDir);
 
             await this.registerEventListenerFromDir(`${pluginDir}/events`);
-            const pluginCommands = await this.getSlashCommandsFromDir(`${pluginDir}/commands`);
-            pluginCommands && publics.push(pluginCommands.publics);
-            pluginCommands && privates.push(pluginCommands.privates);
+            const { publics: plu, privates: pri } = await this.getSlashCommandsFromDir(`${pluginDir}/commands`);
+            publics.push(plu);
+            privates.push(pri);
         }
 
         return { publics, privates };
@@ -180,7 +180,6 @@ export class AppClient extends Client {
 
         // Get all files from commands _dir
         const commandFiles = await getFiles(dirPath);
-
         if (!commandFiles?.length) {
             console.warn("No commands found:", dirPath);
             return { publics, privates };
