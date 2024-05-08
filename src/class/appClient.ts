@@ -109,8 +109,8 @@ export class AppClient extends Client {
             const pluginDir = pluginsDirectories[i];
             console.info("\nLoading plugin:", pluginDir);
 
-            await this.registerEventListenerFromDir(`${pluginDir}\\events`);
-            const { publics: plu, privates: pri } = await this.getSlashCommandsFromDir(`${pluginDir}\\commands`);
+            await this.registerEventListenerFromDir(`${pluginDir}/events`);
+            const { publics: plu, privates: pri } = await this.getSlashCommandsFromDir(`${pluginDir}/commands`);
             publics.push(plu);
             privates.push(pri);
         }
