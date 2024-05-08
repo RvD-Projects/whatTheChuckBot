@@ -1,5 +1,5 @@
-import { Event } from "../class/Event";
-import { sendBanner } from "../commands/Banner";
+import { Event } from "../class/event";
+import { sendBanner } from "../commands/banner";
 
 export default new Event("guildMemberAdd", async (member) => {
     if (!member || member.user.bot) return;

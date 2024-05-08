@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ModalActionRowComponentBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
-import { Command } from "../class/Command";
+import { Command } from "../class/command";
 
 export default new Command({
     name: "ping",

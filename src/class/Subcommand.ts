@@ -1,5 +1,5 @@
 import { MessagePayload, InteractionReplyOptions } from "discord.js";
-import { CommandContext } from "./CommandContext";
+import { CommandContext } from "./commandContext";
 import { client } from "..";
 
 export class SubCommand {

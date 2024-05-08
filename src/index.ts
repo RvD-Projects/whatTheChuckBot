@@ -1,11 +1,11 @@
 import 'dotenv/config'
-import SentryHelper from "./helpers/SentryHelper";
+import SentryHelper from "./helpers/sentryHelper";
 import OpenAI from 'openai';
 
-import { AppClient } from "./class/AppClient";
-import { CardHelper } from "./helpers/CardHelper";
-import { ThemeHelper } from "./helpers/ThemeHelper";
-import { YoutubeFetcher } from "./class/YoutubeFetcher";
+import { AppClient } from "./class/appClient";
+import { CardHelper } from "./helpers/cardHelper";
+import { ThemeHelper } from "./helpers/themeHelper";
+import { YoutubeFetcher } from "./class/youtubeFetcher";
 import { initExpressServer } from '../api';
 import { dirname } from 'path';
 

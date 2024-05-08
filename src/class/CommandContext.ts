@@ -1,6 +1,6 @@
 import { CommandInteractionOptionResolver } from "discord.js";
-import { ExtendedInteraction } from "../typings/Command";
-import { AppClient } from "./AppClient";
+import { ExtendedInteraction } from "../typings/command";
+import { AppClient } from "./appClient";
 
 export class CommandContext {
 

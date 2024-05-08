@@ -1,9 +1,9 @@
 import { GuildTextBasedChannel } from 'discord.js';
-import { HttpFetcher } from './HttpFetcher';
+import { HttpFetcher } from './httpFetcher';
 import { client } from '..';
-import subscriptions from '../configs/Subscriptions';
+import subscriptions from '../configs/subscriptions';
 import { env } from 'node:process';
-import { tryParseJson } from '../helpers/Helpers';
+import { tryParseJson } from '../helpers/helpers';
 var fs = require('fs');
 var fsExtra = require('fs-extra');
 

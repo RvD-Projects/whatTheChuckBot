@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { body } from 'express-validator';
 import { TextBasedChannel } from 'discord.js';
 import { client } from '../../src';
-import { textToLines } from '../../src/helpers/Helpers';
+import { textToLines } from '../../src/helpers/helpers';
 
 const Cs2Router = Router();
 

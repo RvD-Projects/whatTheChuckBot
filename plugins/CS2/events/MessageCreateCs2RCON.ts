@@ -1,7 +1,7 @@
-import { Event } from "../../../src/class/Event";
+import { Event } from "../../../src/class/event";
 import { Server, RCON } from '@fabricio-191/valve-server-query';
-import { getGuildConfigsById } from "../../../src/configs/GuildsConfigs";
-import { textToLines, toSafeJsonString } from "../../../src/helpers/Helpers";
+import { getGuildConfigsById } from "../../../src/configs/guildsConfigs";
+import { textToLines, toSafeJsonString } from "../../../src/helpers/helpers";
 import { env } from "process";
 
 // https://www.ghostcap.com/cs2-commands/

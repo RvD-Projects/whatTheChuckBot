@@ -20,13 +20,11 @@ import {
 } from "discord.js";
 import { client, ytFetch } from "..";
 import { PathLike } from "fs";
-import { resolve } from "path";
-import { Event } from "./Event";
-import { readdir, stat } from "node:fs/promises";
-import { CommandType } from "../typings/Command";
-import { AppLogger } from "./Loggers/AppLogger";
-import { RegisterCommandsOptions } from "../typings/Client";
-import { getDirectories, getFiles } from "../helpers/Helpers";
+import { Event } from "./event";
+import { CommandType } from "../typings/command";
+import { AppLogger } from "./Loggers/appLogger";
+import { RegisterCommandsOptions } from "../typings/client";
+import { getDirectories, getFiles } from "../helpers/helpers";
 
 
 export class AppClient extends Client {

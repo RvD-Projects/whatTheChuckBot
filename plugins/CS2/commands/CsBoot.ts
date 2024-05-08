@@ -1,8 +1,8 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { Command } from "../../../src/class/Command";
-import ShellProcess from "../../../src/class/ShellProcess";
-import { clockHoursEmojis, loadingMarks } from "../../../src/constants/Emojis";
-import { hasCs2DockerAccess } from "../../../src/configs/GuildsConfigs";
+import { Command } from "../../../src/class/command";
+import ShellProcess from "../../../src/class/shellProcess";
+import { clockHoursEmojis, loadingMarks } from "../../../src/constants/emojis";
+import { hasCs2DockerAccess } from "../../../src/configs/guildsConfigs";
 import { PATHS } from "../../../src";
 
 export default new Command({
@@ -32,7 +32,7 @@ export default new Command({
         await interaction.reply({ content: "✅ Job was launched, wait for results... 🧙", ephemeral: true });
 
         try {
-            const call = PATHS.bashes.concat("ManageCsDocker.sh");
+            const call = PATHS.bashes.concat("manageCsDocker.sh");
             const execProcess = ShellProcess.shellExec(call, [`${serverFlag}`, `${commandFlag}`]);
 
             execProcess.on('close', async (code: number, args: any[]) => {

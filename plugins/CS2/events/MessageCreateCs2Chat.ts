@@ -1,6 +1,6 @@
-import { Event } from "../../../src/class/Event";
+import { Event } from "../../../src/class/event";
 import { RCON } from '@fabricio-191/valve-server-query';
-import { getGuildConfigsById } from "../../../src/configs/GuildsConfigs";
+import { getGuildConfigsById } from "../../../src/configs/guildsConfigs";
 import { env } from "process";
 
 

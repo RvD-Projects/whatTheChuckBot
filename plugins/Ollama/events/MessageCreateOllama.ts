@@ -1,11 +1,11 @@
 //https://github.com/ollama/ollama/blob/main/docs/api.md
 import { Message, User } from "discord.js";
-import { Event } from "../../../src/class/Event";
-import { HttpFetcher } from "../../../src/class/HttpFetcher";
-import { getDefaultConfigs } from "../../../src/configs/GuildsConfigs";
-import { textToAttachment, textToLines } from "../../../src/helpers/Helpers";
-import { OllamaAuth } from "../configs/Auth";
-import { ChatMessage, OllamaPlugin, UserState } from "../OllamaPlugin";
+import { Event } from "../../../src/class/event";
+import { HttpFetcher } from "../../../src/class/httpFetcher";
+import { getDefaultConfigs } from "../../../src/configs/guildsConfigs";
+import { textToAttachment, textToLines } from "../../../src/helpers/helpers";
+import { OllamaAuth } from "../configs/auth";
+import { ChatMessage, OllamaPlugin, UserState } from "../ollamaPlugin";
 
 const prefix: string = "ai:";
 const stopPrefix: string = "ai:stop";

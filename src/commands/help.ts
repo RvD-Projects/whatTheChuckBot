@@ -1,5 +1,5 @@
 import { client } from "..";
-import { Command } from "../class/Command";
+import { Command } from "../class/command";
 
 export default new Command({
     name: "help",
