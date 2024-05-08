@@ -5,14 +5,14 @@ import {
     GuildMember,
     PermissionResolvable
 } from "discord.js";
-import { ExtendedClient } from "../class/Client";
+import { AppClient } from "../class/appClient";
 
 export interface ExtendedInteraction extends CommandInteraction {
     member: GuildMember;
 }
 
 interface RunOptions {
-    client: ExtendedClient;
+    client: AppClient;
     interaction: ExtendedInteraction;
     args: CommandInteractionOptionResolver;
 }

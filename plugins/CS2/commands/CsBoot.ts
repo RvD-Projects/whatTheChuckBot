@@ -1,8 +1,9 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { Command } from "../class/Command";
-import ShellProcess from "../tools/class/ShellProcess";
-import { clockHoursEmojis, loadingMarks } from "../constants/emojis";
-import { getGuildConfigsById, hasCs2DockerAccess } from "../tools/guildsConfigs";
+import { Command } from "../../../src/class/command";
+import ShellProcess from "../../../src/class/shellProcess";
+import { clockHoursEmojis, loadingMarks } from "../../../src/constants/emojis";
+import { hasCs2DockerAccess } from "../../../src/configs/guildsConfigs";
+import { PATHS } from "../../../src";
 
 export default new Command({
     name: "cs-boot",
@@ -21,28 +22,34 @@ export default new Command({
     run: async ({ interaction, args }) => {
         if (interaction.member.user.bot) return;
 
-        if(!hasCs2DockerAccess(interaction.member)) {
+        if (!hasCs2DockerAccess(interaction.member)) {
             await interaction.reply({ content: "❌ You shall not pass! 🧙", ephemeral: true });
             return;
         }
 
         const serverFlag = args.getInteger("server", false) ?? "0";
         const commandFlag = args.getInteger("command", false) ?? "0";
-        const execProcess = ShellProcess.shellExec("./shells/bash/manageCsDocker.sh", [`${serverFlag}`, `${commandFlag}`]);
-
         await interaction.reply({ content: "✅ Job was launched, wait for results... 🧙", ephemeral: true });
 
-        execProcess.on('close', async (code: number, args: any[]) => {
-            console.log(`shellExec on close code: ${code} args: ${args}`);
-            const reply = code == 0
-                ? "✅ Job's terminated successfully! 🧙"
-                : "❌ Job's terminated with error! 🧙";
+        try {
+            const call = PATHS.bashes.concat("manageCsDocker.sh");
+            const execProcess = ShellProcess.shellExec(call, [`${serverFlag}`, `${commandFlag}`]);
 
-            setTimeout(async () => {
-                clearInterval(interval);
-                await interaction.editReply({ content: reply });
-            }, 3000)
-        });
+            execProcess.on('close', async (code: number, args: any[]) => {
+                console.log(`shellExec on close code: ${code} args: ${args}`);
+                const reply = code == 0
+                    ? "✅ Job's terminated successfully! 🧙"
+                    : "❌ Job's terminated with error! 🧙";
+
+                setTimeout(async () => {
+                    clearInterval(interval);
+                    await interaction.editReply({ content: reply });
+                }, 3000)
+            });
+
+        } catch (error) {
+            console.error(error)
+        }
 
         let i: number = 0, j: number = 0;
         let interval = setInterval(async () => {

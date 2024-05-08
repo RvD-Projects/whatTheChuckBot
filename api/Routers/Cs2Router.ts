@@ -1,13 +1,12 @@
-import express, { NextFunction, Request, Response, Router } from 'express';
-import { body, validationResult } from 'express-validator';
+import { Request, Response, Router } from 'express';
+import { body } from 'express-validator';
 import { TextBasedChannel } from 'discord.js';
 import { client } from '../../src';
-import { textToLines } from '../../src/tools/myFunctions';
-
+import { textToLines } from '../../src/helpers/helpers';
 
 const Cs2Router = Router();
 
-const taskValidationRules = [
+const taskValidationRulesExample = [
     body('title').notEmpty().withMessage('Title is required'),
     body('description').notEmpty().withMessage('Description is required'),
     body('completed').isBoolean().withMessage('Completed must be a boolean'),

@@ -8,7 +8,7 @@ import helmet from 'helmet';
 import { Express } from 'express-serve-static-core';
 import express from 'express';
 import RootRouter from './Routers/rootRouter';
-import Cs2Router from './Routers/Cs2Router';
+import Cs2Router from './Routers/cs2Router';
 
 export function initExpressServer() {
     const app = express();

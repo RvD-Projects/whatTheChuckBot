@@ -14,4 +14,4 @@ package-lock.json
 
 /data
 api/certs/
-plugins/Ollama/config/auth.ts
+plugins/**/configs

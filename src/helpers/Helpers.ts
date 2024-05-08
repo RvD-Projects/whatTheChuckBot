@@ -1,4 +1,6 @@
 import { AttachmentBuilder, BufferResolvable } from 'discord.js'
+import { readdir, stat } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import { Stream } from 'node:stream';
 
 export function escapeEntities(str: string) {
@@ -35,6 +37,14 @@ export function sleep(milliseconds) {
   return true;
 }
 
+export function tryParseJson(json: string) {
+  try {
+    return JSON.parse(json);
+  } catch (error) {
+    return null;
+  }
+}
+
 /**
  * Transforme un string vers un tableau de string
  * @param inputString Le texte a diviser
@@ -67,4 +77,43 @@ export function toSafeJsonString(object: any) {
     (key, value) => (typeof value === "bigint" ? value.toString() : value), // return everything else unchanged
     2
   );
+}
+
+
+export async function getFiles(dir) {
+  const subDirs = await readdir(dir);
+
+  const files = [];
+  for (let i = 0; i < subDirs.length; i++) {
+    try {
+      const subDir = subDirs[i];
+      const res = resolve(dir, subDir);
+      const stats = await stat(res);
+
+      files.push(stats.isDirectory() ? await getFiles(res) : res);
+    } catch (error) {
+      continue;
+    }
+  }
+
+  return await files.reduce((a, f) => a.concat(f), []);
+}
+
+export async function getDirectories(dir) {
+  const subDirs = await readdir(dir);
+
+  const dirs = [];
+  for (let i = 0; i < subDirs.length; i++) {
+    try {
+      const subDir = subDirs[i];
+      const res = resolve(dir, subDir);
+      const stats = await stat(res);
+
+      stats.isDirectory() && dirs.push(res);
+    } catch (error) {
+      continue;
+    }
+  }
+
+  return dirs;
 }

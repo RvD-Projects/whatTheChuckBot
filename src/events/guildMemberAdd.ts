@@ -1,4 +1,4 @@
-import { Event } from "../class/Event";
+import { Event } from "../class/event";
 import { sendBanner } from "../commands/banner";
 
 export default new Event("guildMemberAdd", async (member) => {

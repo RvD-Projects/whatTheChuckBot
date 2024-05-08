@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType, ChannelType, MessageFlags } from "discord.js";
-import { Command } from "../class/Command";
+import { Command } from "../class/command";
 import { clockHoursEmojis, loadingMarks } from "../constants/emojis";
-import { sleep } from "../tools/myFunctions";
+import { sleep } from "../helpers/helpers";
 import { Console } from "console";
 
 export default new Command({
