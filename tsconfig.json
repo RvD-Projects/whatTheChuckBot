@@ -26,7 +26,6 @@
         "services",
         "plugins",
         "environments.d.ts",
-        "plugins"
     ],
     "exclude": [
         "node_modules",

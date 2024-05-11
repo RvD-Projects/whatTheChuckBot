@@ -14,11 +14,10 @@ import {
     Collection,
     Interaction,
     ClientEvents,
-    ThreadChannelType,
     GatewayIntentBits,
     Partials
 } from "discord.js";
-import { client, ytFetch } from "..";
+import { ytFetch } from "..";
 import { PathLike } from "fs";
 import { Event } from "./event";
 import { CommandType } from "../typings/command";
@@ -70,7 +69,7 @@ export class AppClient extends Client {
         // Commands
         const coreCommands = await this.getSlashCommandsFromDir(`${__dirname}/../commands/`);
         const pluginsCommands = await this.registerPlugins();
-        
+
         const publics = [...coreCommands?.publics, ...pluginsCommands?.publics];
         const privates = [...coreCommands?.privates, ...pluginsCommands?.privates];
 
@@ -152,7 +151,7 @@ export class AppClient extends Client {
             try {
                 this.guilds.cache.get(guildId)?.commands.set(commands);
                 console.info(`\nRegistered ${commands.length} commands to ${guildId}`);
-            } catch {}
+            } catch { }
 
             return;
         }
@@ -208,15 +207,19 @@ export class AppClient extends Client {
 
             const command: CommandType = await importFile(filePath);
 
-            if (!command.name) continue;
+            if (!command?.name) {
+                console.error("Error a command import:");
+                console.error(command);
+                continue;
+            };
 
-            this.emit('debug', JSON.stringify(command));
             this.commands.set(command.name, command);
             command.public
                 ? publics.push(command)
                 : privates.push(command);
         }
 
+        console.info(dirPath, { publics, privates })
         return { publics, privates };
     }
 

@@ -15,6 +15,7 @@ export const PATHS = {
     root: `${rootDir}/`,
     shells: `${rootDir}/shells/`,
     bashes: `${rootDir}/shells/bash/`,
+    banners: `${rootDir}/assets/img/banners/`
 };
 
 export const sentryHelper = new SentryHelper().init();

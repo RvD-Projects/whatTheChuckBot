@@ -1,26 +1,26 @@
+import { PATHS } from "..";
 import { getRndInteger } from "./helpers";
 
 export class ThemeHelper {
-
     BackgroundImages = {
         WelcomerLightStyle: [
-            "assets/img/banners/light.png",
-            "assets/img/banners/light-1.png",
-            "assets/img/banners/light-2.png",
-            "assets/img/banners/light-3.png",
-            "assets/img/banners/light-4.png",
+            `${PATHS.banners}light.png`,
+            `${PATHS.banners}light-1.png`,
+            `${PATHS.banners}light-2.png`,
+            `${PATHS.banners}light-3.png`,
+            `${PATHS.banners}light-4.png`,
         ],
         WelcomerDarkStyle: [
-            "assets/img/banners/dark.png",
-            "assets/img/banners/dark-1.png",
-            "assets/img/banners/dark-2.png",
-            "assets/img/banners/dark-3.png",
+            `${PATHS.banners}dark.png`,
+            `${PATHS.banners}dark-1.png`,
+            `${PATHS.banners}dark-2.png`,
+            `${PATHS.banners}dark-3.png`,
         ],
         WelcomerCustomStyle: [
-            "assets/img/banners/custom.png",
-            "assets/img/banners/custom-1.png",
-            "assets/img/banners/custom-2.png",
-            "assets/img/banners/custom-3.png",
+            `${PATHS.banners}custom.png`,
+            `${PATHS.banners}custom-1.png`,
+            `${PATHS.banners}custom-2.png`,
+            `${PATHS.banners}custom-3.png`,
         ],
     }
 

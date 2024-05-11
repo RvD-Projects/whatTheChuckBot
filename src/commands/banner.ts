@@ -34,9 +34,8 @@ export default new Command({
             const type = args.getInteger("type", false) ? "goodbye" : "welcome";
             const channel = args.getChannel('channel', false, [ChannelType.GuildText])
                 ?? guild.systemChannel;
-
-            channel.sendTyping();
-            interaction.channel.sendTyping();
+            
+            interaction?.channel?.sendTyping();
             await sendBanner(member, type, channel);
             interaction.reply({ content: "Done!", ephemeral: true });
         } catch (error) {
@@ -53,7 +52,8 @@ export async function sendBanner(
     interaction?: any) {
 
     if (!member || member.user.bot) return;
-
+    
+    debugger
     const defConfigs = getGuildConfigsById("default");
     const guildConfigs = getGuildConfigsById(member.guild.id) ?? defConfigs;
 
@@ -73,6 +73,7 @@ export async function sendBanner(
         : member.guild.systemChannel;
     channel = channelOverride ? channelOverride : channel;
 
+    debugger
     const card = await newCard.render(member, cardData.getTitle(), cardData.getMsg({ member }));
     return await DiscordManager.guildSend(channel, {
         content: getContent({ member }),
