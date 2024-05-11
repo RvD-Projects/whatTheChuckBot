@@ -6,7 +6,7 @@
   "description": "A discord bot for welcoming cards",
   "author": "RVÐ",
   "license": "ISC",
-  "assets": "",
+  "assets": "./assets",
   "scripts": {
     "uglify": "node ./gulp/main.js",
     "watch": "npm run build && tsc -w",

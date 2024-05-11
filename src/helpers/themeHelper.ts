@@ -2,7 +2,30 @@ import { getRndInteger } from "./helpers";
 
 export class ThemeHelper {
 
+    BackgroundImages = {
+        WelcomerLightStyle: [
+            "assets/img/banners/light.jpg",
+            "assets/img/banners/light-1.jpg",
+            "assets/img/banners/light-2.jpg",
+            "assets/img/banners/light-4.jpg",
+            "assets/img/banners/light-4.jpg",
+        ],
+        WelcomerDarkStyle: [
+            "assets/img/banners/dark.jpg",
+            "assets/img/banners/dark-1.jpg",
+            "assets/img/banners/dark-2.jpg",
+        ],
+        WelcomerCustomStyle: [
+            "assets/img/banners/custom.jpg",
+            "assets/img/banners/custom-1.jpg",
+            "assets/img/banners/custom-2.jpg",
+            "assets/img/banners/custom-4.jpg",
+            "assets/img/banners/custom-4.jpg",
+        ],
+    }
+
     WelcomerLightStyle = {
+        name: "WelcomerLightStyle",
         titleColor: "#ffffff",
         titleBorderColor: "#000000",
         usernameColor: "#000000",
@@ -19,10 +42,10 @@ export class ThemeHelper {
         opacityBorder: "0.2",
         opacityusernameBox: "0.5",
         opacityDiscriminatorBox: "0.5",
-        backgroundImages: ["assets/img/banners/light.jpg"]
     }
 
     WelcomerDarkStyle = {
+        name: "WelcomerDarkStyle",
         titleColor: "#000000",
         titleBorderColor: "#ffffff",
         usernameColor: "#ffffff",
@@ -39,10 +62,10 @@ export class ThemeHelper {
         opacityBorder: "0.2",
         opacityusernameBox: "0.5",
         opacityDiscriminatorBox: "0.5",
-        backgroundImages: ["assets/img/banners/dark.jpg"]
     }
 
     WelcomerCustomStyle = {
+        name: "WelcomerCustomStyle",
         titleColor: "#ffffff",
         titleBorderColor: "#000000",
         usernameColor: "#000000",
@@ -59,7 +82,6 @@ export class ThemeHelper {
         opacityBorder: "0.2",
         opacityusernameBox: "0.5",
         opacityDiscriminatorBox: "0.5",
-        backgroundImages: ["assets/img/banners/custom.jpg"]
     }
 
     welcomerStyles = [
@@ -69,9 +91,7 @@ export class ThemeHelper {
     ];
 
     setRndWelcomeStyle(card) {
-        const max = this.welcomerStyles.length - 1;
-        const rnd = Math.floor(Math.random() * (max + 1));
-
+        const rnd = getRndInteger(0, this.welcomerStyles.length - 1)
         this.setWelcomeStyle(card, this.welcomerStyles[rnd]);
     }
 
@@ -102,7 +122,7 @@ export class ThemeHelper {
         style.opacityDiscriminatorBox ? card.setOpacity("discriminator-box", style.opacityDiscriminatorBox) : null;
 
         // Background-Img -> will be static and png formatted
-        const rndIndex = getRndInteger(0, style.backgroundImages.length);
-        style.backgroundImages ? card.setBackground(rndIndex) : null;
+        const rndIndex = getRndInteger(0, this.BackgroundImages[style.name].length - 1);
+        card.setBackground(this.BackgroundImages[style.name][rndIndex]);
     }
 }

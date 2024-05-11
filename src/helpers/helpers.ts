@@ -81,6 +81,10 @@ export function toSafeJsonString(object: any) {
 }
 
 export function getRndInteger(min: number, max: number): number {
+  if (min === max) {
+    return max;
+  }
+
   return Math.floor(Math.random() * (max - min)) + min;
 }
 

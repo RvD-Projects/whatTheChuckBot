@@ -35,6 +35,8 @@ export default new Command({
             const channel = args.getChannel('channel', false, [ChannelType.GuildText])
                 ?? guild.systemChannel;
 
+            channel.sendTyping();
+            interaction.channel.sendTyping();
             await sendBanner(member, type, channel);
             interaction.reply({ content: "Done!", ephemeral: true });
         } catch (error) {
@@ -46,7 +48,7 @@ export default new Command({
 export async function sendBanner(
     member: GuildMember | PartialGuildMember,
     type: any,
-    channelOveride?: any,
+    channelOverride?: any,
     args?: any,
     interaction?: any) {
 
@@ -62,17 +64,17 @@ export async function sendBanner(
     if (!guildConfigs || !data) {
         throw "No configs found...";
     }
-    
+
     const cardData = data.card ?? defConfigs[type].card;
     const getContent = data.getContent ?? defConfigs[type].getContent;
 
     let channel = data.channelId
         ? member.guild.channels.cache.get((data.channelId))
         : member.guild.systemChannel;
-    channel = channelOveride ? channelOveride : channel;
+    channel = channelOverride ? channelOverride : channel;
 
     const card = await newCard.render(member, cardData.getTitle(), cardData.getMsg({ member }));
-    return DiscordManager.guildSend(channel, {
+    return await DiscordManager.guildSend(channel, {
         content: getContent({ member }),
         files: [card.getAttachment()]
     });

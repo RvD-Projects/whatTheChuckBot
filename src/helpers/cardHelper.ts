@@ -10,12 +10,14 @@ export class CardHelper {
      * Prepare a 'card' discord attachment 
      * @param member 
      * @param cardData per-user data if any
-     * @returns 
+     * @returns
      */
     public async render(member: GuildMember | PartialGuildMember, textTitle: string, textMessage: string) {
         if (!member || member.user.bot) return;
 
         const card = new Canvas.Welcome();
+        theme.setRndWelcomeStyle(card);
+
         card.textTitle = textTitle;
         card.textMessage = textMessage;
         card.setUsername(member.displayName)
@@ -24,7 +26,6 @@ export class CardHelper {
             .setMemberCount(member.guild.memberCount)
             .setDiscriminator(member.guild.memberCount);
 
-        theme.setRndWelcomeStyle(card);
         const image = await card.toAttachment();
         this.attachment = new AttachmentBuilder(image.toBuffer()).attachment;
         return this;
