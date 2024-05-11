@@ -70,9 +70,7 @@ export class AppClient extends Client {
         // Commands
         const coreCommands = await this.getSlashCommandsFromDir(`${__dirname}/../commands/`);
         const pluginsCommands = await this.registerPlugins();
-
-        debugger
-
+        
         const publics = [...coreCommands?.publics, ...pluginsCommands?.publics];
         const privates = [...coreCommands?.privates, ...pluginsCommands?.privates];
 
