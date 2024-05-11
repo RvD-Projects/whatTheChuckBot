@@ -1,63 +1,65 @@
+import { getRndInteger } from "./helpers";
+
 export class ThemeHelper {
 
     WelcomerLightStyle = {
-        titleColor:"#ffffff",
-        titleBorderColor:"#000000",
+        titleColor: "#ffffff",
+        titleBorderColor: "#000000",
         usernameColor: "#000000",
-        usernameBoxColor:"#ffffff",
+        usernameBoxColor: "#ffffff",
         hashTagColor: "#ffffff",
         discriminatorColor: "#000000",
-        discriminatorBoxColor:"#ffffff",
-        messageColor:"#000000",
-        messageBoxColor:"#ffffff",
-        borderColor:"#ffffff",
-        avatarColor:"#ffffff",
-        backgroundColor:"#ffffff",
+        discriminatorBoxColor: "#ffffff",
+        messageColor: "#000000",
+        messageBoxColor: "#ffffff",
+        borderColor: "#ffffff",
+        avatarColor: "#ffffff",
+        backgroundColor: "#ffffff",
 
-        opacityBorder:"0.2",
-        opacityusernameBox:"0.5",
-        opacityDiscriminatorBox:"0.5",
-        backgroundImage:"assets/img/lightWelcomeBanner.jpg"
+        opacityBorder: "0.2",
+        opacityusernameBox: "0.5",
+        opacityDiscriminatorBox: "0.5",
+        backgroundImages: ["assets/img/banners/light.jpg"]
     }
 
     WelcomerDarkStyle = {
-        titleColor:"#000000",
-        titleBorderColor:"#ffffff",
+        titleColor: "#000000",
+        titleBorderColor: "#ffffff",
         usernameColor: "#ffffff",
-        usernameBoxColor:"#000000",
+        usernameBoxColor: "#000000",
         hashTagColor: "#000000",
         discriminatorColor: "#ffffff",
-        discriminatorBoxColor:"#000000",
-        messageColor:"#ffffff",
-        messageBoxColor:"#000000",
-        borderColor:"#000000",
-        avatarColor:"#ffffff",
-        backgroundColor:"#000000",
+        discriminatorBoxColor: "#000000",
+        messageColor: "#ffffff",
+        messageBoxColor: "#000000",
+        borderColor: "#000000",
+        avatarColor: "#ffffff",
+        backgroundColor: "#000000",
 
-        opacityBorder:"0.2",
-        opacityusernameBox:"0.5",
-        opacityDiscriminatorBox:"0.5",
-        backgroundImage:"assets/img/darkWelcomeBanner.jpg"
+        opacityBorder: "0.2",
+        opacityusernameBox: "0.5",
+        opacityDiscriminatorBox: "0.5",
+        backgroundImages: ["assets/img/banners/dark.jpg"]
     }
 
     WelcomerCustomStyle = {
-        titleColor:"#ffffff",
-        titleBorderColor:"#000000",
+        titleColor: "#ffffff",
+        titleBorderColor: "#000000",
         usernameColor: "#000000",
-        usernameBoxColor:"#ffffff",
+        usernameBoxColor: "#ffffff",
         hashTagColor: "#ffffff",
         discriminatorColor: "#000000",
-        discriminatorBoxColor:"#ffffff",
-        messageColor:"#000000",
-        messageBoxColor:"#ffffff",
-        borderColor:"#ffffff",
-        avatarColor:"#000000",
-        backgroundColor:"#ffffff",
+        discriminatorBoxColor: "#ffffff",
+        messageColor: "#000000",
+        messageBoxColor: "#ffffff",
+        borderColor: "#ffffff",
+        avatarColor: "#000000",
+        backgroundColor: "#ffffff",
 
-        opacityBorder:"0.2",
-        opacityusernameBox:"0.5",
-        opacityDiscriminatorBox:"0.5",
-        backgroundImage:"assets/img/customWelcomeBanner.jpg"
+        opacityBorder: "0.2",
+        opacityusernameBox: "0.5",
+        opacityDiscriminatorBox: "0.5",
+        backgroundImages: ["assets/img/banners/custom.jpg"]
     }
 
     welcomerStyles = [
@@ -67,7 +69,7 @@ export class ThemeHelper {
     ];
 
     setRndWelcomeStyle(card) {
-        const max = this.welcomerStyles.length-1;
+        const max = this.welcomerStyles.length - 1;
         const rnd = Math.floor(Math.random() * (max + 1));
 
         this.setWelcomeStyle(card, this.welcomerStyles[rnd]);
@@ -77,29 +79,30 @@ export class ThemeHelper {
     setWelcomeStyle(card, style = this.WelcomerCustomStyle) {
 
         // Colors hexadecimal
-        style.titleColor ? card.setColor("title", style.titleColor): null;
-        style.titleBorderColor ? card.setColor("title-border", style.titleBorderColor): null;
+        style.titleColor ? card.setColor("title", style.titleColor) : null;
+        style.titleBorderColor ? card.setColor("title-border", style.titleBorderColor) : null;
 
-        style.usernameColor ? card.setColor("username", style.usernameColor): null;
-        style.usernameBoxColor ? card.setColor("username-box", style.usernameBoxColor): null;
+        style.usernameColor ? card.setColor("username", style.usernameColor) : null;
+        style.usernameBoxColor ? card.setColor("username-box", style.usernameBoxColor) : null;
 
-        style.discriminatorColor ? card.setColor("discriminator", style.discriminatorColor): null;
-        style.discriminatorBoxColor ? card.setColor("discriminator-box", style.discriminatorBoxColor): null;
+        style.discriminatorColor ? card.setColor("discriminator", style.discriminatorColor) : null;
+        style.discriminatorBoxColor ? card.setColor("discriminator-box", style.discriminatorBoxColor) : null;
 
-        style.messageColor ? card.setColor("message", style.messageColor): null;
-        style.messageBoxColor ? card.setColor("message-box", style.messageBoxColor): null;
+        style.messageColor ? card.setColor("message", style.messageColor) : null;
+        style.messageBoxColor ? card.setColor("message-box", style.messageBoxColor) : null;
 
-        style.borderColor ? card.setColor("border", style.borderColor): null;
-        style.avatarColor ? card.setColor("avatar", style.avatarColor): null;
-        style.hashTagColor ? card.setColor("hashtag", style.hashTagColor): null;
-        style.backgroundColor ? card.setColor("background", style.backgroundColor): null;
+        style.borderColor ? card.setColor("border", style.borderColor) : null;
+        style.avatarColor ? card.setColor("avatar", style.avatarColor) : null;
+        style.hashTagColor ? card.setColor("hashtag", style.hashTagColor) : null;
+        style.backgroundColor ? card.setColor("background", style.backgroundColor) : null;
 
         // Opacities [0,1]
-        style.opacityBorder ? card.setOpacity("border", style.opacityBorder): null;
-        style.opacityusernameBox ? card.setOpacity("username-box", style.opacityusernameBox): null;
-        style.opacityDiscriminatorBox ? card.setOpacity("discriminator-box", style.opacityDiscriminatorBox): null;
+        style.opacityBorder ? card.setOpacity("border", style.opacityBorder) : null;
+        style.opacityusernameBox ? card.setOpacity("username-box", style.opacityusernameBox) : null;
+        style.opacityDiscriminatorBox ? card.setOpacity("discriminator-box", style.opacityDiscriminatorBox) : null;
 
-        // Background-Img -> will be static and png formated
-        style.backgroundImage ? card.setBackground(style.backgroundImage): null;
+        // Background-Img -> will be static and png formatted
+        const rndIndex = getRndInteger(0, style.backgroundImages.length);
+        style.backgroundImages ? card.setBackground(rndIndex) : null;
     }
 }

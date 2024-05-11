@@ -7,7 +7,7 @@ export class CardHelper {
     private attachment: BufferResolvable | internal.Stream
 
     /**
-     * Prepare a renderable card attachement
+     * Prepare a 'card' discord attachment 
      * @param member 
      * @param cardData per-user data if any
      * @returns 
