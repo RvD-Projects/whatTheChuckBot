@@ -81,11 +81,11 @@ export function toSafeJsonString(object: any) {
 }
 
 export function getRndInteger(min: number, max: number): number {
-  if (min === max) {
+  if (min >= max) {
     return max;
   }
 
-  return Math.floor(Math.random() * (max - min)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 export async function getFiles(dir) {

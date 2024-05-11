@@ -4,23 +4,23 @@ export class ThemeHelper {
 
     BackgroundImages = {
         WelcomerLightStyle: [
-            "assets/img/banners/light.jpg",
-            "assets/img/banners/light-1.jpg",
-            "assets/img/banners/light-2.jpg",
-            "assets/img/banners/light-4.jpg",
-            "assets/img/banners/light-4.jpg",
+            "assets/img/banners/light.png",
+            "assets/img/banners/light-1.png",
+            "assets/img/banners/light-2.png",
+            "assets/img/banners/light-3.png",
+            "assets/img/banners/light-4.png",
         ],
         WelcomerDarkStyle: [
-            "assets/img/banners/dark.jpg",
-            "assets/img/banners/dark-1.jpg",
-            "assets/img/banners/dark-2.jpg",
+            "assets/img/banners/dark.png",
+            "assets/img/banners/dark-1.png",
+            "assets/img/banners/dark-2.png",
+            "assets/img/banners/dark-3.png",
         ],
         WelcomerCustomStyle: [
-            "assets/img/banners/custom.jpg",
-            "assets/img/banners/custom-1.jpg",
-            "assets/img/banners/custom-2.jpg",
-            "assets/img/banners/custom-4.jpg",
-            "assets/img/banners/custom-4.jpg",
+            "assets/img/banners/custom.png",
+            "assets/img/banners/custom-1.png",
+            "assets/img/banners/custom-2.png",
+            "assets/img/banners/custom-3.png",
         ],
     }
 
@@ -85,12 +85,12 @@ export class ThemeHelper {
     }
 
     welcomerStyles = [
-        this.WelcomerCustomStyle,
+        this.WelcomerLightStyle,
         this.WelcomerDarkStyle,
-        this.WelcomerLightStyle
+        this.WelcomerCustomStyle,
     ];
 
-    setRndWelcomeStyle(card) {
+    setRndWelcomeStyle(card: any) {
         const rnd = getRndInteger(0, this.welcomerStyles.length - 1)
         this.setWelcomeStyle(card, this.welcomerStyles[rnd]);
     }
