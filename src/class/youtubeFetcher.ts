@@ -88,17 +88,23 @@ export class YoutubeFetcher extends HttpFetcher {
     async getVideos() {
         for (let i = 0; i < subscriptions?.servers.length; i++) {
             const server = subscriptions?.servers[i];
-            const guild = await client.guilds.fetch(server.id);
 
-            if (!guild || server.devOnly && env.environment === "prod") {
-                continue;
-            }
+            let guild = null;
+            try {
+                guild = await client.guilds.fetch(server.id);
+                if (!guild || server.devOnly && env.environment === "prod") {
+                    continue;
+                }
+            } catch { continue; }
 
             server.channels?.forEach(async channel => {
-                const guildChannel = await guild?.channels.fetch(channel.id) as GuildTextBasedChannel;
-                if (!guildChannel?.isTextBased?.()) {
-                    return;
-                }
+                let guildChannel = null;
+                try {
+                    guildChannel = await guild?.channels.fetch(channel.id) as GuildTextBasedChannel;
+                    if (!guildChannel?.isTextBased?.()) {
+                        return;
+                    }
+                } catch { return; }
 
                 channel.subs?.forEach(async subscription => {
                     try {

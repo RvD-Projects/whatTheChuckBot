@@ -24,7 +24,7 @@ import { Event } from "./event";
 import { CommandType } from "../typings/command";
 import { AppLogger } from "./Loggers/appLogger";
 import { RegisterCommandsOptions } from "../typings/client";
-import { getDirectories, getFiles } from "../helpers/helpers";
+import { getDirectories, getFiles, importFile } from "../helpers/helpers";
 
 
 export class AppClient extends Client {
@@ -71,15 +71,17 @@ export class AppClient extends Client {
         const coreCommands = await this.getSlashCommandsFromDir(`${__dirname}/../commands/`);
         const pluginsCommands = await this.registerPlugins();
 
-        const publics = [...coreCommands.publics, ...pluginsCommands.publics];
-        const privates = [...coreCommands.privates, ...pluginsCommands.privates];
+        debugger
+
+        const publics = [...coreCommands?.publics, ...pluginsCommands?.publics];
+        const privates = [...coreCommands?.privates, ...pluginsCommands?.privates];
 
         this.on("ready", async () => {
             try {
                 await this.registerCommands({ commands: publics });
                 const guildIds = process.env.guildIds.split(',');
 
-                for (let i = 0; i < guildIds.length; i++) {
+                for (let i = 0; i < guildIds?.length; i++) {
                     await this.registerCommands({
                         commands: privates,
                         guildId: guildIds[i]
@@ -92,8 +94,8 @@ export class AppClient extends Client {
     }
 
     async registerPlugins() {
-        const publics = [];
-        const privates = [];
+        const publics: CommandType[] = [];
+        const privates: CommandType[] = [];
 
         // Get all plugins directories
         const pluginBasePath = `${__dirname}/../../plugins/`;
@@ -110,9 +112,9 @@ export class AppClient extends Client {
             console.info("\nLoading plugin:", pluginDir);
 
             await this.registerEventListenerFromDir(`${pluginDir}/events`);
-            const { publics: plu, privates: pri } = await this.getSlashCommandsFromDir(`${pluginDir}/commands`);
-            publics.push(plu);
-            privates.push(pri);
+            const commands = await this.getSlashCommandsFromDir(`${pluginDir}/commands`);
+            commands && publics.push(...commands.publics);
+            commands && privates.push(...commands.privates);
         }
 
         return { publics, privates };
@@ -144,9 +146,16 @@ export class AppClient extends Client {
     }
 
     async registerCommands({ commands, guildId }: RegisterCommandsOptions) {
+        if (!commands.length) {
+            return;
+        }
+
         if (guildId) {
-            this.guilds.cache.get(guildId)?.commands.set(commands);
-            console.info(`\nRegistered ${commands.length} commands to ${guildId}`);
+            try {
+                this.guilds.cache.get(guildId)?.commands.set(commands);
+                console.info(`\nRegistered ${commands.length} commands to ${guildId}`);
+            } catch {}
+
             return;
         }
 
@@ -174,27 +183,34 @@ export class AppClient extends Client {
     }
 
     async getSlashCommandsFromDir(dirPath: PathLike) {
-
         const publics: CommandType[] = [];
         const privates: CommandType[] = [];
+        let commandFiles = [];
 
         // Get all files from commands _dir
-        const commandFiles = await getFiles(dirPath);
-        if (!commandFiles?.length) {
-            console.warn("No commands found:", dirPath);
+        try {
+            commandFiles = await getFiles(dirPath);
+
+            if (!commandFiles?.length) {
+                console.warn("No commands found:", dirPath);
+                return { publics, privates };
+            }
+
+        } catch {
             return { publics, privates };
         }
+
 
         for (let i = 0; i < commandFiles.length; i++) {
             const filePath = commandFiles[i];
 
             const regex = /^[^.]+\.js$|^[^.]+\.ts$/gm;
             let match = regex.exec(filePath);
-            if (!match) return;
+            if (!match) continue;
 
-            const command: CommandType = await this.importFile(filePath);
+            const command: CommandType = await importFile(filePath);
 
-            if (!command.name) return;
+            if (!command.name) continue;
 
             this.emit('debug', JSON.stringify(command));
             this.commands.set(command.name, command);
@@ -207,12 +223,17 @@ export class AppClient extends Client {
     }
 
     async registerEventListenerFromDir(dirPath: PathLike) {
+        let eventFiles = [];
 
-        // Get all files from events _dir
-        const eventFiles = await getFiles(dirPath)
+        // Get all files from commands _dir
+        try {
+            eventFiles = await getFiles(dirPath);
 
-        if (!eventFiles?.length) {
-            console.warn("No events found:", dirPath);
+            if (!eventFiles?.length) {
+                console.warn("No events found:", dirPath);
+                return;
+            }
+        } catch {
             return;
         }
 
@@ -223,9 +244,7 @@ export class AppClient extends Client {
             let match = regex.exec(filePath);
             if (!match) return;
 
-            const event: Event<keyof ClientEvents> = await this.importFile(
-                filePath
-            );
+            const event: Event<keyof ClientEvents> = await importFile(filePath);
 
             this.on(event.event, event.run);
             console.log("\nRegistered", filePath);
@@ -241,59 +260,38 @@ export class AppClient extends Client {
 
         str += ` \`\`\`Certaines commandes ne sont pas terminées [N.A.] ou sont en version [BETA]. Regardez les decriptions.
 [N.A.] => Commande qui n'est simplement en cours développement.
-[BETA] => Commande qui peut travailler, qui n'est pas complétement terminée et qui pourrrait échouée.\n\n`;
+[BETA] => Commande qui peut travailler, qui n'est pas complétement terminée et qui pourrrait échouer.\n\n`;
 
-        str += `Some command are not yet finnished [BETA] or implemented [N.A.]
+        str += `Some command are not yet finished [BETA] or implemented [N.A.]
 [N.A.] => Command that is not yet implemented.
 [BETA] => Command that can be run but could encounter some errors.\n\n\`\`\``;
         return str;
     }
 
-
-    /**
-    *  __  ___     __  __              __        __         __                                  __    __   __                  __      __          __        __
-    * /  |/  /__  / /_/ /_  ____  ____/ /____   / /_  ___  / /___ _      __   _________  __  __/ /___/ /  / /_  ___     ____ _/ /___  / /_  ____ _/ /____   / /
-    * / /|_/ / _ \/ __/ __ \/ __ \/ __  / ___/  / __ \/ _ \/ / __ \ | /| / /  / ___/ __ \/ / / / / __  /  / __ \/ _ \   / __ `/ / __ \/ __ \/ __ `/ / ___/  / / 
-    * / /  / /  __/ /_/ / / / /_/ / /_/ (__  )  / /_/ /  __/ / /_/ / |/ |/ /  / /__/ /_/ / /_/ / / /_/ /  / /_/ /  __/  / /_/ / / /_/ / /_/ / /_/ / (__  )  /_/  
-    * /_/  /_/\___/\__/_/ /_/\____/\__,_/____/  /_.___/\___/_/\____/|__/|__/   \___/\____/\__,_/_/\__,_/  /_.___/\___/   \__, /_/\____/_.___/\__,_/_/____/  (_)   
-    *                                                                                                                   /____/
-    */
-
-
-    async importFile(filePath: string) {
-        return (await import(filePath))?.default;
-    }
-
-    async findGuildChannel(name: string, type: "GUILD_CATEGORY" | "GUILD_NEWS" | "GUILD_STAGE_VOICE" | "GUILD_STORE" | "GUILD_TEXT" | ThreadChannelType | "GUILD_VOICE") {
-        return await client.channels.cache.find(c => c.type === type && c.name === name);
-    }
-
-
-    //TODO: Parse as Json or JsonStringified
     clientInteractionInfos(interaction: Interaction, logger: Console) {
-        let message: string = "";
-        message += String("\n\nNEW " + interaction.type + " INTERACTION: " + interaction.id);
-        message += String("\n   Interaction-TS: " + interaction.createdTimestamp);
-        message += String("\n   User: " + interaction.member.user.username);
-        message += String("\n       ID: " + interaction.member.user.id);
+        let sb = new String();
+        sb.concat("\n\nNEW " + interaction.type + " INTERACTION: " + interaction.id);
+        sb.concat("\n   Interaction-TS: " + interaction.createdTimestamp);
+        sb.concat("\n   User: " + interaction.member.user.username);
+        sb.concat("\n       ID: " + interaction.member.user.id);
 
-        message += String("\n   Guild: " + interaction.guild.name);
-        message += String("\n       ID: " + interaction.guild.id);
+        sb.concat("\n   Guild: " + interaction.guild.name);
+        sb.concat("\n       ID: " + interaction.guild.id);
 
-        message += String("\n\n       Logged-Members: ");
+        sb.concat("\n\n       Logged-Members: ");
         let members = interaction.guild.presences.cache;
         members.forEach(member => {
-            message += String("\n           ID: " + member.user.id);
-            message += String("\n           User: " + member.user.username);
+            sb.concat("\n           ID: " + member.user.id);
+            sb.concat("\n           User: " + member.user.username);
         });
 
-        message += String("\n\n       All-Members: ");
+        sb.concat("\n\n       All-Members: ");
         let members2 = interaction.guild.members.cache;
         members2.forEach(member => {
-            message += String("\n           ID: " + member.user.id);
-            message += String("\n           User: " + member.user.username);
+            sb.concat("\n           ID: " + member.user.id);
+            sb.concat("\n           User: " + member.user.username);
         });
 
-        logger.info(message);
+        logger.info(sb.toString());
     }
 }

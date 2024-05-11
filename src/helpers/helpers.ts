@@ -1,7 +1,8 @@
-import { AttachmentBuilder, BufferResolvable } from 'discord.js'
+import { AttachmentBuilder, BufferResolvable, ThreadChannelType } from 'discord.js'
 import { readdir, stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { Stream } from 'node:stream';
+import { client } from '..';
 
 export function escapeEntities(str: string) {
   const htmlEntities = {
@@ -79,6 +80,9 @@ export function toSafeJsonString(object: any) {
   );
 }
 
+export function getRndInteger(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
 export async function getFiles(dir) {
   const subDirs = await readdir(dir);
@@ -116,4 +120,12 @@ export async function getDirectories(dir) {
   }
 
   return dirs;
+}
+
+export async function importFile(filePath: string) {
+  return (await import(filePath))?.default;
+}
+
+export async function findGuildChannel(name: string, type: "GUILD_CATEGORY" | "GUILD_NEWS" | "GUILD_STAGE_VOICE" | "GUILD_STORE" | "GUILD_TEXT" | ThreadChannelType | "GUILD_VOICE") {
+  return await client.channels.cache.find(c => c.type === type && c.name === name);
 }
