@@ -113,7 +113,7 @@ export class OllamaPlugin {
     {
       id: 16,
       name: "hub/jeff-bezos:latest",
-      alias: "jeff-bezos",
+      alias: "bezos",
       description: "Model for tasks related to Jeff Bezos.",
     },
     {
@@ -149,7 +149,7 @@ export class OllamaPlugin {
     {
       id: 22,
       name: "hub/personal-trainer:latest",
-      alias: "personal-trainer",
+      alias: "trainer",
       description: "Model for personal training and fitness advice.",
     },
     {
@@ -167,13 +167,13 @@ export class OllamaPlugin {
     {
       id: 25,
       name: "hub/recipe-maker:latest",
-      alias: "recipe-maker",
+      alias: "recipe",
       description: "Model for generating recipes.",
     },
     {
       id: 26,
       name: "hub/rocketcaptain/twd-text-based-game:latest",
-      alias: "twd-text-based-game",
+      alias: "walking-dead",
       description: "Text-based game assistant based on 'The Walking Dead'.",
     },
     {
@@ -239,7 +239,7 @@ export class OllamaPlugin {
     {
       id: 37,
       name: "hub/weconnected/drum-sequencer-pro:latest",
-      alias: "drum-sequencer-pro",
+      alias: "drum",
       description: "Model for creating drum sequences.",
     },
     {
