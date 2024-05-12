@@ -323,12 +323,6 @@ export class OllamaPlugin {
     },
     {
       id: 51,
-      name: "recipe-maker:latest",
-      alias: "recipe-maker",
-      description: "Model for generating recipes.",
-    },
-    {
-      id: 52,
       name: "starling-lm:latest",
       alias: "starling",
       description: "Starling model for various tasks.",
