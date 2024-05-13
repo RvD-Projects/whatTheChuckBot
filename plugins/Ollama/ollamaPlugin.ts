@@ -337,7 +337,13 @@ export class OllamaPlugin {
             "name": "llama2-chinese:latest",
             "alias": "chinese",
             "description": "Llama 2 based model fine tuned to improve Chinese dialogue ability.."
-        }
+        },
+        {
+            "id": 54,
+            "name": "faster-drum-sequencer:latest",
+            "alias": "drummer",
+            "description": "Our faster AI drum sequencer creates custom drum patterns instantly, perfect for musicians and producers."
+        }        
     ];
 
     static DefaultModel = OllamaPlugin.Models.find(m => m.alias === "llava-llama3");
