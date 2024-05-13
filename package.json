@@ -9,12 +9,12 @@
   "assets": "./assets",
   "scripts": {
     "uglify": "node ./gulp/main.js",
-    "watch": "npm run build && tsc -w",
+    "watch": "npm run clean && npm run build && tsc -w",
     "clean": "rm -rf dist node_modules package-lock.json",
     "build": "npm i && tsc && npm run copyExtraFiles",
     "start": "npm run clean && npm run build && npm run nodeDist",
     "nodeDist": "node ./dist/src/index.js",
-    "copyExtraFiles": "cp -rf ./api/certs -t ./dist/api && npm run sentry:ci",
+    "copyExtraFiles": "cp -rf ./api/certs -t ./dist/api && cp -rf ./assets -t ./dist",
     "clear-branches": "git branch | xargs git branch -D",
     "sentry:ci": "sentry-cli sourcemaps inject --org rvdprojects --project what-the-chuck ./dist && sentry-cli sourcemaps upload --org rvdprojects --project what-the-chuck ./dist"
   },

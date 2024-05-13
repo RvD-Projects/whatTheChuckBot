@@ -52,9 +52,7 @@ export class AppClient extends Client {
     async start() {
         await this.registerModules();
         await this.registerBaseListener();
-
         await this.login(process.env.botToken);
-        this.emit("warn", "\n\n|--------Bot is online!--------|\n\n");
 
         await ytFetch.getVideos();
         setInterval(async () => await ytFetch.getVideos(), 3600000);
@@ -73,7 +71,7 @@ export class AppClient extends Client {
         const publics = [...coreCommands?.publics, ...pluginsCommands?.publics];
         const privates = [...coreCommands?.privates, ...pluginsCommands?.privates];
 
-        this.on("ready", async () => {
+        this.on("shardReady", async () => {
             try {
                 await this.registerCommands({ commands: publics });
                 const guildIds = process.env.guildIds.split(',');
@@ -85,8 +83,10 @@ export class AppClient extends Client {
                     });
                 }
             } catch (error) {
-                console.error("On ready error:", error)
+                console.error("On Shard-Ready error:", error)
             }
+
+            console.info("|--------Bot is online!--------|\n\n");
         });
     }
 
@@ -99,7 +99,7 @@ export class AppClient extends Client {
         const pluginsDirectories = await getDirectories(pluginBasePath);
 
         if (!pluginsDirectories?.length) {
-            console.warn("No plugins found:", pluginBasePath);
+            console.error("No plugins found:", pluginBasePath);
             return { publics, privates };
         }
 
@@ -149,33 +149,21 @@ export class AppClient extends Client {
 
         if (guildId) {
             try {
-                this.guilds.cache.get(guildId)?.commands.set(commands);
-                console.info(`\nRegistered ${commands.length} commands to ${guildId}`);
+                await this.application?.commands.set(commands, guildId);
+                console.info(`Registered ${commands.length} commands to ${guildId}`);
             } catch { }
 
             return;
         }
 
-        this.application?.commands.set(commands);
-        console.info(`Registered ${commands.length} global commands\n`);
+        await this.application?.commands.set(commands);
+        console.info(`Registered ${commands.length} global commands`);
     }
 
     addClientLogger(id: string) {
         if (!this.clientsLoggers?.has(id)) {
             this.clientsLoggers.set(id, new AppLogger('client', id, 'info'));
-            this.emit('debug', `Your Client-logger: is online!`);
-            this.emit('warn', `Client-logger ${id}: is online!`);
-        }
-        else {
-            this.emit('warn', "Logger " + id + " already in the collection...");
-            this.emit('debug', "This logger already have a stream...");
-        }
-    }
-
-    logToClient(id: string, message: string) {
-        if (this.clientsLoggers?.has(id)) {
-            this.emit('debug', `Login to client ${id}: ` + message)
-            this.clientsLoggers.get(id).logger.info(message);
+            console.info(`Client-logger ${id}: is online!`);
         }
     }
 
@@ -189,7 +177,7 @@ export class AppClient extends Client {
             commandFiles = await getFiles(dirPath);
 
             if (!commandFiles?.length) {
-                console.warn("No commands found:", dirPath);
+                console.error("No commands found:", dirPath);
                 return { publics, privates };
             }
 
@@ -208,7 +196,7 @@ export class AppClient extends Client {
             const command: CommandType = await importFile(filePath);
 
             if (!command?.name) {
-                console.error("Error a command import:");
+                console.error("Error at command import:", filePath);
                 console.error(command);
                 continue;
             };
