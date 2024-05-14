@@ -16,16 +16,12 @@ import {
     ClientEvents,
     GatewayIntentBits,
     Partials,
-    REST,
-    Routes,
     ApplicationCommandDataResolvable
 } from "discord.js";
-import { ytFetch } from "..";
 import { PathLike } from "fs";
 import { Event } from "./event";
 import { CommandType } from "../typings/command";
 import { AppLogger } from "./Loggers/appLogger";
-import { RegisterCommandsOptions } from "../typings/client";
 import { getDirectories, getFiles, importFile } from "../helpers/helpers";
 
 
@@ -56,9 +52,6 @@ export class AppClient extends Client {
         await this.registerModules();
         await this.registerBaseListener();
         await this.login(process.env.botToken);
-
-        await ytFetch.getVideos();
-        setInterval(async () => await ytFetch.getVideos(), 3600000);
     }
 
     async registerModules() {

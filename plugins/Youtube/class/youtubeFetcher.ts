@@ -1,12 +1,13 @@
 import { GuildTextBasedChannel } from 'discord.js';
-import { HttpFetcher } from './httpFetcher';
-import { client } from '..';
-import subscriptions from '../configs/subscriptions';
 import { env } from 'node:process';
-import { tryParseJson } from '../helpers/helpers';
+
+import { client } from '../../../src';
+import { HttpFetcher } from '../../../src/class/httpFetcher';
+import { tryParseJson } from '../../../src/helpers/helpers';
+import subscriptions from '../configs/subscriptions';
+
 var fs = require('fs');
 var fsExtra = require('fs-extra');
-
 
 export type YtScrap = { url: string, date: string };
 

@@ -5,7 +5,7 @@ import OpenAI from 'openai';
 import { AppClient } from "./class/appClient";
 import { CardHelper } from "./helpers/cardHelper";
 import { ThemeHelper } from "./helpers/themeHelper";
-import { YoutubeFetcher } from "./class/youtubeFetcher";
+import { YoutubeFetcher } from "../plugins/Youtube/class/youtubeFetcher";
 import { initExpressServer } from '../api';
 import { dirname } from 'path';
 
@@ -24,7 +24,6 @@ export const client = new AppClient;
 export const openAI = new OpenAI();
 export const theme = new ThemeHelper;
 export const newCard = new CardHelper;
-export const ytFetch = new YoutubeFetcher;
 
 // Include process module
 const process = require('process');
