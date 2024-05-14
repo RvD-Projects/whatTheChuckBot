@@ -4,9 +4,9 @@ import { YoutubeFetcher } from "../class/youtubeFetcher";
 export default new Event("shardReady", async () => {
   try {
     const fetcher = new YoutubeFetcher;
-    setInterval(async () => await fetcher.getVideos(), 3600000);
+    setInterval(fetcher.getVideos, 3600000);
+    fetcher.getVideos();
 
-    await fetcher.getVideos();
   } catch (error) {
     console.error(error);
   }

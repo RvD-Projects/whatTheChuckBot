@@ -11,7 +11,7 @@ const subscriptions = {
           subs: [
             {
               name: "@Underscore_",
-              url: "https://www.youtube.com/@Underscore_",
+              url: "https://www.youtube.com/@Underscore_/videos",
             },
           ]
         },
