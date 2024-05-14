@@ -22,7 +22,7 @@ export const guildsConfigs = [
             getContent: (params: any) => `🤖  Say goodbye to <@${params.member.id}> ! 😢👾`
         },
         cs2: {
-            dockerAccess: ['owner', 'admin']
+            dockerAccess: []
         },
         ollama: {
             url: "http://ctrlaidel.ddns.net:11434/api"
@@ -231,11 +231,10 @@ export function getGuildConfigsById(guildId: string) {
 export function hasCs2DockerAccess(member: GuildMember) {
     const guildId = member.guild.id;
     const config = guildsConfigs.find((config) => {
-        return config.guildId === guildId;
+        return config.guildId === guildId && config.cs2;
     });
 
     if (!config) {
-        console.log("No config found.");
         return null;
     }
 
@@ -243,8 +242,10 @@ export function hasCs2DockerAccess(member: GuildMember) {
         return true;
     }
 
-    const accesses: String[] = getDefaultConfigs().cs2?.dockerAccess
-        .concat(config.cs2?.dockerAccess ?? []);
+    const accesses: String[] = config.cs2?.dockerAccess;
+    if (!accesses?.length) {
+        return false;
+    }
 
     for (const role of member.roles.cache.values()) {
         const name: string = role.name.toLowerCase();
