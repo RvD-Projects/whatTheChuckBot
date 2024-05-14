@@ -7,10 +7,10 @@
 > https://github.com/seppevs/migrate-mongo
 
 ## Invite the bot:
-> https://discord.com/api/oauth2/authorize?client_id=924077726531461140&permissions=8&scope=bot
+> https://discord.com/oauth2/authorize?client_id=924077726531461140
 
-## Invite the TEST bot:
-> https://discord.com/oauth2/authorize?client_id=925599469741940767&permissions=8&scope=bot
+## Invite the BETA bot:
+> https://discord.com/oauth2/authorize?client_id=925599469741940767
 
 ## Guide:
 > https://discordjs.guide/#before-you-begin

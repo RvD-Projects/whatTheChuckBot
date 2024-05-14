@@ -50,8 +50,8 @@ export async function sendBanner(
     channelOverride?: any,
     args?: any,
     interaction?: any) {
-
     if (!member || member.user.bot) return;
+    
     const defConfigs = getGuildConfigsById("default");
     const guildConfigs = getGuildConfigsById(member.guild.id) ?? defConfigs;
 
