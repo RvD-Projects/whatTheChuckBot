@@ -243,8 +243,8 @@ export function hasCs2DockerAccess(member: GuildMember) {
         return true;
     }
 
-    const accesses: String[] = getDefaultConfigs().cs2.dockerAccess
-        .concat(config.cs2.dockerAccess ?? []);
+    const accesses: String[] = getDefaultConfigs().cs2?.dockerAccess
+        .concat(config.cs2?.dockerAccess ?? []);
 
     for (const role of member.roles.cache.values()) {
         const name: string = role.name.toLowerCase();
