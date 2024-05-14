@@ -3,6 +3,7 @@ declare global {
     namespace NodeJS {
         interface ProcessEnv {
             environment: "dev" | "prod";
+            appId: string;
             botToken: string;
             guildIds: string;
             inviteUrl: string;

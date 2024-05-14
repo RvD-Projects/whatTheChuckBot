@@ -15,7 +15,10 @@ import {
     Interaction,
     ClientEvents,
     GatewayIntentBits,
-    Partials
+    Partials,
+    REST,
+    Routes,
+    ApplicationCommandDataResolvable
 } from "discord.js";
 import { ytFetch } from "..";
 import { PathLike } from "fs";
@@ -58,30 +61,21 @@ export class AppClient extends Client {
         setInterval(async () => await ytFetch.getVideos(), 3600000);
     }
 
-
     async registerModules() {
-
         // Register Event Listeners from events _dir
         await this.registerEventListenerFromDir(`${__dirname}/../events/`);
 
         // Commands
         const coreCommands = await this.getSlashCommandsFromDir(`${__dirname}/../commands/`);
         const pluginsCommands = await this.registerPlugins();
-
-        const publics = [...coreCommands?.publics, ...pluginsCommands?.publics];
-        const privates = [...coreCommands?.privates, ...pluginsCommands?.privates];
+        const commands = {
+            publics: [...coreCommands?.publics, ...pluginsCommands?.publics],
+            privates: [...coreCommands?.privates, ...pluginsCommands?.privates]
+        }
 
         this.on("shardReady", async () => {
             try {
-                await this.registerCommands({ commands: publics });
-                const guildIds = process.env.guildIds.split(',');
-
-                for (let i = 0; i < guildIds?.length; i++) {
-                    await this.registerCommands({
-                        commands: privates,
-                        guildId: guildIds[i]
-                    });
-                }
+                await this.registerCommands(commands.publics, commands.privates);
             } catch (error) {
                 console.error("On Shard-Ready error:", error)
             }
@@ -142,22 +136,16 @@ export class AppClient extends Client {
         });
     }
 
-    async registerCommands({ commands, guildId }: RegisterCommandsOptions) {
-        if (!commands.length) {
-            return;
+    async registerCommands(publics: ApplicationCommandDataResolvable[], privates: ApplicationCommandDataResolvable[]) {
+        await this.application?.commands.set(publics);
+        console.info(`Registered ${publics.length} global commands`);
+
+        const guildIds = process.env.guildIds.split(',');
+        for (let i = 0; i < guildIds.length; i++) {
+            const guildId = guildIds[i];
+            await this.application?.commands.set(privates, guildId);
+            console.info(`Registered ${privates.length} commands to ${guildId}`);
         }
-
-        if (guildId) {
-            try {
-                await this.application?.commands.set(commands, guildId);
-                console.info(`Registered ${commands.length} commands to ${guildId}`);
-            } catch { }
-
-            return;
-        }
-
-        await this.application?.commands.set(commands);
-        console.info(`Registered ${commands.length} global commands`);
     }
 
     addClientLogger(id: string) {
