@@ -14,4 +14,3 @@ package-lock.json
 
 /data
 api/certs/
-plugins/**/configs
