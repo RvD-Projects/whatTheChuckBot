@@ -6,7 +6,7 @@ const subscriptions = {
       devOnly: false,
       channels: [
         {
-          id: "1139624864475525211",
+          id: "1239775242902306887",
           mentionRoleId: "1021054460438523976",
           subs: [
             {
