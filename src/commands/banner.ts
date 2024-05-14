@@ -35,11 +35,11 @@ export default new Command({
             const channel = args.getChannel('channel', false, [ChannelType.GuildText])
                 ?? guild.systemChannel;
 
-            interaction?.channel?.sendTyping();
-            await sendBanner(member, type, channel);
+            interaction.channel?.sendTyping();
+            await sendBanner(member, type, channel, interaction);
             interaction.reply({ content: "Done!", ephemeral: true });
         } catch (error) {
-            interaction.reply({ content: "Error!", ephemeral: true });
+            interaction?.reply({ content: "Error!", ephemeral: true });
         }
     }
 });
@@ -48,10 +48,10 @@ export async function sendBanner(
     member: GuildMember | PartialGuildMember,
     type: any,
     channelOverride?: any,
-    args?: any,
-    interaction?: any) {
+    interaction?: any,
+    args?: any) {
     if (!member || member.user.bot) return;
-    
+
     const defConfigs = getGuildConfigsById("default");
     const guildConfigs = getGuildConfigsById(member.guild.id) ?? defConfigs;
 
