@@ -25,7 +25,7 @@ export const guildsConfigs = [
             dockerAccess: []
         },
         ollama: {
-            url: "http://ctrlaidel.ddns.net:11434/api"
+            url: "https://api.ctrlaidel.com/api/tags"   //The api does point to the good port. And has been test with Postman and it's working as-is. When I am testing both https and http are working.
         }
     },
     {

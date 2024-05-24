@@ -343,7 +343,91 @@ export class OllamaPlugin {
             "name": "faster-drum-sequencer:latest",
             "alias": "drummer",
             "description": "Our faster AI drum sequencer creates custom drum patterns instantly, perfect for musicians and producers."
-        }        
+        },
+        {
+            "id": 55,
+            "name": "phi3:latest",
+            "alias": "phi3",
+            "description": "This is a new small model with a lot of potential"
+        },
+        {
+            "id": 56,
+            "name": "sentiments-llama3:latest",
+            "alias": "sentiments-llama3",
+            "description": ""
+        },
+        {
+            "id": 57,
+            "name": "jimscard/whiterabbit-neo:latest",
+            "alias": "whiterabbit-neo",
+            "description": ""
+        },
+        {
+            "id": 58,
+            "name": "blackhat-hacker:latest",
+            "alias": "blackhat-hacker",
+            "description": ""
+        },
+        {
+            "id": 59,
+            "name": "openchat:latest",
+            "alias": "openchat",
+            "description": ""
+        },
+        {
+            "id": 60,
+            "name": "hub/darkstorm2150/Wilderness-Survivalist:latest",
+            "alias": "wilderness-survivalist",
+            "description": ""
+        },
+        {
+            "id": 61,
+            "name": "hub/darkstorm2150/Psychologist:latest",
+            "alias": "psychologist",
+            "description": ""
+        },
+        {
+            "id": 62,
+            "name": "hub/darkstorm2150/Ooh-Ollama:latest",
+            "alias": "ooh-ollama",
+            "description": ""
+        },
+        {
+            "id": 63,
+            "name": "hub/darkstorm2150/Doomsday-Survivalist:latest",
+            "alias": "doomsday-survivalist",
+            "description": ""
+        },
+        {
+            "id": 64,
+            "name": "hub/darkstorm2150/Urban-Survivalist:latest",
+            "alias": "urban-survivalist",
+            "description": ""
+        },
+        {
+            "id": 65,
+            "name": "dolphin-mistral-7b-v2.6-dpo-laser.Q8_0.gguf:latest",
+            "alias": "dolphin-mistral-7b-v2.6-Q8",
+            "description": ""
+        },
+        {
+            "id": 66,
+            "name": "dolphin-2_6-phi-2.Q6_K.gguf:latest",
+            "alias": "dolphin-2_6-phi-2-Q6",
+            "description": ""
+        },
+        {
+            "id": 67,
+            "name": "dolphin-2.6-mistral-7b.Q4_K_M.gguf:latest",
+            "alias": "dolphin-2.6-mistral-7b-Q4",
+            "description": ""
+        },
+        {
+            "id": 68,
+            "name": "whiterabbitneo-13b.Q5_K_M.gguf:latest",
+            "alias": "whiterabbitneo-13b-Q5",
+            "description": ""
+        }       
     ];
 
     static DefaultModel = OllamaPlugin.Models.find(m => m.alias === "llava-llama3");
