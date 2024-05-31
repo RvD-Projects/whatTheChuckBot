@@ -431,7 +431,43 @@ export class OllamaPlugin {
             "name": "aya:latest",
             "alias": "aya",
             "description": "Multilingual models that support 23 languages."
-        }        
+        },
+        {
+            "id": 70,
+            "name": "satani",
+            "alias": "satani",
+            "description": "Model for dark-themed tasks."
+        },
+        {
+            "id": 71,
+            "name": "hub/dotslashgabut/genaiprompt:latest",
+            "alias": "dotslashgabut",
+            "description": "AI model for generating prompts."
+        },
+        {
+            "id": 72,
+            "name": "hub/mesharu/caelia---tarot-cards-reader:latest",
+            "alias": "caelia",
+            "description": "Model for reading tarot cards."
+        },
+        {
+            "id": 73,
+            "name": "phi3:14b",
+            "alias": "phi3-14b",
+            "description": "Enhanced version of the Phi3 model."
+        },
+        {
+            "id": 74,
+            "name": "hub/rouge/expert-japanese-to-english-translator:latest",
+            "alias": "rouge",
+            "description": "Expert translator for Japanese to English."
+        },
+        {
+            "id": 75,
+            "name": "hub/weconnected/expert-spanish-to-english-translator:latest",
+            "alias": "weconnected",
+            "description": "Expert translator for Spanish to English."
+        }
     ];
 
     static DefaultModel = OllamaPlugin.Models.find(m => m.alias === "llava-llama3");
