@@ -441,13 +441,13 @@ export class OllamaPlugin {
         {
             "id": 71,
             "name": "hub/dotslashgabut/genaiprompt:latest",
-            "alias": "dotslashgabut",
+            "alias": "genai",
             "description": "AI model for generating prompts."
         },
         {
             "id": 72,
             "name": "hub/mesharu/caelia---tarot-cards-reader:latest",
-            "alias": "caelia",
+            "alias": "tarot",
             "description": "Model for reading tarot cards."
         },
         {
@@ -465,7 +465,7 @@ export class OllamaPlugin {
         {
             "id": 75,
             "name": "hub/weconnected/expert-spanish-to-english-translator:latest",
-            "alias": "weconnected",
+            "alias": "spanishbywe",
             "description": "Expert translator for Spanish to English."
         }
     ];
