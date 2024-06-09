@@ -467,6 +467,24 @@ export class OllamaPlugin {
             "name": "hub/weconnected/expert-spanish-to-english-translator:latest",
             "alias": "spanishbywe",
             "description": "Expert translator for Spanish to English."
+        },
+        {
+            "id": 76,
+            "name": "hub/qwen2:0.5b",
+            "alias": "q0",
+            "description": "Qwen2 series large language model by Qwen team, Alibaba Cloud"
+        },
+        {
+            "id": 77,
+            "name": "hub/qwen2:1.5b",
+            "alias": "q1",
+            "description": "Qwen2 series large language model by Qwen team, Alibaba Cloud"
+        },
+        {
+            "id": 78,
+            "name": "hub/qwen2:7b",
+            "alias": "q7",
+            "description": "Qwen2 series large language model by Qwen team, Alibaba Cloud"
         }
     ];
 
