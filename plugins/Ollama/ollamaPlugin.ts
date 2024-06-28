@@ -494,7 +494,7 @@ export class OllamaPlugin {
         }  
     ];
 
-    static DefaultModel = OllamaPlugin.Models.find(m => m.alias === "gemma2:latest");
+    static DefaultModel = OllamaPlugin.Models.find(m => m.alias === "gemma2");
 
     /**
      * Will check if the prefix contains a model name or id.
