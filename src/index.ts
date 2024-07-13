@@ -5,7 +5,6 @@ import OpenAI from 'openai';
 import { AppClient } from "./class/appClient";
 import { CardHelper } from "./helpers/cardHelper";
 import { ThemeHelper } from "./helpers/themeHelper";
-import { YoutubeFetcher } from "../plugins/Youtube/class/youtubeFetcher";
 import { initExpressServer } from '../api';
 import { dirname } from 'path';
 

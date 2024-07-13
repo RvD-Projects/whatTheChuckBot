@@ -41,7 +41,6 @@ export class AppClient extends Client {
                 GatewayIntentBits.GuildPresences,
                 GatewayIntentBits.GuildIntegrations,
                 GatewayIntentBits.MessageContent,
-                GatewayIntentBits.DirectMessages,
                 GatewayIntentBits.DirectMessages
             ],
             partials: [Partials.Channel],
