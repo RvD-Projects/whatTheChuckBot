@@ -13,6 +13,18 @@ const subscriptions = {
               name: "@Underscore_",
               url: "https://www.youtube.com/@Underscore_/videos",
             },
+            {
+              name: "@Micode",
+              url: "https://www.youtube.com/@Micode/videos",
+            },
+            {
+              name: "@Sylvqin",
+              url: "https://www.youtube.com/@Sylvqin/videos",
+            },
+            {
+              name: "@CodeBullet",
+              url: "https://www.youtube.com/@CodeBullet/videos",
+            },            
           ]
         },
       ],
