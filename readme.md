@@ -1,5 +1,5 @@
 # Install from offical Discord® App Directory
-> [https://discord.com/application-directory/924077726531461140](https://discord.com/application-directory/924077726531461140/privacy)
+> https://discord.com/application-directory/924077726531461140
 
 ## Run:
 
