@@ -1,7 +1,8 @@
+import { sendBanner } from "../../src/commands/banner";
 import { MemberUpdateData } from "../../src/events/guildMemberUpdate";
 
 export default class PremiumMemberListener {
-    static async run(eventData: MemberUpdateData): Promise<boolean> {
+    static async run(eventData: MemberUpdateData): Promise<void> {
         const {
             guild,
             member,
@@ -19,10 +20,7 @@ export default class PremiumMemberListener {
         }
 
         // Else isNewBoost on extra-boost
-        const data = guildConfigs.boost;
-
-
-        return true;
+        await sendBanner(member, "boost");
     }
 
 
