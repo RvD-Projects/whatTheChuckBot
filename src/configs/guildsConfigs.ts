@@ -11,17 +11,27 @@ export const guildsConfigs = [
                 getTitle: () => "Welcome !!!",
                 getMsg: (params: any) => "We are glad to have you here!"
             },
-            getContent: (params: any) => `🤖  Greetings <@${params.member.id}> ! ⚡👾`
+            getContent: (params: any) => `🤖  Greetings <@${params.member.id}>! ⚡👾`
         },
         goodbye: {
             channelId: null,
             card: {
                 getTitle: () => "Bye bye",
-                getMsg: () => "We'll miss him / her!"
+                getMsg: (params: any) => "We'll miss him / her!"
             },
-            getContent: (params: any) => `🤖  Say goodbye to <@${params.member.id}> ! 😢👾`
+            getContent: (params: any) => `🤖  Say goodbye to <@${params.member.id}>! 😢👾`
+        },
+        boost: {
+            channelId: null,
+            card: {
+                getTitle: () => "New Boost !!!",
+                getMsg: (params: any) => "Thank you for the support!"
+            },
+            getContent: (params: any) => `🤖 Big thanks to <@${params.member.id}> for boosting the server! ⚡👾`
         },
         cs2: {
+            rconChannels: [],
+            chatChannels: [],
             dockerAccess: []
         },
         ollama: {
@@ -221,11 +231,12 @@ export function getDefaultConfigs() {
 }
 
 export function getGuildConfigsById(guildId: string) {
+    const def = guildId !== "default" ? getDefaultConfigs() : {};
     const found = guildsConfigs.find((config) => {
         return config.guildId === guildId;
     });
 
-    return found;
+    return Object.assign(def, found ?? {});
 }
 
 export function hasCs2DockerAccess(member: GuildMember) {

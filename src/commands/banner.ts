@@ -7,11 +7,11 @@ import { getGuildConfigsById } from "../configs/guildsConfigs";
 export default new Command({
     name: "banner",
     public: true,
-    description: "Will send a banner.",
+    description: "Will send a banner. (welcome by default)",
     options: [
         {
-            name: "type", description: "(default) 0: welcome, 1: goodbye",
-            type: ApplicationCommandOptionType.Integer,
+            name: "type", description: "welcome|goodbye|boost",
+            type: ApplicationCommandOptionType.String
         },
         {
             name: "member", description: "a member",
@@ -31,7 +31,7 @@ export default new Command({
             const member = args.getMember("member") as GuildMember
                 ?? interaction.member;
 
-            const type = args.getInteger("type", false) ? "goodbye" : "welcome";
+            const type = args.getString("type", false) ?? "welcome";
             const channel = args.getChannel('channel', false, [ChannelType.GuildText])
                 ?? guild.systemChannel;
 
@@ -39,6 +39,7 @@ export default new Command({
             await sendBanner(member, type, channel, interaction);
             interaction.reply({ content: "Done!", ephemeral: true });
         } catch (error) {
+            console.error(error);
             interaction?.reply({ content: "Error!", ephemeral: true });
         }
     }
@@ -46,25 +47,36 @@ export default new Command({
 
 export async function sendBanner(
     member: GuildMember | PartialGuildMember,
-    type: any,
+    type: string = "welcome",
     channelOverride?: any,
     interaction?: any,
     args?: any) {
     if (!member || member.user.bot) return;
 
-    const defConfigs = getGuildConfigsById("default");
-    const guildConfigs = getGuildConfigsById(member.guild.id) ?? defConfigs;
+    let data = null;
+    const guildConfigs = getGuildConfigsById(member.guild.id);
 
-    const data = type === "goodbye"
-        ? (guildConfigs?.goodbye ?? defConfigs?.goodbye)
-        : (guildConfigs?.welcome ?? defConfigs?.welcome);
+    switch (type) {
+        case "goodbye":
+            data = guildConfigs.goodbye
+            break;
+
+        case "boost":
+            data = guildConfigs.boost
+            break;
+
+        default:
+        case "welcome":
+            data = guildConfigs.welcome
+            break;
+    }
 
     if (!guildConfigs || !data) {
         throw "No configs found...";
     }
 
-    const cardData = data.card ?? defConfigs[type].card;
-    const getContent = data.getContent ?? defConfigs[type].getContent;
+    const cardData = data.card
+    const getContent = data.getContent;
 
     let channel = data.channelId
         ? member.guild.channels.cache.get((data.channelId))

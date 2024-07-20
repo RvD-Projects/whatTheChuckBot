@@ -9,7 +9,7 @@ export default new Event("messageCreate", async (message) => {
 
   try {
     const configs = getGuildConfigsById(message.guildId)?.cs2?.chatChannels;
-    if (!configs || !configs[message.channelId]) {
+    if (!configs?.length || !configs[message.channelId]) {
       return;
     }
 
