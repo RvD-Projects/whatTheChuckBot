@@ -1,3 +1,6 @@
+# Install from offical Discord® App Directory
+> https://discord.com/application-directory/924077726531461140
+
 ## Run:
 
 - `copy .envExample to .env (fill-data)`
@@ -7,10 +10,6 @@
 ## Migrations:
 
 > https://github.com/seppevs/migrate-mongo
-
-## Invite the bot:
-
-> https://discord.com/application-directory/924077726531461140
 
 ## Invite the BETA bot:
 
