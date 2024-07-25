@@ -20,9 +20,9 @@ export default class PremiumMemberListener {
         }
 
         // Else isNewBoost on extra-boost
-        console.warn("BOOSTER:", member.nickname);
-        console.warn("OLD BOOST VALUE:", oldMember.premiumSince);
-        console.warn("NEW BOOST VALUE:", member.premiumSince);
+        console.log("BOOSTER:", member.nickname);
+        console.log("OLD BOOST VALUE:", oldMember.premiumSince);
+        console.log("NEW BOOST VALUE:", member.premiumSince);
         await sendBanner(member, "boost");
     }
 
