@@ -63,6 +63,7 @@ export async function sendBanner(
 
         case "boost":
             data = guildConfigs.boost
+            console.warn("!!! BOOST BANNER !!!");
             break;
 
         default:
