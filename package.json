@@ -38,6 +38,7 @@
     "node-fetch": "^2.7.0",
     "openai": "^4.52.7",
     "pino": "^9.3.1",
+    "WhatTheChuckBot": "file:",
     "youtubei.js": "^9.4.0"
   },
   "devDependencies": {

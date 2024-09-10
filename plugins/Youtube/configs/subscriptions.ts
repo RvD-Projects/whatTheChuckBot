@@ -24,7 +24,11 @@ const subscriptions = {
             {
               name: "@CodeBullet",
               url: "https://www.youtube.com/@CodeBullet/videos",
-            },            
+            },
+            {
+              name: "@cocadmin",
+              url: "https://www.youtube.com/@cocadmin/videos",
+            },           
           ]
         },
       ],
