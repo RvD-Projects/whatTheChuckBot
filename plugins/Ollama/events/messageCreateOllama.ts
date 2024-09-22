@@ -51,7 +51,7 @@ export default new Event("messageCreate", async (message: Message) => {
       message.channel.sendTyping()
     }
     catch (error) { }
-  }, , 5000);
+  }, 5000);
 
   !UsersState.get(author.id) && UsersState.set(author.id, { ...DefaultUserState });
   let state = UsersState.get(author.id);
