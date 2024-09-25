@@ -40,17 +40,14 @@ export default new Event("messageCreate", async (message: Message) => {
     return;
   }
 
-  try {
-    message.channel.sendTyping()
+  const channel = message.channel;
+  if (!channel?.isSendable()) {
+    return;
   }
-  catch (error) { }
 
-  await message.channel.sendTyping();
+  await channel.sendTyping();
   const typingInterval = setInterval(() => {
-    try {
-      message.channel.sendTyping()
-    }
-    catch (error) { }
+    channel.sendTyping();
   }, 5000);
 
   !UsersState.get(author.id) && UsersState.set(author.id, { ...DefaultUserState });
