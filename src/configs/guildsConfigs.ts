@@ -60,7 +60,7 @@ export const guildsConfigs = [
         cs2: {
             dockerAccess: ['cs2Admin'],
             rconChannels: {
-                "1185347837026914304": {
+                "1300142162817581116": {
                     region: "US_EAST",
                     ip: env["CS2_IP_SWT"],
                     port: env["CS2_RCON_PORT_SWT"],
@@ -68,7 +68,7 @@ export const guildsConfigs = [
                 },
             },
             chatChannels: {
-                "1185991869121957938": {
+                "1300142238109794365": {
                     region: "US_EAST",
                     ip: env["CS2_IP_SWT"],
                     port: env["CS2_RCON_PORT_SWT"],
