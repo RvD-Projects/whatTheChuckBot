@@ -6,15 +6,15 @@ fi
 
 case "$1" in
 "0")
-    dockerName="cs2-WeConnected-ns1"
+    dockerName="CS2-SWT"
     ;;
 
 "1")
-    dockerName="cs2-WeConnected-ns2"
+    dockerName="CS2-SWT"
     ;;
 
 *)
-    dockerName="cs2-WeConnected-ns1"
+    dockerName="CS2-SWT"
     ;;
 esac
 

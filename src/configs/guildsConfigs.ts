@@ -30,9 +30,9 @@ export const guildsConfigs = [
             getContent: (params: any) => `🤖 Big thanks to <@${params.member.id}> for boosting the server! ⚡👾`
         },
         cs2: {
+            dockerAccess: ['cs2Admin'],
             rconChannels: [],
             chatChannels: [],
-            dockerAccess: []
         },
         ollama: {
             url: "https://api.ctrlaidel.com/api"
@@ -58,36 +58,23 @@ export const guildsConfigs = [
             getContent: (params: any) => `🤖  Say goodbye to <@${params.member.id}> ! 😢👾`
         },
         cs2: {
+            dockerAccess: ['cs2Admin'],
             rconChannels: {
                 "1185347837026914304": {
-                    port: 27016,
-                    ip: "rvdprojects.synology.me",
-                    password: env["RCON_PASS_192_168_1_128_27016"],
                     region: "US_EAST",
+                    ip: env["CS2_IP_SWT"],
+                    port: env["CS2_RCON_PORT_SWT"],
+                    password: env["CS2_RCON_PASS_SWT"],
                 },
-                "1185593961541275698": {
-                    dev: true,
-                    port: 27016,
-                    ip: "rvdprojects.synology.me",
-                    password: env["RCON_PASS_192_168_1_128_27016"],
-                    region: "US_EAST",
-                }
             },
             chatChannels: {
                 "1185991869121957938": {
-                    port: 27016,
-                    ip: "rvdprojects.synology.me",
-                    password: env["RCON_PASS_192_168_1_128_27016"],
                     region: "US_EAST",
-                },
-                "1185983351325200444": {
-                    dev: true,
-                    port: 27016,
-                    ip: "rvdprojects.synology.me",
-                    password: env["RCON_PASS_192_168_1_128_27016"],
-                    region: "US_EAST",
+                    ip: env["CS2_IP_SWT"],
+                    port: env["CS2_RCON_PORT_SWT"],
+                    password: env["CS2_RCON_PASS_SWT"],
                 }
-            }
+            },
         }
     },
     {
@@ -130,24 +117,6 @@ export const guildsConfigs = [
     {
         // StillNoCake
         guildId: "1202439418204389417",
-        cs2: {
-            rconChannels: {
-                "1202439558952910871": {
-                    port: 27015,
-                    ip: "ts.stillnocake.com",
-                    password: env["RCON_PASS_STILL_NO_CAKE"],
-                    region: "US_EAST",
-                }
-            },
-            chatChannels: {
-                "1202440139083882527": {
-                    port: 27015,
-                    ip: "ts.stillnocake.com",
-                    password: env["RCON_PASS_STILL_NO_CAKE"],
-                    region: "US_EAST",
-                },
-            }
-        }
     },
     {
         // Pankunai

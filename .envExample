@@ -7,3 +7,10 @@ sentryDsn=#######################################################
 OPENAI_API_KEY=###########################################
 DB_CONN_STRING=##############
 DB_NAME=############
+
+CS2_PORT_STILL_NO_CAKE=27015
+CS2_TV_PORT_STILL_NO_CAKE=27016
+CS2_RCON_PORT_STILL_NO_CAKE=27017
+CS2_IP_STILL_NO_CAKE=##############
+CS2_TV_PASS_STILL_NO_CAKE=##############
+CS2_RCON_PASS_STILL_NO_CAKE=##############
