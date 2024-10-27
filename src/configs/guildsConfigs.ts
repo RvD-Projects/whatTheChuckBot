@@ -39,7 +39,11 @@ export const guildsConfigs = [
         }
     },
     {
-        // RaFuX
+        // StillNoCake
+        guildId: "1202439418204389417",
+    },
+    {
+        // RVÐ-Projects
         guildId: "276931890735218689",
         welcome: {
             channelId: null,
@@ -78,83 +82,30 @@ export const guildsConfigs = [
         }
     },
     {
-        //TempCity
-        guildId: "770057600867237898",
-        welcome: {
-            channelId: "1088581487470850140",
-            getContent: (params: any) => {
-                return `🖥️ 🤖  Greetings <@${params.member.id}> ! ⚡  Contact <@258071819108614144> or <@691686714976239726> if you need any help!👾  🖥️\n
-        - Informations et channel Français plus bas -  Contactez <@258071819108614144> ou <@691686714976239726> au besoin !`;
-            }
-        },
-        goodbye: {
-            channelId: "1234280957192835092",
-            getContent: (params: any) => {
-                return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
-            }
+        // Should We Train
+        guildId: "1300153496108138496",
+        cs2: {
+            dockerAccess: ['cs2Admin'],
+            rconChannels: {
+                "1300153496548544562": {
+                    region: "US_EAST",
+                    ip: env["CS2_IP_SWT"],
+                    port: env["CS2_RCON_PORT_SWT"],
+                    password: env["CS2_RCON_PASS_SWT"],
+                },
+            },
+            chatChannels: {
+                "1300153496548544563": {
+                    region: "US_EAST",
+                    ip: env["CS2_IP_SWT"],
+                    port: env["CS2_RCON_PORT_SWT"],
+                    password: env["CS2_RCON_PASS_SWT"],
+                }
+            },
         }
     },
     {
-        //Smoking_Volcano
-        guildId: "1166437263543128144",
-        welcome: {
-            channelId: "1166437265501847584",
-            getContent: (params: any) => {
-                return `🌋 🔥 Greetings <@${params.member.id}>! 🌋 Welcome to S_Smoking V_Volcano's Discord! Here, you'll dive into a volcanic mix of gaming, from Palworld to Minecraft, CS2, and beyond, as we explore different games from time to time! Dive into the lava of gaming and have a blast! 🔥 GLHF! 🎮\n`;
-            }
-        },
-        goodbye: {
-            channelId: "1234281655393452093",
-            card: {
-                getTitle: () => "Bye bye",
-                getMsg: () => "We'll miss him / her!"
-            },
-            getContent: (params: any) => {
-                return `🖥️ 🤖  Goodbye <@${params.member.id}>! We'll miss you, not right now, but probably later!!! ⚡ 🖥️\n\n`;
-            }
-        },
-    },
-    {
-        // StillNoCake
-        guildId: "1202439418204389417",
-    },
-    {
-        // Pankunai
-        guildId: "1211321545109012561",
-        welcome: {
-            channelId: "1211321545226588209",
-            card: {
-                getTitle: () => "Bienvenue !!!",
-                getMsg: (params: any) => "Merci de nous avoir rejoints !"
-            },
-            getContent: (params: any) => `🤖  Bienvenue <@${params.member.id}> ! ⚡👾`
-        },
-        goodbye: {
-            channelId: "000000000000000"
-        }
-    },
-    {
-        // RevolutionCraft
-        guildId: "1233759327110565968",
-        welcome: {
-            card: {
-                getTitle: () => "Bienvenue !!",
-                getMsg: (params: any) => "Trop content de t'accueillir!"
-            },
-            channelId: "1233759327614013451",
-            getContent: (params: any) => {
-                return `🖥️ 🤖  Salutation <@${params.member.id}> ! ⚡ Bienvenue sur RevolutionCraft. Notre I.P. est: revocraft.org  🖥️! \n\n Pour toutes questions, rejoindre <@258071819108614144> ou <@691686714976239726> en dm par ping! 👾👾 🖥️`;
-            }
-        },
-        goodbye: {
-            channelId: "1233906597743427684",
-            getContent: (params: any) => {
-                return `🖥️ 🤖  Goodbye <@${params.member.id}>! On va s'ennuyer, peut-être pas tout de suite, mais plus tard j'en suis sur!!! ⚡ 🖥️\n\n`;
-            }
-        }
-    },
-    {
-        //FC / FreakingClowning
+        // FC We Live looping
         guildId: "984305093010673684",
         welcome: {
             channelId: 984330000893345802,
