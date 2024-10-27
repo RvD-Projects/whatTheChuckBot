@@ -67,7 +67,8 @@ export const guildsConfigs = [
                 "1300142162817581116": {
                     region: "US_EAST",
                     ip: env["CS2_IP_SWT"],
-                    port: env["CS2_RCON_PORT_SWT"],
+                    port: env["CS2_PORT_SWT"],
+                    rconPort: env["CS2_RCON_PORT_SWT"],
                     password: env["CS2_RCON_PASS_SWT"],
                 },
             },
@@ -75,7 +76,8 @@ export const guildsConfigs = [
                 "1300142238109794365": {
                     region: "US_EAST",
                     ip: env["CS2_IP_SWT"],
-                    port: env["CS2_RCON_PORT_SWT"],
+                    port: env["CS2_PORT_SWT"],
+                    rconPort: env["CS2_RCON_PORT_SWT"],
                     password: env["CS2_RCON_PASS_SWT"],
                 }
             },
@@ -90,7 +92,8 @@ export const guildsConfigs = [
                 "1300153496548544562": {
                     region: "US_EAST",
                     ip: env["CS2_IP_SWT"],
-                    port: env["CS2_RCON_PORT_SWT"],
+                    port: env["CS2_PORT_SWT"],
+                    rconPort: env["CS2_RCON_PORT_SWT"],
                     password: env["CS2_RCON_PASS_SWT"],
                 },
             },
@@ -98,7 +101,8 @@ export const guildsConfigs = [
                 "1300153496548544563": {
                     region: "US_EAST",
                     ip: env["CS2_IP_SWT"],
-                    port: env["CS2_RCON_PORT_SWT"],
+                    port: env["CS2_PORT_SWT"],
+                    rconPort: env["CS2_RCON_PORT_SWT"],
                     password: env["CS2_RCON_PASS_SWT"],
                 }
             },
