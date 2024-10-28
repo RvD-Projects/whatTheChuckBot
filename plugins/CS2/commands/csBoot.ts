@@ -11,7 +11,7 @@ export default new Command({
     description: "Will do as you wish.",
     options: [
         {
-            name: "server", description: "(default) 0: cs2-WeConnected-ns1, 1: cs2-WeConnected-ns2",
+            name: "server", description: "(default) 0: CS2-SWT",
             type: ApplicationCommandOptionType.Integer
         },
         {
