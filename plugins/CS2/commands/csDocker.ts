@@ -6,7 +6,7 @@ import { hasCs2DockerAccess } from "../../../src/configs/guildsConfigs";
 import { PATHS } from "../../../src";
 
 export default new Command({
-    name: "cs-boot",
+    name: "cs-docker",
     public: true,
     description: "Will do as you wish.",
     options: [
