@@ -7,7 +7,7 @@ import { PATHS } from "../../../src";
 
 export default new Command({
     name: "cs-boot",
-    public: false,
+    public: true,
     description: "Will do as you wish.",
     options: [
         {
