@@ -16,8 +16,8 @@ const taskValidationRulesExample = [
 Cs2Router.post('/logs', async (req: Request, res: Response) => {
     const guild = await client.guilds.fetch("276931890735218689");
     let channel = await guild?.channels.fetch("1185639534780764242") as TextBasedChannel;
-    const isText = channel?.isTextBased ?? false;
-    if (!isText) {
+
+    if (!channel?.isSendable()) {
         return;
     }
 

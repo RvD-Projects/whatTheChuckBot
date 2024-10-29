@@ -6,12 +6,12 @@ import { hasCs2DockerAccess } from "../../../src/configs/guildsConfigs";
 import { PATHS } from "../../../src";
 
 export default new Command({
-    name: "cs-boot",
-    public: false,
+    name: "cs-docker",
+    public: true,
     description: "Will do as you wish.",
     options: [
         {
-            name: "server", description: "(default) 0: cs2-WeConnected-ns1, 1: cs2-WeConnected-ns2",
+            name: "server", description: "(default) 0: CS2-SWT",
             type: ApplicationCommandOptionType.Integer
         },
         {

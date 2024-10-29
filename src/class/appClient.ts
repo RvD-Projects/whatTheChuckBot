@@ -34,17 +34,31 @@ export class AppClient extends Client {
     constructor() {
         super({
             intents: [
+                GatewayIntentBits.MessageContent,
+                GatewayIntentBits.DirectMessages,
+                GatewayIntentBits.AutoModerationExecution,
+                GatewayIntentBits.AutoModerationConfiguration,
+
                 GatewayIntentBits.Guilds,
                 GatewayIntentBits.GuildInvites,
                 GatewayIntentBits.GuildMembers,
+                GatewayIntentBits.GuildWebhooks,
                 GatewayIntentBits.GuildMessages,
                 GatewayIntentBits.GuildPresences,
+                GatewayIntentBits.GuildModeration,
+                GatewayIntentBits.GuildVoiceStates,
                 GatewayIntentBits.GuildIntegrations,
-                GatewayIntentBits.MessageContent,
-                GatewayIntentBits.DirectMessages,
-                GatewayIntentBits.DirectMessages
+                GatewayIntentBits.GuildMessagePolls,
+                GatewayIntentBits.GuildMessageTyping,
+                GatewayIntentBits.GuildScheduledEvents,
+                GatewayIntentBits.GuildMessageReactions,
+                GatewayIntentBits.GuildEmojisAndStickers,
             ],
-            partials: [Partials.Channel],
+            partials: [
+                Partials.User,
+                Partials.Channel,
+                Partials.ThreadMember
+            ],
         });
     }
 

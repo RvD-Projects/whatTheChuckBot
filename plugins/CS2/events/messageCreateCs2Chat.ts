@@ -9,7 +9,7 @@ export default new Event("messageCreate", async (message) => {
 
   try {
     const configs = getGuildConfigsById(message.guildId)?.cs2?.chatChannels;
-    if (!configs || !configs[message.channelId]) {
+    if (!(message.channelId in configs)) {
       return;
     }
 
@@ -26,12 +26,15 @@ export default new Event("messageCreate", async (message) => {
 
     const connectionsParams = {
       ip: serverConf.ip,
-      port: serverConf.port,
+      port: parseInt(serverConf.port),
       timeout: 30000,
-      password: null
+      password: null,
+      debug: false
     };
 
+    connectionsParams.port = parseInt(serverConf.rconPort);
     connectionsParams.password = serverConf.password;
+
     const rcon = await RCON(connectionsParams);
     await rcon.exec(`say [${message.author.displayName}]: "${prompt.toString()}";`);
     rcon.destroy();
