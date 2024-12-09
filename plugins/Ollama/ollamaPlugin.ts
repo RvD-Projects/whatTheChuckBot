@@ -297,10 +297,10 @@ export class OllamaPlugin {
         },
         {
             id: 41,
-            name: "shieldgemma:latest",
-            alias: "shieldgemma-latest",
-            description:
-                "Size: 5.8 GB. Latest ShieldGemma with enhanced security features.",
+            name: "llama3.2-vision:latest",
+            alias: "llama3-2-vision",
+            description: 
+                "Size: 3.2 GB. Llama3.2 optimized for vision and language tasks."
         },
         {
             id: 42,
@@ -309,6 +309,13 @@ export class OllamaPlugin {
             description:
                 "Size: 636 MB. TinyDolphin is a compact model suitable for lightweight tasks.",
         },
+        {
+            id: 43,
+            name: "marco-o1:latest",
+            alias: "marco-o1",
+            description: 
+                "Size: 1.2 GB. Marco-O1 designed for specialized operations."
+        }
     ];
 
     static DefaultModel = OllamaPlugin.Models.find((m) => m.alias === "llama3.1");
