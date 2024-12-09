@@ -19,482 +19,306 @@ export type UserState = {
 export class OllamaPlugin {
     static Models: AIModel[] = [
         {
-            "id": 1,
-            "name": "dnd:latest",
-            "alias": "dnd",
-            "description": "Dungeons & Dragons assistant for game mastering."
+            id: 1,
+            name: "aya-expanse:latest",
+            alias: "aya-expanse",
+            description:
+                "Size: 5.1 GB. Aya Expanse is a multilingual model supporting 23 languages.",
         },
         {
-            "id": 2,
-            "name": "dolphin-llama3:latest",
-            "alias": "dolphin-llama3",
-            "description": "Dolphin LLama3 is a specialized model designed to assist with various tasks."
+            id: 2,
+            name: "dolphin-llama3:latest",
+            alias: "dolphin-llama3",
+            description:
+                "Size: 4.7 GB. Combines features of Dolphin and Llama3 for enhanced capabilities.",
         },
         {
-            "id": 3,
-            "name": "dolphin-mistral:7b-v2.6-dpo-laser-q8_0",
-            "alias": "dolphin-mistral-q8",
-            "description": "Mistral model fine-tuned for specific queries with dolphin's twist."
+            id: 3,
+            name: "dolphin-phi:latest",
+            alias: "dolphin-phi",
+            description:
+                "Size: 1.6 GB. Combines Dolphin and Phi models for superior performance.",
         },
         {
-            "id": 4,
-            "name": "dolphin-mistral:latest",
-            "alias": "dolphin-mistral",
-            "description": "The Mistral model with dolphin's touch."
+            id: 4,
+            name: "gemma2:2b",
+            alias: "gemma2",
+            description:
+                "Size: 1.6 GB. Gemma2 with 2B parameters for efficient tasks.",
         },
         {
-            "id": 5,
-            "name": "hub/advertiser:latest",
-            "alias": "advertiser",
-            "description": "Model for advertising-related tasks."
+            id: 5,
+            name: "gemma2:9b",
+            alias: "gemma2-9b",
+            description:
+                "Size: 5.4 GB. Gemma2 with 9B parameters for complex applications.",
         },
         {
-            "id": 6,
-            "name": "hub/ai-assisted-doctor:latest",
-            "alias": "ai-doctor",
-            "description": "AI-assisted doctor model for medical consultations."
+            id: 6,
+            name: "gemma2:latest",
+            alias: "gemma2-latest",
+            description:
+                "Size: 5.4 GB. Latest version of Gemma2 with enhanced features.",
         },
         {
-            "id": 7,
-            "name": "hub/binx/marketing-expert:latest",
-            "alias": "marketing-expert",
-            "description": "Expert in marketing strategies and analysis."
+            id: 7,
+            name: "granite3-dense:2b",
+            alias: "granite3-dense",
+            description:
+                "Size: 1.6 GB. Granite3 Dense with 2B parameters for efficiency.",
         },
         {
-            "id": 8,
-            "name": "hub/commentariat:latest",
-            "alias": "commentariat",
-            "description": "Model for generating comments or opinions."
+            id: 8,
+            name: "granite3-dense:8b",
+            alias: "granite3-dense-8b",
+            description:
+                "Size: 4.9 GB. Granite3 Dense with 8B parameters for complex tasks.",
         },
         {
-            "id": 9,
-            "name": "hub/composer:latest",
-            "alias": "composer",
-            "description": "Your musical composition assistant."
+            id: 9,
+            name: "granite3-dense:latest",
+            alias: "granite3-dense-latest",
+            description:
+                "Size: 1.6 GB. Latest Granite3 Dense optimized for dense computations.",
         },
         {
-            "id": 10,
-            "name": "hub/cyber-security-specialist:latest",
-            "alias": "cyber-security",
-            "description": "Model specialized in cyber security."
+            id: 10,
+            name: "granite3-moe:1b",
+            alias: "granite3-moe",
+            description:
+                "Size: 821 MB. Granite3 MoE with 1B parameters for lightweight applications.",
         },
         {
-            "id": 11,
-            "name": "hub/dad:latest",
-            "alias": "dad",
-            "description": "Model for tasks related to being a dad."
+            id: 11,
+            name: "granite3-moe:3b",
+            alias: "granite3-moe-3b",
+            description:
+                "Size: 2.1 GB. Granite3 MoE with 3B parameters for specialized tasks.",
         },
         {
-            "id": 12,
-            "name": "hub/dentist:latest",
-            "alias": "dentist",
-            "description": "Your dental assistant."
+            id: 12,
+            name: "granite3-moe:latest",
+            alias: "granite3-moe-latest",
+            description: "Size: 2.1 GB. Latest version of Granite3 MoE model.",
         },
         {
-            "id": 13,
-            "name": "hub/doctor:latest",
-            "alias": "doctor",
-            "description": "Doctor assistant for medical consultations."
+            id: 13,
+            name: "llama-guard3:1b",
+            alias: "llamaguard3",
+            description:
+                "Size: 1.6 GB. Llama-Guard3 with 1B parameters for efficient security.",
         },
         {
-            "id": 14,
-            "name": "hub/doge:latest",
-            "alias": "doge",
-            "description": "Such model, much assist."
+            id: 14,
+            name: "llama-guard3:latest",
+            alias: "llamaguard3-latest",
+            description:
+                "Size: 4.9 GB. Latest Llama-Guard3 providing robust protections.",
         },
         {
-            "id": 15,
-            "name": "hub/javi/librarian:latest",
-            "alias": "librarian",
-            "description": "Model for library-related tasks."
+            id: 15,
+            name: "llama2-chinese:latest",
+            alias: "llama2-chinese",
+            description:
+                "Size: 3.8 GB. Llama2 fine-tuned for enhanced Chinese language capabilities.",
         },
         {
-            "id": 16,
-            "name": "hub/jeff-bezos:latest",
-            "alias": "jeff-bezos",
-            "description": "Model for tasks related to Jeff Bezos."
+            id: 16,
+            name: "llama2-uncensored:latest",
+            alias: "llama2-uncensored",
+            description:
+                "Size: 3.8 GB. Uncensored version of Llama2 without content restrictions.",
         },
         {
-            "id": 17,
-            "name": "hub/languages/french:latest",
-            "alias": "french",
-            "description": "Language assistant specialized in French."
+            id: 17,
+            name: "llama2:latest",
+            alias: "llama2",
+            description:
+                "Size: 3.8 GB. Llama2 is a versatile model for various language tasks.",
         },
         {
-            "id": 18,
-            "name": "hub/languages/spanish:latest",
-            "alias": "spanish",
-            "description": "Language assistant specialized in Spanish."
+            id: 18,
+            name: "llama3-gradient:latest",
+            alias: "llama3-gradient",
+            description:
+                "Size: 4.7 GB. Optimized for gradient-based learning in Llama3.",
         },
         {
-            "id": 19,
-            "name": "hub/magician:latest",
-            "alias": "magician",
-            "description": "Model for performing magic tricks."
+            id: 19,
+            name: "llama3.1:latest",
+            alias: "llama3.1",
+            description:
+                "Size: 4.7 GB. Updated version of Llama3 with performance improvements.",
         },
         {
-            "id": 20,
-            "name": "hub/math-teacher:latest",
-            "alias": "math-teacher",
-            "description": "Model for teaching mathematics."
+            id: 20,
+            name: "llama3.2:1b",
+            alias: "llama3.2",
+            description:
+                "Size: 1.3 GB. Compact Llama3.2 with 1B parameters for quick tasks.",
         },
         {
-            "id": 21,
-            "name": "hub/mlemasters2012/stable-diffusion-prompt:latest",
-            "alias": "sd-prompt",
-            "description": "Model for generating prompts with stable diffusion."
+            id: 21,
+            name: "llama3.2:3b",
+            alias: "llama3.2-3b",
+            description:
+                "Size: 2.0 GB. Llama3.2 with 3B parameters for balanced performance.",
         },
         {
-            "id": 22,
-            "name": "hub/personal-trainer:latest",
-            "alias": "trainer",
-            "description": "Model for personal training and fitness advice."
+            id: 22,
+            name: "llama3.2:latest",
+            alias: "llama3.2-latest",
+            description: "Size: 2.0 GB. Latest Llama3.2 optimized for performance.",
         },
         {
-            "id": 23,
-            "name": "hub/plagiarism-checker:latest",
-            "alias": "plagiarism",
-            "description": "Model for checking plagiarism in text."
+            id: 23,
+            name: "llama3:8b",
+            alias: "llama3-8b",
+            description:
+                "Size: 4.7 GB. Llama3 with 8B parameters for enhanced capabilities.",
         },
         {
-            "id": 24,
-            "name": "hub/rapper:latest",
-            "alias": "rapper",
-            "description": "Model for creating rap lyrics."
+            id: 24,
+            name: "llama3:latest",
+            alias: "llama3",
+            description:
+                "Size: 4.7 GB. Llama3 advanced language model for general-purpose tasks.",
         },
         {
-            "id": 25,
-            "name": "hub/recipe-maker:latest",
-            "alias": "recipe-maker",
-            "description": "Model for generating recipes."
+            id: 25,
+            name: "llava-llama3:latest",
+            alias: "llava-llama3",
+            description:
+                "Size: 5.5 GB. LLaVA-Llama3 optimized for visual and language tasks.",
         },
         {
-            "id": 26,
-            "name": "hub/rocketcaptain/twd-text-based-game:latest",
-            "alias": "walking-dead",
-            "description": "Text-based game assistant based on 'The Walking Dead'."
+            id: 26,
+            name: "llava-phi3:latest",
+            alias: "llava-phi3",
+            description:
+                "Size: 2.9 GB. Combines LLaVA and Phi3 for advanced visual-language processing.",
         },
         {
-            "id": 27,
-            "name": "hub/storyteller:latest",
-            "alias": "story",
-            "description": "Model for generating stories or narratives."
+            id: 27,
+            name: "llava:latest",
+            alias: "llava",
+            description:
+                "Size: 4.7 GB. LLaVA specializes in language and vision applications.",
         },
         {
-            "id": 28,
-            "name": "hub/ten-tweets:latest",
-            "alias": "ten-tweets",
-            "description": "Model for generating tweets."
+            id: 28,
+            name: "mannix/gemma2-9b-simpo:latest",
+            alias: "gemma2-simpo",
+            description:
+                "Size: 5.5 GB. Gemma2 9B Simpo specialized for specific applications.",
         },
         {
-            "id": 29,
-            "name": "hub/thepr0m3th3an/ghostwriter-braindump:latest",
-            "alias": "braindump",
-            "description": "Assistant for brainstorming and dumping ideas."
+            id: 29,
+            name: "mistral:latest",
+            alias: "mistral",
+            description:
+                "Size: 4.1 GB. Mistral is designed for high-performance language processing.",
         },
         {
-            "id": 30,
-            "name": "hub/thepr0m3th3an/ghostwriter-character:latest",
-            "alias": "character",
-            "description": "Assistant for character development in writing."
+            id: 30,
+            name: "nemotron-mini:latest",
+            alias: "nemotron-mini",
+            description:
+                "Size: 2.7 GB. NemoTron Mini is a smaller model for efficient computations.",
         },
         {
-            "id": 31,
-            "name": "hub/thepr0m3th3an/ghostwriter-draftprose:latest",
-            "alias": "draftprose",
-            "description": "Assistant for drafting prose and writing."
+            id: 31,
+            name: "nomic-embed-text:latest",
+            alias: "nomic-embed",
+            description:
+                "Size: 274 MB. Nomic Embed Text generates high-quality text embeddings.",
         },
         {
-            "id": 32,
-            "name": "hub/thepr0m3th3an/ghostwriter-editor:latest",
-            "alias": "editor",
-            "description": "Assistant for editing and refining written content."
+            id: 32,
+            name: "phi3:latest",
+            alias: "phi3",
+            description:
+                "Size: 2.2 GB. Phi3 is a compact model with significant potential.",
         },
         {
-            "id": 33,
-            "name": "hub/thepr0m3th3an/ghostwriter-finalprose:latest",
-            "alias": "finalprose",
-            "description": "Assistant for finalizing prose and written content."
+            id: 33,
+            name: "phi:latest",
+            alias: "phi",
+            description:
+                "Size: 1.6 GB. Phi is a foundational model for language understanding.",
         },
         {
-            "id": 34,
-            "name": "hub/thepr0m3th3an/ghostwriter-outline:latest",
-            "alias": "outline",
-            "description": "Assistant for creating outlines and structuring writing."
+            id: 34,
+            name: "qwen2:0.5b",
+            alias: "qwen2",
+            description:
+                "Size: 352 MB. Lightweight Qwen2 model with 0.5B parameters.",
         },
         {
-            "id": 35,
-            "name": "hub/thepr0m3th3an/ghostwriter-storybeats:latest",
-            "alias": "storybeats",
-            "description": "Assistant for developing story beats and plotlines."
+            id: 35,
+            name: "qwen2:1.5b",
+            alias: "qwen2-1.5b",
+            description:
+                "Size: 934 MB. Qwen2 with 1.5B parameters balancing speed and power.",
         },
         {
-            "id": 36,
-            "name": "hub/thepr0m3th3an/ghostwriter-synopsis:latest",
-            "alias": "synopsis",
-            "description": "Assistant for creating synopses and summarizing content."
+            id: 36,
+            name: "qwen2:7b",
+            alias: "qwen2-7b",
+            description:
+                "Size: 4.4 GB. Qwen2 with 7B parameters for high-performance tasks.",
         },
         {
-            "id": 37,
-            "name": "hub/weconnected/drum-sequencer-pro:latest",
-            "alias": "drum",
-            "description": "Model for creating drum sequences."
+            id: 37,
+            name: "qwen2:latest",
+            alias: "qwen2-latest",
+            description: "Size: 4.4 GB. Latest Qwen2 model with enhanced features.",
         },
         {
-            "id": 38,
-            "name": "hub/zillomab/llama3-uncensored:latest",
-            "alias": "llama3-uncensored",
-            "description": "Uncensored version of Llama3 model."
+            id: 38,
+            name: "reader-lm:latest",
+            alias: "reader-lm",
+            description:
+                "Size: 934 MB. Reader-LM excels at reading comprehension tasks.",
         },
         {
-            "id": 39,
-            "name": "llama2:latest",
-            "alias": "llama2",
-            "description": "Llama2 model for various tasks."
+            id: 39,
+            name: "shieldgemma:2b",
+            alias: "shieldgemma",
+            description:
+                "Size: 1.7 GB. ShieldGemma with 2B parameters for efficient protection.",
         },
         {
-            "id": 40,
-            "name": "llama3-chatqa:latest",
-            "alias": "llama3-chatqa",
-            "description": "Llama3 model for chat-based question answering."
+            id: 40,
+            name: "shieldgemma:9b",
+            alias: "shieldgemma-9b",
+            description:
+                "Size: 5.8 GB. ShieldGemma with 9B parameters for advanced security.",
         },
         {
-            "id": 41,
-            "name": "llama3:latest",
-            "alias": "llama3",
-            "description": "Llama3 model for various tasks."
+            id: 41,
+            name: "llama3.2-vision:latest",
+            alias: "llama3-2-vision",
+            description: 
+                "Size: 3.2 GB. Llama3.2 optimized for vision and language tasks."
         },
         {
-            "id": 42,
-            "name": "llava-llama3:latest",
-            "alias": "llava-llama3",
-            "description": "Model for tasks related to Llava Llama3."
+            id: 42,
+            name: "tinydolphin:latest",
+            alias: "tinydolphin",
+            description:
+                "Size: 636 MB. TinyDolphin is a compact model suitable for lightweight tasks.",
         },
         {
-            "id": 43,
-            "name": "llava-phi3:latest",
-            "alias": "llava-phi3",
-            "description": "Model for tasks related to Llava Phi3."
-        },
-        {
-            "id": 44,
-            "name": "mistral:latest",
-            "alias": "mistral",
-            "description": "Mistral model for various tasks."
-        },
-        {
-            "id": 45,
-            "name": "nous-hermes:latest",
-            "alias": "nous-hermes",
-            "description": "Model for tasks related to Nous Hermes."
-        },
-        {
-            "id": 46,
-            "name": "nous-hermes2:latest",
-            "alias": "nous-hermes2",
-            "description": "Hermes2 model for various tasks."
-        },
-        {
-            "id": 47,
-            "name": "ollama.com/library/llama3:8b-instruct-fp16",
-            "alias": "ollama3-fp16",
-            "description": "LLama3 model with instructions for FP16 from Ollama.com library."
-        },
-        {
-            "id": 48,
-            "name": "ollama.com/library/llama3:8b",
-            "alias": "ollama3",
-            "description": "LLama3 model from Ollama.com library."
-        },
-        {
-            "id": 49,
-            "name": "openhermes2.5-mistral:latest",
-            "alias": "oh2.5-mistral",
-            "description": "Open Hermes 2.5 Mistral model."
-        },
-        {
-            "id": 50,
-            "name": "starling-lm:latest",
-            "alias": "starling",
-            "description": "Starling model for various tasks."
-        },
-        {
-            "id": 51,
-            "name": "gemma-2b",
-            "alias": "gemma-2b",
-            "description": "Gemma-2b is a family of lightweight, state-of-the-art open models built by Google DeepMind"
-        },
-        {
-            "id": 52,
-            "name": "gemma:latest",
-            "alias": "gemma",
-            "description": "Gemma-7b is a family of lightweight, state-of-the-art open models built by Google DeepMind."
-        },
-        {
-            "id": 53,
-            "name": "llama2-chinese:latest",
-            "alias": "chinese",
-            "description": "Llama 2 based model fine tuned to improve Chinese dialogue ability.."
-        },
-        {
-            "id": 54,
-            "name": "faster-drum-sequencer:latest",
-            "alias": "drummer",
-            "description": "Our faster AI drum sequencer creates custom drum patterns instantly, perfect for musicians and producers."
-        },
-        {
-            "id": 55,
-            "name": "phi3:latest",
-            "alias": "phi3",
-            "description": "This is a new small model with a lot of potential"
-        },
-        {
-            "id": 56,
-            "name": "sentiments-llama3:latest",
-            "alias": "sentiments-llama3",
-            "description": "Fine-tuned LLaMA for sentiment analysis."
-        },
-        {
-            "id": 57,
-            "name": "jimscard/whiterabbit-neo:latest",
-            "alias": "whiterabbit-neo",
-            "description": "Variant of White Rabbit Neo, a large language model."
-        },
-        {
-            "id": 58,
-            "name": "blackhat-hacker:latest",
-            "alias": "blackhat-hacker",
-            "description": "A tool for ethical hacking and penetration testing."
-        },
-        {
-            "id": 59,
-            "name": "openchat:latest",
-            "alias": "openchat",
-            "description": "An open-source chat platform for secure communication."
-        },
-        {
-            "id": 60,
-            "name": "hub/darkstorm2150/Wilderness-Survivalist:latest",
-            "alias": "wilderness-survivalist",
-            "description": "A survival guide for wilderness adventures."
-        },
-        {
-            "id": 61,
-            "name": "hub/darkstorm2150/Psychologist:latest",
-            "alias": "psychologist",
-            "description": "A tool for mental health professionals."
-        },
-        {
-            "id": 62,
-            "name": "hub/darkstorm2150/Ooh-Ollama:latest",
-            "alias": "ooh-ollama",
-            "description": "A mysterious tool with unknown purposes."
-        },
-        {
-            "id": 63,
-            "name": "hub/darkstorm2150/Doomsday-Survivalist:latest",
-            "alias": "doomsday-survivalist",
-            "description": "A guide for surviving catastrophic events."
-        },
-        {
-            "id": 64,
-            "name": "hub/darkstorm2150/Urban-Survivalist:latest",
-            "alias": "urban-survivalist",
-            "description": "A guide for surviving in urban environments."
-        },
-        {
-            "id": 65,
-            "name": "dolphin-mistral-7b-v2.6-dpo-laser.Q8_0.gguf:latest",
-            "alias": "dolphin-mistral-7b-v2.6-Q8",
-            "description": "A machine learning model for image processing."
-        },
-        {
-            "id": 66,
-            "name": "dolphin-2_6-phi-2.Q6_K.gguf:latest",
-            "alias": "dolphin-2_6-phi-2-Q6",
-            "description": "A natural language processing tool."
-        },
-        {
-            "id": 67,
-            "name": "dolphin-2.6-mistral-7b.Q4_K_M.gguf:latest",
-            "alias": "dolphin-2.6-mistral-7b-Q4",
-            "description": "A predictive model for data analysis."
-        },
-        {
-            "id": 68,
-            "name": "whiterabbitneo-13b.Q5_K_M.gguf:latest",
-            "alias": "whiterabbitneo-13b-Q5",
-            "description": "A cybersecurity tool for threat detection."
-        },
-        {
-            "id": 69,
-            "name": "aya:latest",
-            "alias": "aya",
-            "description": "Multilingual models that support 23 languages."
-        },
-        {
-            "id": 70,
-            "name": "satani",
-            "alias": "satani",
-            "description": "Model for dark-themed tasks."
-        },
-        {
-            "id": 71,
-            "name": "hub/dotslashgabut/genaiprompt:latest",
-            "alias": "genai",
-            "description": "AI model for generating prompts."
-        },
-        {
-            "id": 72,
-            "name": "hub/mesharu/caelia---tarot-cards-reader:latest",
-            "alias": "tarot",
-            "description": "Model for reading tarot cards."
-        },
-        {
-            "id": 73,
-            "name": "phi3:14b",
-            "alias": "phi3-14b",
-            "description": "Enhanced version of the Phi3 model."
-        },
-        {
-            "id": 74,
-            "name": "hub/rouge/expert-japanese-to-english-translator:latest",
-            "alias": "rouge",
-            "description": "Expert translator for Japanese to English."
-        },
-        {
-            "id": 75,
-            "name": "hub/weconnected/expert-spanish-to-english-translator:latest",
-            "alias": "spanishbywe",
-            "description": "Expert translator for Spanish to English."
-        },
-        {
-            "id": 76,
-            "name": "hub/qwen2:0.5b",
-            "alias": "q0",
-            "description": "Qwen2 series large language model by Qwen team, Alibaba Cloud"
-        },
-        {
-            "id": 77,
-            "name": "hub/qwen2:1.5b",
-            "alias": "q1",
-            "description": "Qwen2 series large language model by Qwen team, Alibaba Cloud"
-        },
-        {
-            "id": 78,
-            "name": "hub/qwen2:7b",
-            "alias": "q7",
-            "description": "Qwen2 series large language model by Qwen team, Alibaba Cloud"
-        },
-        {
-            "id": 79,
-            "name": "gemma2:latest",
-            "alias": "gemma2",
-            "description": "Gemma 2 is the newest generation in Google's Gemma series"
-        }  
+            id: 43,
+            name: "marco-o1:latest",
+            alias: "marco-o1",
+            description: 
+                "Size: 1.2 GB. Marco-O1 designed for specialized operations."
+        }
     ];
 
-    static DefaultModel = OllamaPlugin.Models.find(m => m.alias === "gemma2");
+    static DefaultModel = OllamaPlugin.Models.find((m) => m.alias === "llama3.1");
 
     /**
      * Will check if the prefix contains a model name or id.
