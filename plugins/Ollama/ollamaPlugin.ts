@@ -312,7 +312,7 @@ export class OllamaPlugin {
         {
             id: 43,
             name: "llama3.2-vision:latest",
-            alias: "llama3.2-vision",
+            alias: "llama3-2-vision",
             description: 
                 "Size: 3.2 GB. Llama3.2 optimized for vision and language tasks."
         },
@@ -326,7 +326,7 @@ export class OllamaPlugin {
         {
             id: 45,
             name: "snowflake-arctic-embed2:latest",
-            alias: "snowflake-embed2",
+            alias: "snowflake-artic",
             description: "Size: 2.3 GB. Snowflake Arctic Embed2 generates high-quality embeddings for polar applications."
         }
     ];
