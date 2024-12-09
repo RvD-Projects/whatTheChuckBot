@@ -309,6 +309,26 @@ export class OllamaPlugin {
             description:
                 "Size: 636 MB. TinyDolphin is a compact model suitable for lightweight tasks.",
         },
+        {
+            id: 43,
+            name: "llama3.2-vision:latest",
+            alias: "llama3.2-vision",
+            description: 
+                "Size: 3.2 GB. Llama3.2 optimized for vision and language tasks."
+        },
+        {
+            id: 44,
+            name: "marco-o1:latest",
+            alias: "marco-o1",
+            description: 
+                "Size: 1.2 GB. Marco-O1 designed for specialized operations."
+        },
+        {
+            id: 45,
+            name: "snowflake-arctic-embed2:latest",
+            alias: "snowflake-embed2",
+            description: "Size: 2.3 GB. Snowflake Arctic Embed2 generates high-quality embeddings for polar applications."
+        }
     ];
 
     static DefaultModel = OllamaPlugin.Models.find((m) => m.alias === "llama3.1");
