@@ -315,6 +315,20 @@ export class OllamaPlugin {
             alias: "marco-o1",
             description: 
                 "Size: 1.2 GB. Marco-O1 designed for specialized operations."
+        },
+        {
+            id: 44,
+            name: "dolphin3",
+            alias: "dolphin3",
+            description: 
+                "Dolphin 3.0 Llama 3.1 8B: next-gen instruct-tuned model for versatile local use."
+        },
+        {
+            id: 45,
+            name: "phi4",
+            alias: "phi4",
+            description: 
+                "Phi-4: 14B parameter, cutting-edge open model from Microsoft."
         }
     ];
 
