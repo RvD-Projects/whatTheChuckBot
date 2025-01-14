@@ -332,7 +332,7 @@ export class OllamaPlugin {
         }
     ];
 
-    static DefaultModel = OllamaPlugin.Models.find((m) => m.alias === "llama3.1");
+    static DefaultModel = OllamaPlugin.Models.find((m) => m.alias === "phi4");
 
     /**
      * Will check if the prefix contains a model name or id.
