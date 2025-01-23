@@ -329,7 +329,25 @@ export class OllamaPlugin {
             alias: "phi4",
             description: 
                 "Phi-4: 14B parameter, cutting-edge open model from Microsoft."
-        }
+        },
+        {
+            id: 46,
+            name: "deepseek-r1:1.5b",
+            alias: "r1:1.5b",
+            description: "DeepSeek's first-generation reasoning model, r1:1.5b, offering comparable performance to OpenAI-o1."
+        },
+        {
+            id: 47,
+            name: "deepseek-r1:8b",
+            alias: "r1:8b",
+            description: "DeepSeek's first-generation reasoning model, r1:8b, offering comparable performance to OpenAI-o1."
+        },
+        {
+            id: 48,
+            name: "deepseek-r1:14b",
+            alias: "r1:14b",
+            description: "DeepSeek's first-generation reasoning model, r1:14b, offering comparable performance to OpenAI-o1."
+        }        
     ];
 
     static DefaultModel = OllamaPlugin.Models.find((m) => m.alias === "phi4");
