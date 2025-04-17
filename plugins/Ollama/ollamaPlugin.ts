@@ -361,32 +361,26 @@ export class OllamaPlugin {
             description: "Cogito v1 Preview is a family of hybrid reasoning models by Deep Cogito that outperform the best available open models of the same size, including counterparts from LLaMA, DeepSeek, and Qwen across most standard benchmarks."
         },
         {
-            id: 51,
-            name: "cogito:14",
-            alias: "cogito-14b",
-            description: "Cogito v1 Preview is a family of hybrid reasoning models by Deep Cogito that outperform the best available open models of the same size, including counterparts from LLaMA, DeepSeek, and Qwen across most standard benchmarks."
-        },
-        {
-            id:s 52,
+            id:s 51,
             name: "gemma3:4b",
             alias: "gemma3-4b",
             description: "The current, most capable model that runs on a single GPU."
         },
         {
-            id: 53,
+            id: 52,
             name: "gemma3:12b",
             alias: "gemma3-12b",
             description: "The current, most capable model that runs on a single GPU."
         },
         {
-            id: 54,
+            id: 53,
             name: "phi4-mini",
             alias: "phi4-mini",
             description: "Phi-4-mini brings significant enhancements in multilingual support, reasoning, and mathematics, and now, the long-awaited function calling feature is finally supported."
         }     
     ];
 
-    static DefaultModel = OllamaPlugin.Models.find((m) => m.alias === "cogito-14b");
+    static DefaultModel = OllamaPlugin.Models.find((m) => m.alias === "cogito-8b");
 
     /**
      * Will check if the prefix contains a model name or id.
