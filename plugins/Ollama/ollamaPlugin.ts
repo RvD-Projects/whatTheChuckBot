@@ -333,19 +333,19 @@ export class OllamaPlugin {
         {
             id: 46,
             name: "deepseek-r1:1.5b",
-            alias: "r1:1.5b",
+            alias: "r1-1-5b",
             description: "DeepSeek's first-generation reasoning model, r1:1.5b, offering comparable performance to OpenAI-o1."
         },
         {
             id: 47,
             name: "deepseek-r1:8b",
-            alias: "r1:8b",
+            alias: "r1-8b",
             description: "DeepSeek's first-generation reasoning model, r1:8b, offering comparable performance to OpenAI-o1."
         },
         {
             id: 48,
             name: "deepseek-r1:14b",
-            alias: "r1:14b",
+            alias: "r1-14b",
             description: "DeepSeek's first-generation reasoning model, r1:14b, offering comparable performance to OpenAI-o1."
         },
         {
@@ -357,25 +357,25 @@ export class OllamaPlugin {
         {
             id: 50,
             name: "cogito:8b",
-            alias: "cogito:8b",
+            alias: "cogit-:8b",
             description: "Cogito v1 Preview is a family of hybrid reasoning models by Deep Cogito that outperform the best available open models of the same size, including counterparts from LLaMA, DeepSeek, and Qwen across most standard benchmarks."
         },
         {
             id: 51,
             name: "cogito:14",
-            alias: "cogito:14b",
+            alias: "cogito-14b",
             description: "Cogito v1 Preview is a family of hybrid reasoning models by Deep Cogito that outperform the best available open models of the same size, including counterparts from LLaMA, DeepSeek, and Qwen across most standard benchmarks."
         },
         {
             id: 52,
             name: "gemma3:4b",
-            alias: "gemma3:4b",
+            alias: "gemma3-4b",
             description: "The current, most capable model that runs on a single GPU."
         },
         {
             id: 53,
             name: "gemma3:12b",
-            alias: "gemma3:12b",
+            alias: "gemma3-12b",
             description: "The current, most capable model that runs on a single GPU."
         },
         {
@@ -386,7 +386,7 @@ export class OllamaPlugin {
         }     
     ];
 
-    static DefaultModel = OllamaPlugin.Models.find((m) => m.alias === "cogito:14b");
+    static DefaultModel = OllamaPlugin.Models.find((m) => m.alias === "cogito-14b");
 
     /**
      * Will check if the prefix contains a model name or id.
