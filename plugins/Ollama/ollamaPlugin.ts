@@ -362,7 +362,7 @@ export class OllamaPlugin {
         },
         {
             id: 51,
-            name: "cogito:14",
+            name: "cogito:14b",
             alias: "cogito-14b",
             description: "Cogito v1 Preview is a family of hybrid reasoning models by Deep Cogito that outperform the best available open models of the same size, including counterparts from LLaMA, DeepSeek, and Qwen across most standard benchmarks."
         },
