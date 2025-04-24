@@ -383,6 +383,18 @@ export class OllamaPlugin {
             name: "phi4-mini",
             alias: "phi4-mini",
             description: "Phi-4-mini brings significant enhancements in multilingual support, reasoning, and mathematics, and now, the long-awaited function calling feature is finally supported."
+        },
+        {
+            id: 55,
+            name: "stablelm2:12b",
+            alias: "stablelm212b",
+            description: "Stable LM 2 is a state-of-the-art 1.6B and 12B parameter language model trained on multilingual data in English, Spanish, German, Italian, French, Portuguese, and Dutch."
+        },
+        {
+            id: 56,
+            name: "wizardlm2",
+            alias: "wizardlm2",
+            description: "State of the art large language model from Microsoft AI with improved performance on complex chat, multilingual, reasoning and agent use cases."
         }     
     ];
 
