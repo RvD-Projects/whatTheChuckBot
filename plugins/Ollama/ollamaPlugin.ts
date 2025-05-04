@@ -395,7 +395,25 @@ export class OllamaPlugin {
             name: "wizardlm2",
             alias: "wizardlm2",
             description: "State of the art large language model from Microsoft AI with improved performance on complex chat, multilingual, reasoning and agent use cases."
-        }     
+        },
+        {
+            id: 57,
+            name: "phi4:reasoning",
+            alias: "phi4-reasoning",
+            description: "Phi 4 reasoning and reasoning plus are 14-billion parameter open-weight reasoning models that rival much larger models on complex reasoning tasks."
+        },
+        {
+            id: 58,
+            name: "phi4:mini:reasoning",
+            alias: "phi4-mini-reasoning",
+            description: "Phi 4 mini reasoning is a lightweight open model that balances efficiency with advanced reasoning ability."
+        },
+        {
+            id: 59,
+            name: "qwen3",
+            alias: "qwen3",
+            description: "Qwen3 is the latest generation of large language models in Qwen series, offering a comprehensive suite of dense and mixture-of-experts (MoE) models."
+        }                    
     ];
 
     static DefaultModel = OllamaPlugin.Models.find((m) => m.alias === "cogito-14b");
