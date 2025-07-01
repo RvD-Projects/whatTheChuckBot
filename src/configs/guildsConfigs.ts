@@ -86,27 +86,6 @@ export const guildsConfigs = [
     {
         // Should We Train
         guildId: "1300153496108138496",
-        cs2: {
-            dockerAccess: ['cs2Admin'],
-            rconChannels: {
-                "1300153496548544562": {
-                    region: "US_EAST",
-                    ip: env["CS2_IP_SWT"],
-                    port: env["CS2_PORT_SWT"],
-                    rconPort: env["CS2_RCON_PORT_SWT"],
-                    password: env["CS2_RCON_PASS_SWT"],
-                },
-            },
-            chatChannels: {
-                "1300153496548544563": {
-                    region: "US_EAST",
-                    ip: env["CS2_IP_SWT"],
-                    port: env["CS2_PORT_SWT"],
-                    rconPort: env["CS2_RCON_PORT_SWT"],
-                    password: env["CS2_RCON_PASS_SWT"],
-                }
-            },
-        }
     },
     {
         // FC We Live looping
