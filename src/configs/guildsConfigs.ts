@@ -92,7 +92,7 @@ export const guildsConfigs = [
                 getTitle: () => "Bienvenue !!!",
                 getMsg: (params: any) => "Très content de t'avoir parmis nous!"
             },
-            getContent: (params: any) => `🤖  Greetings <@${params.member.id}> ! ⚡👾`
+            getContent: (params: any) => `🤖  Salutation <@${params.member.id}> ! ⚡👾`
         },
         goodbye: {
             channelId: "1465001127685914684",
@@ -100,7 +100,7 @@ export const guildsConfigs = [
                 getTitle: () => "Bon débarras!",
                 getMsg: () => "On va peut-être s'ennuyer un peu!"
             },
-            getContent: (params: any) => `🤖  Say goodbye to <@${params.member.id}> ! 😢👾`
+            getContent: (params: any) => `🤖  Dites aurevoir à <@${params.member.id}> ! 😢👾`
         }
     },
 ];
